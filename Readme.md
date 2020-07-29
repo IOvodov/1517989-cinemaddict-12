@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Илья Оводов](https://up.htmlacademy.ru/ecmascript/12/user/1517989).
-* Наставник: `Андрей Слесаренко`.
+* Наставник: [Андрей Слесаренко](https://htmlacademy.ru/profile/swen).
 
 ---
 
