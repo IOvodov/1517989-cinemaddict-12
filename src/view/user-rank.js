@@ -4,5 +4,5 @@ export const createUserRankTemplate = () => {
       <p class="profile__rating">Newbie</p>
       <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
     </section>`
-  )
-}
+  );
+};

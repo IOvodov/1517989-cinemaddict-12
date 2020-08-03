@@ -1,7 +1,7 @@
 import {createUserRankTemplate} from "./view/user-rank.js";
 import {createMenuTemplate} from "./view/site-menu.js";
 import {createSortingTemplate} from "./view/sorting.js";
-import {createBoardTemplate} from  "./view/board.js";
+import {createBoardTemplate} from "./view/board.js";
 import {createFilmsListTemplate} from "./view/films-list.js";
 import {createFilmCardTemplate} from "./view/film-card.js";
 import {createLoadMoreTemplate} from "./view/load-more-button.js";
@@ -13,7 +13,7 @@ const ADDITIONAL_BLOCK_CARDS_COUNT = 2;
 
 const render = (container, template, position) => {
   container.insertAdjacentHTML(position, template);
-}
+};
 
 const header = document.querySelector(`.header`);
 
@@ -41,15 +41,15 @@ render(films, createAdditionalBlockTemplate(`Most commented`), `beforeend`);
 
 const additionalFilmsBlocks = document.querySelectorAll(`.films-list--extra`);
 
-additionalFilmsBlocks.forEach(additionalBlock => {
-  const filmsList = additionalBlock.querySelector(`.films-list__container`);
+additionalFilmsBlocks.forEach((additionalBlock) => {
+  const filmsListContainer = additionalBlock.querySelector(`.films-list__container`);
 
   for (let i = 0; i < ADDITIONAL_BLOCK_CARDS_COUNT; i++) {
-    render(filmsList, createFilmCardTemplate(), `beforeend`);
+    render(filmsListContainer, createFilmCardTemplate(), `beforeend`);
   }
-})
+});
 
 const footer = document.querySelector(`.footer`);
-const footerStatistics = footer.querySelector(`.footer__statistics`)
+const footerStatistics = footer.querySelector(`.footer__statistics`);
 
 render(footerStatistics, createFooterStatisticsTemplate(), `beforeend`);

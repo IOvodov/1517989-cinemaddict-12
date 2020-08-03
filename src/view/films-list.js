@@ -5,5 +5,5 @@ export const createFilmsListTemplate = () => {
 
       <div class="films-list__container"></div>
     </section>`
-  )
-}
+  );
+};

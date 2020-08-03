@@ -5,5 +5,5 @@ export const createAdditionalBlockTemplate = (blockTitle) => {
 
       <div class="films-list__container"></div>
     </section>`
-  )
-}
+  );
+};
