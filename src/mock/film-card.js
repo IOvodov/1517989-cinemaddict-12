@@ -1,4 +1,4 @@
-import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, DIRECTORS, WRITERS, AUTHORS} from '../const.js'
+import { FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, AUTHORS, DIRECTORS, WRITERS, ACTORS } from '../const.js'
 
 const getRandomInteger = (from = 0, to = 1) => {
   const lower = Math.ceil(Math.min(from, to));
@@ -35,7 +35,7 @@ const generateArrayFromSet = (array, minElementsCount, maxElementsCount) => {
   }
 
   return Array.from(newSet);
-}
+};
 
 const getRandomGenres = () => {
   const MIN_GENRES_COUNT = 1;
@@ -62,10 +62,9 @@ const getRandomWriters = () => {
   const randomWriters = generateArrayFromSet(WRITERS, MIN_WRITERS_COUNT, MAX_WRITERS_COUNT);
 
   return randomWriters;
-}
+};
 
-const generateProductionYear = () => new Date(getRandomInteger(1895, 2019), getRandomInteger(1, 12), getRandomInteger(1, 30))
-  .toLocaleString('en-JM', {year: 'numeric', month: 'long', day: 'numeric'});
+const generateReleaseDate = () => new Date(getRandomInteger(1895, 2019), getRandomInteger(1, 12), getRandomInteger(1, 30));
 
 const generateFilmDuration = () => {
   const MAX_FILM_HOUR = 10;
@@ -94,10 +93,10 @@ const generateDescription = () => {
     randomDescription.push(SENTENCES[randomIndex]);
   }
 
-  const description = randomDescriptions.join(` `);
+  const description = randomDescription.join(` `);
 
   if (description.length > MAX_DESCRIPTION_SIZE)
-    return description.slice(MAX_DESCRIPTION_SIZE - 1) + `...`;
+    return description.slice(0, MAX_DESCRIPTION_SIZE - 1) + `...`;
 
   return description;
 };
@@ -127,10 +126,10 @@ export const generateFilmCard = () => {
     poster: getRandomElement(POSTERS),
     filmTitle: getRandomElement(FILMS_TITLES),
     rating: generateRating(),
-    productionYear: generateProductionYear(),
+    releaseDate: generateReleaseDate(),
     duration: generateFilmDuration(),
     description: generateDescription(),
-    genre: getRandomGenres(),
+    genres: getRandomGenres(),
     comment: generateComment(),
     isWatched: Boolean(getRandomInteger(0, 1)),
     isFavorite: Boolean(getRandomInteger(0, 1)),
