@@ -1,66 +1,4 @@
-const FILMS_TITLES = [
-  `Made for each other`,
-  `Popeye meets sinbad`,
-  `Sagebrush trail`,
-  `Santa claus conquers the martians`,
-  `The dance of life`,
-  `The great flamarion`,
-  `The man with the golden arm`
-];
-
-const DIRECTORS = [
-  `Antonny Mann`,
-  `John Cromwell`,
-  `Dave Fleischer`,
-  `Otto Preminger`,
-  `Armand Schaefer`
-];
-
-const WRITERS = [
-  `Anne Wigton`,
-  `Heinz Herald`,
-  `Richard Weil`,
-  `Lindsley Parsons`,
-  `Will Beale`
-];
-
-const ACTORS = [
-  `Frank Sinatra`,
-  `James Stewart`,
-  `Charles Coburn`,
-  `Nancy Carroll`,
-  `Hall Skelly`,
-  `John Wayne`,
-  `Wally Wales`,
-  `Nancy Shubert`
-];
-
-const POSTERS = [
-  `made-for-each-other.png`,
-  `popeye-meets-sinbad.png`,
-  `sagebrush-trail.jpg`,
-  `santa-claus-conquers-the-martians.jpg`,
-  `the-dance-of-life.jpg`,
-  `the-great-flamarion.jpg`,
-  `the-man-with-the-golden-arm.jpg`
-];
-
-const GENRES = [
-  `Drama`,
-  `Thriller`,
-  `Western`,
-  `Fantasy`,
-  `Comedy`
-];
-
-const COUNTRIES = [
-  `Russia`,
-  `USA`,
-  `India`,
-  `China`,
-  `UK`,
-  `Italia`
-]
+import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, DIRECTORS, WRITERS, AUTHORS} from '../const.js'
 
 const getRandomInteger = (from = 0, to = 1) => {
   const lower = Math.ceil(Math.min(from, to));
@@ -121,12 +59,12 @@ const getRandomWriters = () => {
   const MIN_WRITERS_COUNT = 1;
   const MAX_WRITERS_COUNT = 4;
 
-  const randomWriters = generateArrayFromSet(ACTORS, MIN_WRITERS_COUNT, MAX_WRITERS_COUNT);
+  const randomWriters = generateArrayFromSet(WRITERS, MIN_WRITERS_COUNT, MAX_WRITERS_COUNT);
 
   return randomWriters;
 }
 
-const generateProductionYear = () => new Date(getRandomInteger(1895, 2020), getRandomInteger(1, 12), getRandomInteger(1, 30))
+const generateProductionYear = () => new Date(getRandomInteger(1895, 2019), getRandomInteger(1, 12), getRandomInteger(1, 30))
   .toLocaleString('en-JM', {year: 'numeric', month: 'long', day: 'numeric'});
 
 const generateFilmDuration = () => {
@@ -149,18 +87,6 @@ const generateDescription = () => {
   const MIN_SENTENCES_COUNT = 1;
   const MAX_SENTENCES_COUNT = 5;
 
-  const SENTENCES = [
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-    `Cras aliquet varius magna, non porta ligula feugiat eget.`,
-    `Fusce tristique felis at fermentum pharetra.`,
-    `Aliquam id orci ut lectus varius viverra.`,
-    `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
-    `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
-    `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
-    `Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat.`,
-    `Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`
-  ];
-
   let randomDescription = [];
   for (let i = 0; i < getRandomInteger(MIN_SENTENCES_COUNT, MAX_SENTENCES_COUNT); i++) {
     const randomIndex = getRandomInteger(0, SENTENCES.length - 1);
@@ -177,30 +103,6 @@ const generateDescription = () => {
 };
 
 const generateComment = () => {
-  const EMOJI = [
-    `angry.png`,
-    `puke.png`,
-    `sleeping.png`,
-    `smile.png`
-  ];
-
-  const AUTHORS = [
-    'Ivanov Ivan',
-    'Petrov Petr',
-    'Sidorov Sidor'
-  ];
-
-  const MESSAGES = [
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-    `Cras aliquet varius magna, non porta ligula feugiat eget.`,
-    `Fusce tristique felis at fermentum pharetra.`,
-    `Aliquam id orci ut lectus varius viverra.`,
-    `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
-    `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
-    `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
-    `Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat.`,
-    `Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`
-  ];
   const MIN_COMMENTS_COUNT = 0;
   const MAX_COMMENTS_COUNT = 5;
 
@@ -210,7 +112,7 @@ const generateComment = () => {
     const emoji = getRandomElement(EMOJI);
     const date = generateDate();
     const author = getRandomElement(AUTHORS);
-    const message = getRandomElement(MESSAGES);
+    const message = getRandomElement(SENTENCES);
 
     const comment = { emoji, date, author, message };
 
@@ -220,7 +122,7 @@ const generateComment = () => {
   return randomComments;
 };
 
-const generateFilmCard = () => {
+export const generateFilmCard = () => {
   return {
     poster: getRandomElement(POSTERS),
     filmTitle: getRandomElement(FILMS_TITLES),
@@ -236,6 +138,7 @@ const generateFilmCard = () => {
     country: getRandomElement(COUNTRIES),
     director: getRandomElement(DIRECTORS),
     writers: getRandomWriters(),
-    actors: getRandomActors()
+    actors: getRandomActors(),
+    age: getRandomElement(AGES)
   };
 };
