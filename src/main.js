@@ -7,9 +7,12 @@ import {createFilmCardTemplate} from "./view/film-card.js";
 import {createLoadMoreTemplate} from "./view/load-more-button.js";
 import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
 import {createAdditionalBlockTemplate} from "./view/additional-films-block.js";
+import {generateFilmCard} from "./mock/film-card.js";
 
-const FILM_CARDS_COUNT = 5;
+const FILM_CARDS_COUNT = 20;
 const ADDITIONAL_BLOCK_CARDS_COUNT = 2;
+
+const filmCards = new Array(FILM_CARDS_COUNT).fill().map(generateFilmCard);
 
 const render = (container, template, position) => {
   container.insertAdjacentHTML(position, template);
@@ -32,7 +35,7 @@ render(films, createFilmsListTemplate(), `beforeend`);
 const filmsList = films.querySelector(`.films-list__container`);
 
 for (let i = 0; i < FILM_CARDS_COUNT; i++) {
-  render(filmsList, createFilmCardTemplate(), `beforeend`);
+  render(filmsList, createFilmCardTemplate(filmCards[i]), `beforeend`);
 }
 
 render(filmsList, createLoadMoreTemplate(), `afterend`);
@@ -45,7 +48,7 @@ additionalFilmsBlocks.forEach((additionalBlock) => {
   const filmsListContainer = additionalBlock.querySelector(`.films-list__container`);
 
   for (let i = 0; i < ADDITIONAL_BLOCK_CARDS_COUNT; i++) {
-    render(filmsListContainer, createFilmCardTemplate(), `beforeend`);
+    render(filmsListContainer, createFilmCardTemplate(filmCards[i]), `beforeend`);
   }
 });
 
