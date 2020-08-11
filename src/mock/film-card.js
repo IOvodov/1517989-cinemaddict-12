@@ -10,14 +10,18 @@ const getRandomInteger = (from = 0, to = 1) => {
 const generateDate = () => {
   const maxDaysGap = getRandomInteger(1, 365);
   const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
-  const currentDate = new Date();
+  let currentDate = new Date();
 
   currentDate.setHours(23, 59, 59, 999);
 
   currentDate.setDate(currentDate.getDate() + daysGap);
 
-  return new Date(currentDate);
+  currentDate = new Date(currentDate);
+
+  return `${currentDate.getFullYear()}/${currentDate.getMonth()}/${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`
 };
+
+const generateReleaseDate = () => new Date(getRandomInteger(1895, 2019), getRandomInteger(1, 12), getRandomInteger(1, 30))
 
 const getRandomElement = (elements) => {
   const randomIndex = getRandomInteger(0, elements.length - 1);
@@ -63,8 +67,6 @@ const getRandomWriters = () => {
 
   return randomWriters;
 };
-
-const generateReleaseDate = () => new Date(getRandomInteger(1895, 2019), getRandomInteger(1, 12), getRandomInteger(1, 30));
 
 const generateFilmDuration = () => {
   const MAX_FILM_HOUR = 10;
