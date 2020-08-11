@@ -11,7 +11,7 @@ export const createFilmCardTemplate = (filmCard) => {
     genres,
     poster,
     description,
-    comment,
+    comments,
     isWatched,
     isFavorite,
     isWatchList
@@ -28,7 +28,7 @@ export const createFilmCardTemplate = (filmCard) => {
       </p>
       <img src="./images/posters/${poster}" alt="" class="film-card__poster">
       <p class="film-card__description">${description}</p>
-      <a class="film-card__comments">${comment.length} comments</a>
+      <a class="film-card__comments">${comments.length} comments</a>
       <form class="film-card__controls">
         <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isControlsItemActive(isWatchList)}">Add to watchlist</button>
         <button class="film-card__controls-item button film-card__controls-item--mark-as-watched  ${isControlsItemActive(isWatched)}">Mark as watched</button>
