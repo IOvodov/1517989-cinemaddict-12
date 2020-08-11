@@ -8,16 +8,12 @@ import {createLoadMoreTemplate} from "./view/load-more-button.js";
 import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
 import {createAdditionalBlockTemplate} from "./view/additional-films-block.js";
 import {generateFilmCard} from "./mock/film-card.js";
-import {createFilmDetailsTemplate} from "./view/film-details.js";
+import {render} from "./utils.js"
 
 const FILM_CARDS_COUNT = 20;
 const ADDITIONAL_BLOCK_CARDS_COUNT = 2;
 
 const filmCards = new Array(FILM_CARDS_COUNT).fill().map(generateFilmCard);
-
-const render = (container, template, position) => {
-  container.insertAdjacentHTML(position, template);
-};
 
 const header = document.querySelector(`.header`);
 
@@ -56,6 +52,4 @@ additionalFilmsBlocks.forEach((additionalBlock) => {
 const footer = document.querySelector(`.footer`);
 const footerStatistics = footer.querySelector(`.footer__statistics`);
 
-render(footerStatistics, createFooterStatisticsTemplate(), `beforeend`);
-
-render(document.body, createFilmDetailsTemplate(filmCards[0]), `beforeend`);
+render(footerStatistics, createFooterStatisticsTemplate(filmCards.length), `beforeend`);

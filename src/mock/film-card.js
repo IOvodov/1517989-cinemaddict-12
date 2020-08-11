@@ -1,11 +1,5 @@
-import { FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, AUTHORS, DIRECTORS, WRITERS, ACTORS } from '../const.js'
-
-const getRandomInteger = (from = 0, to = 1) => {
-  const lower = Math.ceil(Math.min(from, to));
-  const upper = Math.floor(Math.max(from, to));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
+import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, AUTHORS, DIRECTORS, WRITERS, ACTORS} from '../const.js';
+import {getRandomInteger, getRandomElement, generateArrayFromSet} from '../utils.js';
 
 const generateDate = () => {
   const maxDaysGap = getRandomInteger(1, 365);
@@ -22,24 +16,6 @@ const generateDate = () => {
 };
 
 const generateReleaseDate = () => new Date(getRandomInteger(1895, 2019), getRandomInteger(1, 12), getRandomInteger(1, 30))
-
-const getRandomElement = (elements) => {
-  const randomIndex = getRandomInteger(0, elements.length - 1);
-
-  return elements[randomIndex];
-};
-
-const generateArrayFromSet = (array, minElementsCount, maxElementsCount) => {
-  const newSet = new Set();
-
-  for (let i = minElementsCount; i < maxElementsCount; i++) {
-    const randomElement = getRandomElement(array);
-
-    newSet.add(randomElement);
-  }
-
-  return Array.from(newSet);
-};
 
 const getRandomGenres = () => {
   const MIN_GENRES_COUNT = 1;
