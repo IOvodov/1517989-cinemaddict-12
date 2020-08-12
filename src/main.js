@@ -6,14 +6,14 @@ import {createFilmsListTemplate} from "./view/films-list.js";
 import {createFilmCardTemplate} from "./view/film-card.js";
 import {createShowMoreTemplate} from "./view/show-more-button.js";
 import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
-import {createAdditionalBlockTemplate} from "./view/additional-films-block.js";
+import {createFilmsExtraSectionTemplate} from "./view/films-extra-section.js";
 import {generateFilmCard} from "./mock/film-card.js";
 import {render} from "./utils.js"
 import {generateUserProfile} from "./mock/user-profile.js";
 import {generateFilmsFilter} from "./mock/filter.js";
 
 const FILM_CARDS_COUNT = 20;
-const ADDITIONAL_BLOCK_CARDS_COUNT = 2;
+const EXTRA_SECTION_FILMS_COUNT = 2;
 const FILMS_COUNT_PER_STEP = 5;
 
 const filmCards = new Array(FILM_CARDS_COUNT).fill().map(generateFilmCard);
@@ -61,15 +61,15 @@ if (filmCards.length > FILMS_COUNT_PER_STEP) {
   });
 }
 
-render(films, createAdditionalBlockTemplate(`Top rated`), `beforeend`);
-render(films, createAdditionalBlockTemplate(`Most commented`), `beforeend`);
+render(films, createFilmsExtraSectionTemplate(`Top rated`), `beforeend`);
+render(films, createFilmsExtraSectionTemplate(`Most commented`), `beforeend`);
 
-const additionalFilmsBlocks = document.querySelectorAll(`.films-list--extra`);
+const filmsExtraSections = document.querySelectorAll(`.films-list--extra`);
 
-additionalFilmsBlocks.forEach((additionalBlock) => {
-  const filmsListContainer = additionalBlock.querySelector(`.films-list__container`);
+filmsExtraSections.forEach((section) => {
+  const filmsListContainer = section.querySelector(`.films-list__container`);
 
-  for (let i = 0; i < ADDITIONAL_BLOCK_CARDS_COUNT; i++) {
+  for (let i = 0; i < EXTRA_SECTION_FILMS_COUNT; i++) {
     render(filmsListContainer, createFilmCardTemplate(filmCards[i]), `beforeend`);
   }
 });
