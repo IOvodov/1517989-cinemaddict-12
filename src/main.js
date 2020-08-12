@@ -8,7 +8,7 @@ import {createShowMoreTemplate} from "./view/show-more-button.js";
 import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
 import {createFilmsExtraSectionTemplate} from "./view/films-extra-section.js";
 import {generateFilmCard} from "./mock/film-card.js";
-import {render} from "./utils.js"
+import {render} from "./utils.js";
 import {generateUserProfile} from "./mock/user-profile.js";
 import {generateFilmsFilter} from "./mock/filter.js";
 
@@ -53,7 +53,7 @@ if (filmCards.length > FILMS_COUNT_PER_STEP) {
       .slice(renderedFilmsCount, renderedFilmsCount + FILMS_COUNT_PER_STEP)
       .forEach((film) => render(filmsList, createFilmCardTemplate(film), `beforeend`));
 
-      renderedFilmsCount += FILMS_COUNT_PER_STEP;
+    renderedFilmsCount += FILMS_COUNT_PER_STEP;
 
     if (renderedFilmsCount >= filmCards.length) {
       showMoreButton.remove();

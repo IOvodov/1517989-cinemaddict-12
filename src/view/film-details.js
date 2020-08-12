@@ -1,17 +1,17 @@
 const formatReleaseDate = (releaseDate) => {
   let date = releaseDate.getDate();
   if (date < 10) {
-    date = '0' + date;
+    date = `0` + date;
   }
 
-  const month = releaseDate.toLocaleString('default', { month: 'long' });
+  const month = releaseDate.toLocaleString(`default`, {month: `long`});
   const year = releaseDate.getFullYear();
 
-  return `${date} ${month} ${year}`
+  return `${date} ${month} ${year}`;
 };
 
 const createCommentsTemplate = (comments) => {
-  return comments.map(comment => `<li class="film-details__comment">
+  return comments.map((comment) => `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
       <img src="../images/emoji/${comment.emoji}" alt="emoji-sleeping" width="55" height="55">
     </span>
@@ -23,27 +23,26 @@ const createCommentsTemplate = (comments) => {
         <button class="film-details__comment-delete">Delete</button>
       </p>
     </div>
-  </li>`)
+  </li>`);
 };
 
 export const createFilmDetailsTemplate = (film) => {
   const {
-      description,
-      poster,
-      filmTitle,
-      originalFilmTitle,
-      rating,
-      comments,
-      age,
-      director,
-      writers,
-      actors,
-      releaseDate,
-      duration,
-      country,
-      genres,
+    description,
+    poster,
+    filmTitle,
+    originalFilmTitle,
+    rating,
+    comments,
+    age,
+    director,
+    writers,
+    actors,
+    releaseDate,
+    duration,
+    country,
+    genres,
   } = film;
-
 
   return (
     `<section class="film-details">

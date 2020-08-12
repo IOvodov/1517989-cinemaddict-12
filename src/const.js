@@ -62,9 +62,9 @@ export const EMOJI = [
 ];
 
 export const AUTHORS = [
-  'Ivanov Ivan',
-  'Petrov Petr',
-  'Sidorov Sidor'
+  `Ivanov Ivan`,
+  `Petrov Petr`,
+  `Sidorov Sidor`
 ];
 
 export const DIRECTORS = [
@@ -94,4 +94,4 @@ export const ACTORS = [
   `Nancy Shubert`
 ];
 
-export const RANKS = [``, `novice`, `fan`, `movie buff`]
+export const RANKS = [`novice`, `fan`, `movie buff`];

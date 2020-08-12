@@ -12,10 +12,10 @@ const generateDate = () => {
 
   currentDate = new Date(currentDate);
 
-  return `${currentDate.getFullYear()}/${currentDate.getMonth()}/${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`
+  return `${currentDate.getFullYear()}/${currentDate.getMonth()}/${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
 };
 
-const generateReleaseDate = () => new Date(getRandomInteger(1895, 2019), getRandomInteger(1, 12), getRandomInteger(1, 30))
+const generateReleaseDate = () => new Date(getRandomInteger(1895, 2019), getRandomInteger(1, 12), getRandomInteger(1, 30));
 
 const getRandomGenres = () => {
   const MIN_GENRES_COUNT = 1;
@@ -73,8 +73,9 @@ const generateDescription = () => {
 
   const description = randomDescription.join(` `);
 
-  if (description.length > MAX_DESCRIPTION_SIZE)
+  if (description.length > MAX_DESCRIPTION_SIZE) {
     return description.slice(0, MAX_DESCRIPTION_SIZE - 1) + `...`;
+  }
 
   return description;
 };
@@ -91,7 +92,7 @@ const generateComment = () => {
     const author = getRandomElement(AUTHORS);
     const message = getRandomElement(SENTENCES);
 
-    const comment = { emoji, date, author, message };
+    const comment = {emoji, date, author, message};
 
     randomComments.push(comment);
   }
