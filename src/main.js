@@ -1,4 +1,4 @@
-import {createUserRankTemplate} from "./view/user-rank.js";
+import {createUserProfileTemplate} from "./view/user-profile.js";
 import {createMenuTemplate} from "./view/site-menu.js";
 import {createSortingTemplate} from "./view/sorting.js";
 import {createBoardTemplate} from "./view/board.js";
@@ -9,19 +9,23 @@ import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
 import {createAdditionalBlockTemplate} from "./view/additional-films-block.js";
 import {generateFilmCard} from "./mock/film-card.js";
 import {render} from "./utils.js"
+import { generateUserProfile } from "./mock/user-profile.js";
+import { generateFilmsFilter } from "./mock/filter.js";
 
 const FILM_CARDS_COUNT = 20;
 const ADDITIONAL_BLOCK_CARDS_COUNT = 2;
 
 const filmCards = new Array(FILM_CARDS_COUNT).fill().map(generateFilmCard);
+const profile = generateUserProfile();
+const filter = generateFilmsFilter(filmCards);
 
 const header = document.querySelector(`.header`);
 
-render(header, createUserRankTemplate(), `beforeend`);
+render(header, createUserProfileTemplate(profile), `beforeend`);
 
 const main = document.querySelector(`.main`);
 
-render(main, createMenuTemplate(), `beforeend`);
+render(main, createMenuTemplate(filter), `beforeend`);
 render(main, createSortingTemplate(), `beforeend`);
 render(main, createBoardTemplate(), `beforeend`);
 

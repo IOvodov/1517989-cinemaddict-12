@@ -13,7 +13,7 @@ const AVATAR_PATHS = [
 
 export const generateUserProfile = () => {
   return {
-    viewed_: getRandomInteger(MIN_VIEWED_FILMS, MAX_VIEWED_FILMS),
+    viewedFilmsCount: getRandomInteger(MIN_VIEWED_FILMS, MAX_VIEWED_FILMS),
     avatar: getRandomElement(AVATAR_PATHS),
   };
 };
