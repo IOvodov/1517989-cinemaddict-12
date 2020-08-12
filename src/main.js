@@ -4,16 +4,17 @@ import {createSortingTemplate} from "./view/sorting.js";
 import {createBoardTemplate} from "./view/board.js";
 import {createFilmsListTemplate} from "./view/films-list.js";
 import {createFilmCardTemplate} from "./view/film-card.js";
-import {createLoadMoreTemplate} from "./view/load-more-button.js";
+import {createShowMoreTemplate} from "./view/show-more-button.js";
 import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
 import {createAdditionalBlockTemplate} from "./view/additional-films-block.js";
 import {generateFilmCard} from "./mock/film-card.js";
 import {render} from "./utils.js"
-import { generateUserProfile } from "./mock/user-profile.js";
-import { generateFilmsFilter } from "./mock/filter.js";
+import {generateUserProfile} from "./mock/user-profile.js";
+import {generateFilmsFilter} from "./mock/filter.js";
 
 const FILM_CARDS_COUNT = 20;
 const ADDITIONAL_BLOCK_CARDS_COUNT = 2;
+const FILMS_COUNT_PER_STEP = 5;
 
 const filmCards = new Array(FILM_CARDS_COUNT).fill().map(generateFilmCard);
 const profile = generateUserProfile();
@@ -35,11 +36,31 @@ render(films, createFilmsListTemplate(), `beforeend`);
 
 const filmsList = films.querySelector(`.films-list__container`);
 
-for (let i = 0; i < FILM_CARDS_COUNT; i++) {
+for (let i = 0; i < Math.min(filmCards.length, FILMS_COUNT_PER_STEP); i++) {
   render(filmsList, createFilmCardTemplate(filmCards[i]), `beforeend`);
 }
 
-render(filmsList, createLoadMoreTemplate(), `afterend`);
+if (filmCards.length > FILMS_COUNT_PER_STEP) {
+  let renderedFilmsCount = FILMS_COUNT_PER_STEP;
+
+  render(filmsList, createShowMoreTemplate(), `afterend`);
+
+  const showMoreButton = document.querySelector(`.films-list__show-more`);
+
+  showMoreButton.addEventListener(`click`, (e) => {
+    e.preventDefault();
+    filmCards
+      .slice(renderedFilmsCount, renderedFilmsCount + FILMS_COUNT_PER_STEP)
+      .forEach((film) => render(filmsList, createFilmCardTemplate(film), `beforeend`));
+
+      renderedFilmsCount += FILMS_COUNT_PER_STEP;
+
+    if (renderedFilmsCount >= filmCards.length) {
+      showMoreButton.remove();
+    }
+  });
+}
+
 render(films, createAdditionalBlockTemplate(`Top rated`), `beforeend`);
 render(films, createAdditionalBlockTemplate(`Most commented`), `beforeend`);
 
