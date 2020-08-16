@@ -1,6 +1,6 @@
 import {createElement} from '../utils.js';
 
-const createFilmsListTemplate = () => {
+const createFilmsMainSectionTemplate = () => {
   return (
     `<section class="films-list">
       <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
@@ -10,13 +10,13 @@ const createFilmsListTemplate = () => {
   );
 };
 
-export default class FilmsList {
+export default class FilmsMainSection {
   constructor() {
     this._element = null;
   }
 
   get template() {
-    return createFilmsListTemplate();
+    return createFilmsMainSectionTemplate();
   }
 
   get element() {
@@ -31,3 +31,4 @@ export default class FilmsList {
     this._element = null;
   }
 }
+
