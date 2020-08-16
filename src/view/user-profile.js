@@ -1,4 +1,5 @@
 import {RANKS} from '../const.js';
+import {createElement} from '../utils.js';
 
 const generateRank = (filmsCount) => {
   if (filmsCount >= 1 && filmsCount <= 10) {
@@ -12,7 +13,7 @@ const generateRank = (filmsCount) => {
   return ``;
 };
 
-export const createUserProfileTemplate = (userProfile) => {
+const createUserProfileTemplate = (userProfile) => {
   const {viewedFilmsCount, avatar} = userProfile;
 
   return (
@@ -22,3 +23,26 @@ export const createUserProfileTemplate = (userProfile) => {
     </section>`
   );
 };
+
+export default class UserProfile {
+  constructor(userProfile) {
+    this._element = null;
+    this._userProfile = userProfile;
+  }
+
+  get template() {
+    return createUserProfileTemplate(this._userProfile);
+  }
+
+  get element() {
+    if (!this._element) {
+      this._element = createElement(this.template);
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

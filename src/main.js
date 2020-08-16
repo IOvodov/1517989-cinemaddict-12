@@ -1,14 +1,14 @@
-import {createUserProfileTemplate} from "./view/user-profile.js";
-import {createMenuTemplate} from "./view/site-menu.js";
-import {createSortingTemplate} from "./view/sorting.js";
-import {createBoardTemplate} from "./view/board.js";
-import {createFilmsListTemplate} from "./view/films-list.js";
-import {createFilmCardTemplate} from "./view/film-card.js";
-import {createShowMoreTemplate} from "./view/show-more-button.js";
-import {createFooterStatisticsTemplate} from "./view/footer-statistics.js";
-import {createFilmsExtraSectionTemplate} from "./view/films-extra-section.js";
+import UserProfile from "./view/user-profile.js";
+import Menu from "./view/site-menu.js";
+import Sort from "./view/sorting.js";
+import Board from "./view/board.js";
+import FilmsList from "./view/films-list.js";
+import FilmCard from "./view/film-card.js";
+import ShowMoreButton from "./view/show-more-button.js";
+import FooterStatistics from "./view/footer-statistics.js";
+import FilmsExtraSection from "./view/films-extra-section.js";
 import {generateFilmCard} from "./mock/film-card.js";
-import {render} from "./utils.js";
+import {render, renderElement, RenderPosition} from "./utils.js";
 import {generateUserProfile} from "./mock/user-profile.js";
 import {generateFilmsFilter} from "./mock/filter.js";
 
@@ -21,48 +21,46 @@ const profile = generateUserProfile();
 const filter = generateFilmsFilter(filmCards);
 
 const header = document.querySelector(`.header`);
-
-render(header, createUserProfileTemplate(profile), `beforeend`);
-
 const main = document.querySelector(`.main`);
 
-render(main, createMenuTemplate(filter), `beforeend`);
-render(main, createSortingTemplate(), `beforeend`);
-render(main, createBoardTemplate(), `beforeend`);
+renderElement(header, new UserProfile(profile).element, RenderPosition.BEFOREEND);
+renderElement(main, new Menu(filter).element, RenderPosition.BEFOREEND);
+renderElement(main, new Sort().element, RenderPosition.BEFOREEND);
 
-const films = document.querySelector(`.films`);
+const boardComponent = new Board();
 
-render(films, createFilmsListTemplate(), `beforeend`);
+renderElement(main, boardComponent.element, RenderPosition.BEFOREEND);
+renderElement(boardComponent.element, new FilmsList().element, RenderPosition.BEFOREEND);
 
-const filmsList = films.querySelector(`.films-list__container`);
+const filmsList = boardComponent.element.querySelector(`.films-list__container`);
 
 for (let i = 0; i < Math.min(filmCards.length, FILMS_COUNT_PER_STEP); i++) {
-  render(filmsList, createFilmCardTemplate(filmCards[i]), `beforeend`);
+  renderElement(filmsList, new FilmCard(filmCards[i]).element, RenderPosition.BEFOREEND);
 }
 
 if (filmCards.length > FILMS_COUNT_PER_STEP) {
   let renderedFilmsCount = FILMS_COUNT_PER_STEP;
+  const showMoreButtonComponent = new ShowMoreButton();
 
-  render(filmsList, createShowMoreTemplate(), `afterend`);
+  renderElement(filmsList, showMoreButtonComponent.element, RenderPosition.AFTEREND);
 
-  const showMoreButton = document.querySelector(`.films-list__show-more`);
-
-  showMoreButton.addEventListener(`click`, (e) => {
+  showMoreButtonComponent.element.addEventListener(`click`, (e) => {
     e.preventDefault();
     filmCards
       .slice(renderedFilmsCount, renderedFilmsCount + FILMS_COUNT_PER_STEP)
-      .forEach((film) => render(filmsList, createFilmCardTemplate(film), `beforeend`));
+      .forEach((film) => renderElement(filmsList, new FilmCard(film).element, RenderPosition.BEFOREEND));
 
     renderedFilmsCount += FILMS_COUNT_PER_STEP;
 
     if (renderedFilmsCount >= filmCards.length) {
-      showMoreButton.remove();
+      showMoreButtonComponent.element.remove();
+      showMoreButtonComponent.removeElement();
     }
   });
 }
 
-render(films, createFilmsExtraSectionTemplate(`Top rated`), `beforeend`);
-render(films, createFilmsExtraSectionTemplate(`Most commented`), `beforeend`);
+renderElement(boardComponent.element, new FilmsExtraSection(`Top rated`).element, RenderPosition.BEFOREEND);
+renderElement(boardComponent.element, new FilmsExtraSection(`Most commented`).element, RenderPosition.BEFOREEND);
 
 const filmsExtraSections = document.querySelectorAll(`.films-list--extra`);
 
@@ -70,11 +68,11 @@ filmsExtraSections.forEach((section) => {
   const filmsListContainer = section.querySelector(`.films-list__container`);
 
   for (let i = 0; i < EXTRA_SECTION_FILMS_COUNT; i++) {
-    render(filmsListContainer, createFilmCardTemplate(filmCards[i]), `beforeend`);
+    renderElement(filmsListContainer, new FilmCard(filmCards[i]).element, RenderPosition.BEFOREEND);
   }
 });
 
 const footer = document.querySelector(`.footer`);
 const footerStatistics = footer.querySelector(`.footer__statistics`);
 
-render(footerStatistics, createFooterStatisticsTemplate(filmCards.length), `beforeend`);
+renderElement(footerStatistics, new FooterStatistics(filmCards.length).element, RenderPosition.BEFOREEND);

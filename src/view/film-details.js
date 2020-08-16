@@ -1,3 +1,5 @@
+import {createElement} from '../utils.js';
+
 const formatReleaseDate = (releaseDate) => {
   let date = releaseDate.getDate();
   if (date < 10) {
@@ -26,7 +28,7 @@ const createCommentsTemplate = (comments) => {
   </li>`);
 };
 
-export const createFilmDetailsTemplate = (film) => {
+const createFilmDetailsTemplate = (film) => {
   const {
     description,
     poster,
@@ -149,3 +151,26 @@ export const createFilmDetailsTemplate = (film) => {
     </section>`
   );
 };
+
+export default class FilmDetails {
+  constructor(film) {
+    this._element = null;
+    this._film = film;
+  }
+
+  get template() {
+    return createFilmDetailsTemplate(this._film);
+  }
+
+  get element() {
+    if (!this._element) {
+      this._element = createElement(this.template);
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
