@@ -3,11 +3,11 @@ import {createElement} from '../utils.js';
 
 const generateRank = (filmsCount) => {
   if (filmsCount >= 1 && filmsCount <= 10) {
-    return RANKS[1];
+    return RANKS[0];
   } else if (filmsCount >= 11 && filmsCount <= 20) {
-    return RANKS[2];
+    return RANKS[1];
   } else if (filmsCount > 20) {
-    return RANKS[3];
+    return RANKS[2];
   }
 
   return ``;
