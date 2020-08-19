@@ -28,10 +28,6 @@ export const generateArrayFromSet = (array, minElementsCount, maxElementsCount) 
   return Array.from(newSet);
 };
 
-export const render = (container, template, position) => {
-  container.insertAdjacentHTML(position, template);
-};
-
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
@@ -39,7 +35,7 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-export const renderElement = (container, element, position) => {
+export const renderElement = (container, element, position = RenderPosition.BEFOREEND) => {
   switch(position) {
     case RenderPosition.BEFOREEND:
       container.append(element);
