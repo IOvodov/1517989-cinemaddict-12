@@ -36,7 +36,7 @@ export const createElement = (template) => {
 };
 
 export const renderElement = (container, element, position = RenderPosition.BEFOREEND) => {
-  switch(position) {
+  switch (position) {
     case RenderPosition.BEFOREEND:
       container.append(element);
       break;

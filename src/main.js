@@ -8,10 +8,10 @@ import FooterStatistics from "./view/footer-statistics.js";
 import FilmsMainSection from "./view/flims-main-section.js";
 import FilmsExtraSection from "./view/films-extra-section.js";
 import FilmDefails from "./view/film-details.js";
-import { generateFilmCard } from "./mock/film-card.js";
-import { renderElement, RenderPosition } from "./utils.js";
-import { generateUserProfile } from "./mock/user-profile.js";
-import { generateFilmsFilter } from "./mock/filter.js";
+import {generateFilmCard} from "./mock/film-card.js";
+import {renderElement} from "./utils.js";
+import {generateUserProfile} from "./mock/user-profile.js";
+import {generateFilmsFilter} from "./mock/filter.js";
 
 const FILM_CARDS_COUNT = 20;
 const EXTRA_SECTION_FILMS_COUNT = 2;
@@ -29,7 +29,7 @@ const renderFilmCard = (boardComponent, filmsListElement, film) => {
       renderFilmDetails(boardComponent, film);
       document.body.classList.add(`hide-overflow`);
     });
-  }
+  };
 
   subscribeOnEvent(`.film-card__title`);
 
@@ -57,7 +57,7 @@ const renderFilmDetails = (boardComponent, film) => {
   });
 
   showFilmDetails();
-}
+};
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
