@@ -9,7 +9,7 @@ import FilmsMainSection from "./view/flims-main-section.js";
 import FilmsExtraSection from "./view/films-extra-section.js";
 import FilmDefails from "./view/film-details.js";
 import { generateFilmCard } from "./mock/film-card.js";
-import { renderElement } from "./utils.js";
+import { renderElement } from "./utils/render.js";
 import { generateUserProfile } from "./mock/user-profile.js";
 import { generateFilmsFilter } from "./mock/filter.js";
 

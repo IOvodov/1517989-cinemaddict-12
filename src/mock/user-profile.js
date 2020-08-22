@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomElement} from "../utils.js";
+import {getRandomInteger, getRandomElement} from '../utils/render.js';
 
 const MIN_VIEWED_FILMS = 0;
 const MAX_VIEWED_FILMS = 200;
