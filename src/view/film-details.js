@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import Abstract from "./abstract.js";
 
 const formatReleaseDate = (releaseDate) => {
   let date = releaseDate.getDate();
@@ -152,25 +152,14 @@ const createFilmDetailsTemplate = (film) => {
   );
 };
 
-export default class FilmDetails {
+export default class FilmDetails extends Abstract {
   constructor(film) {
-    this._element = null;
+    super();
+
     this._film = film;
   }
 
   get template() {
     return createFilmDetailsTemplate(this._film);
-  }
-
-  get element() {
-    if (!this._element) {
-      this._element = createElement(this.template);
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

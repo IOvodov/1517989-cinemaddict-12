@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import Abstract from "./abstract.js";
 
 const createFilterItemTemplate = (filter) => {
   const {title, count} = filter;
@@ -20,25 +20,14 @@ const createMenuTemplate = (filterData) => {
   );
 };
 
-export default class Menu {
+export default class Menu extends Abstract {
   constructor(filterData) {
-    this._element = null;
+    super();
+
     this._filterData = filterData;
   }
 
   get template() {
     return createMenuTemplate(this._filterData);
-  }
-
-  get element() {
-    if (!this._element) {
-      this._element = createElement(this.template);
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

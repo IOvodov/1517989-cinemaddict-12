@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import Abstract from "./abstract.js";
 
 const getReleaseYear = (releaseDate) => releaseDate.getFullYear();
 
@@ -40,25 +40,14 @@ const createFilmCardTemplate = (filmCard) => {
   );
 };
 
-export default class FilmCard {
+export default class FilmCard extends Abstract {
   constructor(filmCard) {
-    this._element = null;
+    super();
+
     this._filmCard = filmCard;
   }
 
   get template() {
     return createFilmCardTemplate(this._filmCard);
-  }
-
-  get element() {
-    if (!this._element) {
-      this._element = createElement(this.template);
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

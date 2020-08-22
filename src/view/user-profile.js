@@ -1,5 +1,5 @@
 import {RANKS} from '../const.js';
-import {createElement} from '../utils.js';
+import Abstract from "./abstract.js";
 
 const generateRank = (filmsCount) => {
   if (filmsCount >= 1 && filmsCount <= 10) {
@@ -24,25 +24,14 @@ const createUserProfileTemplate = (userProfile) => {
   );
 };
 
-export default class UserProfile {
+export default class UserProfile extends Abstract {
   constructor(userProfile) {
-    this._element = null;
+    super();
+
     this._userProfile = userProfile;
   }
 
   get template() {
     return createUserProfileTemplate(this._userProfile);
-  }
-
-  get element() {
-    if (!this._element) {
-      this._element = createElement(this.template);
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
