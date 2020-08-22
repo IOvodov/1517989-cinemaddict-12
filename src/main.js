@@ -8,10 +8,10 @@ import FooterStatistics from "./view/footer-statistics.js";
 import FilmsMainSection from "./view/flims-main-section.js";
 import FilmsExtraSection from "./view/films-extra-section.js";
 import FilmDefails from "./view/film-details.js";
-import { generateFilmCard } from "./mock/film-card.js";
-import { renderElement } from "./utils/render.js";
-import { generateUserProfile } from "./mock/user-profile.js";
-import { generateFilmsFilter } from "./mock/filter.js";
+import {generateFilmCard} from "./mock/film-card.js";
+import {renderElement, remove} from "./utils/render.js";
+import {generateUserProfile} from "./mock/user-profile.js";
+import {generateFilmsFilter} from "./mock/filter.js";
 
 const FILM_CARDS_COUNT = 20;
 const EXTRA_SECTION_FILMS_COUNT = 2;
@@ -54,21 +54,21 @@ const renderFilmDetails = (boardComponent, film) => {
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
 
-renderElement(header, new UserProfile(profile).element);
-renderElement(main, new Menu(filter).element);
-renderElement(main, new Sort().element);
+renderElement(header, new UserProfile(profile));
+renderElement(main, new Menu(filter));
+renderElement(main, new Sort());
 
 const boardComponent = new Board();
 
-renderElement(main, boardComponent.element);
+renderElement(main, boardComponent);
 
 const filmsMainSectionComponent = new FilmsMainSection();
 
-renderElement(boardComponent.element, filmsMainSectionComponent.element);
+renderElement(boardComponent, filmsMainSectionComponent);
 
 const filmsListElement = filmsMainSectionComponent.element.querySelector(`.films-list__container`);
 
-renderElement(filmsMainSectionComponent.element, filmsListElement);
+renderElement(filmsMainSectionComponent, filmsListElement);
 
 for (let i = 0; i < Math.min(filmCards.length, FILMS_COUNT_PER_STEP); i++) {
   renderFilmCard(boardComponent, filmsListElement, filmCards[i]);
@@ -78,7 +78,7 @@ if (filmCards.length > FILMS_COUNT_PER_STEP) {
   let renderedFilmsCount = FILMS_COUNT_PER_STEP;
   const showMoreButtonComponent = new ShowMoreButton();
 
-  renderElement(filmsMainSectionComponent.element, showMoreButtonComponent.element);
+  renderElement(filmsMainSectionComponent, showMoreButtonComponent);
 
   showMoreButtonComponent.showMoreClickHandler(() => {
     filmCards
@@ -88,14 +88,13 @@ if (filmCards.length > FILMS_COUNT_PER_STEP) {
     renderedFilmsCount += FILMS_COUNT_PER_STEP;
 
     if (renderedFilmsCount >= filmCards.length) {
-      showMoreButtonComponent.element.remove();
-      showMoreButtonComponent.removeElement();
+      remove(showMoreButtonComponent);
     }
   });
 }
 
-renderElement(boardComponent.element, new FilmsExtraSection(`Top rated`).element);
-renderElement(boardComponent.element, new FilmsExtraSection(`Most commented`).element);
+renderElement(boardComponent, new FilmsExtraSection(`Top rated`));
+renderElement(boardComponent, new FilmsExtraSection(`Most commented`));
 
 const filmsExtraSections = boardComponent.element.querySelectorAll(`.films-list--extra`);
 
@@ -109,4 +108,4 @@ filmsExtraSections.forEach((section) => {
 
 const footer = document.querySelector(`.footer`);
 
-renderElement(footer, new FooterStatistics(filmCards.length).element);
+renderElement(footer, new FooterStatistics(filmCards.length));

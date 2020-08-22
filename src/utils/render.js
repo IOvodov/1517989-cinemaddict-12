@@ -1,31 +1,8 @@
+import Abstract from "../view/abstract.js";
+
 export const RenderPosition = {
   BEFOREEND: `beforeend`,
   AFTERBEGIN: `afterbegin`
-};
-
-export const getRandomInteger = (from = 0, to = 1) => {
-  const lower = Math.ceil(Math.min(from, to));
-  const upper = Math.floor(Math.max(from, to));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
-export const getRandomElement = (elements) => {
-  const randomIndex = getRandomInteger(0, elements.length - 1);
-
-  return elements[randomIndex];
-};
-
-export const generateArrayFromSet = (array, minElementsCount, maxElementsCount) => {
-  const newSet = new Set();
-
-  for (let i = minElementsCount; i < maxElementsCount; i++) {
-    const randomElement = getRandomElement(array);
-
-    newSet.add(randomElement);
-  }
-
-  return Array.from(newSet);
 };
 
 export const createElement = (template) => {
@@ -35,13 +12,30 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-export const renderElement = (container, element, position = RenderPosition.BEFOREEND) => {
+export const renderElement = (container, child, position = RenderPosition.BEFOREEND) => {
+  if (container instanceof Abstract) {
+    container = container.element;
+  }
+
+  if (child instanceof Abstract) {
+    child = child.element;
+  }
+
   switch (position) {
     case RenderPosition.BEFOREEND:
-      container.append(element);
+      container.append(child);
       break;
     case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
+      container.prepend(child);
       break;
   }
+};
+
+export const remove = (component) => {
+  if (!(component instanceof Abstract)) {
+    throw new Error(`Can remove only components`);
+  }
+
+  component.element.remove();
+  component.removeElement();
 };
