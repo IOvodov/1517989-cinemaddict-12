@@ -8,10 +8,10 @@ import FooterStatistics from "./view/footer-statistics.js";
 import FilmsMainSection from "./view/flims-main-section.js";
 import FilmsExtraSection from "./view/films-extra-section.js";
 import FilmDefails from "./view/film-details.js";
-import {generateFilmCard} from "./mock/film-card.js";
-import {renderElement} from "./utils.js";
-import {generateUserProfile} from "./mock/user-profile.js";
-import {generateFilmsFilter} from "./mock/filter.js";
+import { generateFilmCard } from "./mock/film-card.js";
+import { renderElement } from "./utils.js";
+import { generateUserProfile } from "./mock/user-profile.js";
+import { generateFilmsFilter } from "./mock/filter.js";
 
 const FILM_CARDS_COUNT = 20;
 const EXTRA_SECTION_FILMS_COUNT = 2;
@@ -24,18 +24,10 @@ const filter = generateFilmsFilter(filmCards);
 const renderFilmCard = (boardComponent, filmsListElement, film) => {
   const filmCardComponent = new FilmCard(film);
 
-  const subscribeOnEvent = (selector) => {
-    filmCardComponent.element.querySelector(selector).addEventListener(`click`, () => {
-      renderFilmDetails(boardComponent, film);
-      document.body.classList.add(`hide-overflow`);
-    });
-  };
-
-  subscribeOnEvent(`.film-card__title`);
-
-  subscribeOnEvent(`.film-card__poster`);
-
-  subscribeOnEvent(`.film-card__comments`);
+  filmCardComponent.openPopupClickHandler(() => {
+    renderFilmDetails(boardComponent, film);
+    document.body.classList.add(`hide-overflow`);
+  });
 
   renderElement(filmsListElement, filmCardComponent.element);
 };
@@ -51,7 +43,7 @@ const renderFilmDetails = (boardComponent, film) => {
     boardComponent.element.removeChild(filmDetailsComponent.element);
   };
 
-  filmDetailsComponent.element.querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
+  filmDetailsComponent.closePopupClickHandler(() => {
     hideFilmDetails();
     document.body.classList.remove(`hide-overflow`);
   });
@@ -88,8 +80,7 @@ if (filmCards.length > FILMS_COUNT_PER_STEP) {
 
   renderElement(filmsMainSectionComponent.element, showMoreButtonComponent.element);
 
-  showMoreButtonComponent.element.addEventListener(`click`, (e) => {
-    e.preventDefault();
+  showMoreButtonComponent.showMoreClickHandler(() => {
     filmCards
       .slice(renderedFilmsCount, renderedFilmsCount + FILMS_COUNT_PER_STEP)
       .forEach((film) => renderFilmCard(boardComponent, filmsListElement, film));
