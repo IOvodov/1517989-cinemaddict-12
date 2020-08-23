@@ -2,7 +2,9 @@ import Board from "../view/board.js";
 import ShowMoreButton from "../view/show-more-button.js";
 import FilmsMainSection from "../view/flims-main-section.js";
 import FilmsExtraSection from "../view/films-extra-section.js";
-import { renderElement } from "../utils/render.js";
+import FilmCard from "../view/film-card.js";
+import FilmDefails from "../view/film-details.js";
+import {renderElement, remove} from "../utils/render.js";
 
 const FILMS_COUNT_PER_STEP = 5;
 const EXTRA_SECTION_FILMS_COUNT = 2;
@@ -20,7 +22,7 @@ export default class MovieList {
     this._showMoreButtonComponent = new ShowMoreButton();
     this._filmsListContainer = this._mainSectionComponent.element.querySelector(`.films-list__container`);
 
-    this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind();
+    this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
   }
 
   init(films) {
@@ -44,21 +46,21 @@ export default class MovieList {
   _renderFilmCards(container, from, to) {
     this._filmCards
       .slice(from, to)
-      .forEach((film) => _renderFilmCard(container, film));
+      .forEach((film) => this._renderFilmCard(container, film));
   }
 
   _renderFilmCard(container, film) {
     const filmCardComponent = new FilmCard(film);
 
     filmCardComponent.openPopupClickHandler(() => {
-      _renderFilmDetails(boardComponent, film);
+      this._renderFilmDetails(this._boardComponent, film);
       document.body.classList.add(`hide-overflow`);
     });
 
     renderElement(container, filmCardComponent);
   }
 
-  _renderFilmDetails = (boardComponent, film) => {
+  _renderFilmDetails(boardComponent, film) {
     const filmDetailsComponent = new FilmDefails(film);
 
     const showFilmDetails = () => {
@@ -77,24 +79,23 @@ export default class MovieList {
     showFilmDetails();
   };
 
-
   _renderExtraSections() {
     renderElement(this._boardComponent, this._topRatedFilmsComponent);
     renderElement(this._boardComponent, this._mostRecommendedFilmsComponent);
 
-    const filmsExtraSections = boardComponent.element.querySelectorAll(`.films-list--extra`);
+    const filmsExtraSections = this._boardComponent.element.querySelectorAll(`.films-list--extra`);
 
     filmsExtraSections.forEach((section) => {
       const filmsListContainer = section.querySelector(`.films-list__container`);
 
       for (let i = 0; i < EXTRA_SECTION_FILMS_COUNT; i++) {
-        _renderFilmCard(this._boardComponent, filmsListContainer, filmCards[i]);
+        this._renderFilmCard(filmsListContainer, this._filmCards[i]);
       }
     });
   }
 
   _handleShowMoreButtonClick() {
-    this._filmCards(this._filmsCount, this._filmsCount + FILMS_COUNT_PER_STEP);
+    this._renderFilmCards(this._filmsListContainer, this._filmsCount, this._filmsCount + FILMS_COUNT_PER_STEP);
 
     this._filmsCount += FILMS_COUNT_PER_STEP;
 
