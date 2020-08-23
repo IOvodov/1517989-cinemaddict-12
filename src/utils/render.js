@@ -31,6 +31,36 @@ export const renderElement = (container, child, position = RenderPosition.BEFORE
   }
 };
 
+export const addChild = (parent, child) => {
+  if (parent instanceof Abstract) {
+    parent = parent.element;
+  }
+
+  if (child instanceof Abstract) {
+    child = child.element;
+  }
+
+  if (!parent || !child) {
+    throw new Error(`Can't add child`);
+  }
+
+  parent.appendChild(child);
+}
+
+export const deleteChild = (child) => {
+  if (child instanceof Abstract) {
+    child = child.element;
+  }
+
+  const parent = child.parentElement;
+
+  if (!parent || !child) {
+    throw new Error(`Can't remove child`);
+  }
+
+  parent.removeChild(child);
+}
+
 export const remove = (component) => {
   if (!(component instanceof Abstract)) {
     throw new Error(`Can remove only components`);
