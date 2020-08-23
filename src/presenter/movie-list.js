@@ -4,7 +4,7 @@ import FilmsMainSection from "../view/flims-main-section.js";
 import FilmsExtraSection from "../view/films-extra-section.js";
 import FilmCard from "../view/film-card.js";
 import FilmDefails from "../view/film-details.js";
-import {renderElement, remove} from "../utils/render.js";
+import {renderElement, remove, addChild, deleteChild} from "../utils/render.js";
 
 const FILMS_COUNT_PER_STEP = 5;
 const EXTRA_SECTION_FILMS_COUNT = 2;
@@ -64,11 +64,11 @@ export default class MovieList {
     const filmDetailsComponent = new FilmDefails(film);
 
     const showFilmDetails = () => {
-      boardComponent.element.appendChild(filmDetailsComponent.element);
+      addChild(boardComponent, filmDetailsComponent);
     };
 
     const hideFilmDetails = () => {
-      boardComponent.element.removeChild(filmDetailsComponent.element);
+      deleteChild(filmDetailsComponent);
     };
 
     filmDetailsComponent.closePopupClickHandler(() => {
