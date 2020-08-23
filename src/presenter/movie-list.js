@@ -36,7 +36,7 @@ export default class MovieList {
   }
 
   _renderMainSection() {
-    this._renderFilmCards(this._filmsListContainer, 0, Math.min(this._filmCards.length, FILMS_COUNT_PER_STEP))
+    this._renderFilmCards(this._filmsListContainer, 0, Math.min(this._filmCards.length, FILMS_COUNT_PER_STEP));
 
     if (this._filmCards.length > FILMS_COUNT_PER_STEP) {
       this._renderShowMoreButton();
@@ -77,7 +77,7 @@ export default class MovieList {
     });
 
     showFilmDetails();
-  };
+  }
 
   _renderExtraSections() {
     renderElement(this._boardComponent, this._topRatedFilmsComponent);

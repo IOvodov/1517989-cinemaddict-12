@@ -45,7 +45,7 @@ export const addChild = (parent, child) => {
   }
 
   parent.appendChild(child);
-}
+};
 
 export const deleteChild = (child) => {
   if (child instanceof Abstract) {
@@ -59,7 +59,7 @@ export const deleteChild = (child) => {
   }
 
   parent.removeChild(child);
-}
+};
 
 export const remove = (component) => {
   if (!(component instanceof Abstract)) {
