@@ -1,8 +1,10 @@
+import {createElement} from '../utils.js';
+
 const getReleaseYear = (releaseDate) => releaseDate.getFullYear();
 
 const isControlsItemActive = (flag) => flag ? `film-card__controls-item--active` : ``;
 
-export const createFilmCardTemplate = (filmCard) => {
+const createFilmCardTemplate = (filmCard) => {
   const {
     filmTitle,
     rating,
@@ -37,3 +39,26 @@ export const createFilmCardTemplate = (filmCard) => {
     </article>`
   );
 };
+
+export default class FilmCard {
+  constructor(filmCard) {
+    this._element = null;
+    this._filmCard = filmCard;
+  }
+
+  get template() {
+    return createFilmCardTemplate(this._filmCard);
+  }
+
+  get element() {
+    if (!this._element) {
+      this._element = createElement(this.template);
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

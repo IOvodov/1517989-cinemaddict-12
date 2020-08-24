@@ -1,3 +1,7 @@
+export const RenderPosition = {
+  BEFOREEND: `beforeend`,
+  AFTERBEGIN: `afterbegin`
+};
 
 export const getRandomInteger = (from = 0, to = 1) => {
   const lower = Math.ceil(Math.min(from, to));
@@ -24,6 +28,20 @@ export const generateArrayFromSet = (array, minElementsCount, maxElementsCount) 
   return Array.from(newSet);
 };
 
-export const render = (container, template, position) => {
-  container.insertAdjacentHTML(position, template);
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+export const renderElement = (container, element, position = RenderPosition.BEFOREEND) => {
+  switch (position) {
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+  }
 };

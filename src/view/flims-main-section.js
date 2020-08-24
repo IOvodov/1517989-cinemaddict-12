@@ -1,23 +1,22 @@
 import {createElement} from '../utils.js';
 
-const createFilmsExtraSectionTemplate = (sectionTitle) => {
+const createFilmsMainSectionTemplate = () => {
   return (
-    `<section class="films-list--extra">
-      <h2 class="films-list__title">${sectionTitle}</h2>
+    `<section class="films-list">
+      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
 
       <div class="films-list__container"></div>
     </section>`
   );
 };
 
-export default class FilmsExtraSection {
-  constructor(title) {
+export default class FilmsMainSection {
+  constructor() {
     this._element = null;
-    this._title = title;
   }
 
   get template() {
-    return createFilmsExtraSectionTemplate(this._title);
+    return createFilmsMainSectionTemplate();
   }
 
   get element() {
@@ -32,3 +31,4 @@ export default class FilmsExtraSection {
     this._element = null;
   }
 }
+

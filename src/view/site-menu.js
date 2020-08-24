@@ -1,10 +1,12 @@
+import {createElement} from '../utils.js';
+
 const createFilterItemTemplate = (filter) => {
   const {title, count} = filter;
   const filterTitle = title[0].toUpperCase() + title.slice(1, title.length);
   return `<a href="#${title}" class="main-navigation__item">${filterTitle} <span class="main-navigation__item-count">${count}</span></a>`;
 };
 
-export const createMenuTemplate = (filterData) => {
+const createMenuTemplate = (filterData) => {
   const filterItemsTemplate = filterData.map(createFilterItemTemplate).join(``);
 
   return (
@@ -17,3 +19,26 @@ export const createMenuTemplate = (filterData) => {
     </nav>`
   );
 };
+
+export default class Menu {
+  constructor(filterData) {
+    this._element = null;
+    this._filterData = filterData;
+  }
+
+  get template() {
+    return createMenuTemplate(this._filterData);
+  }
+
+  get element() {
+    if (!this._element) {
+      this._element = createElement(this.template);
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
