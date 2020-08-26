@@ -52,7 +52,7 @@ export default class MovieList {
   _renderFilmCard(container, film) {
     const filmCardComponent = new FilmCard(film);
 
-    filmCardComponent.openPopupClickHandler(() => {
+    filmCardComponent.setOpenPopupClickHandler(() => {
       this._renderFilmDetails(this._boardComponent, film);
       document.body.classList.add(`hide-overflow`);
     });
@@ -71,7 +71,7 @@ export default class MovieList {
       deleteChild(filmDetailsComponent);
     };
 
-    filmDetailsComponent.closePopupClickHandler(() => {
+    filmDetailsComponent.setClosePopupClickHandler(() => {
       hideFilmDetails();
       document.body.classList.remove(`hide-overflow`);
     });
@@ -107,6 +107,6 @@ export default class MovieList {
   _renderShowMoreButton() {
     renderElement(this._boardComponent, this._showMoreButtonComponent);
 
-    this._showMoreButtonComponent.showMoreClickHandler(this._handleShowMoreButtonClick);
+    this._showMoreButtonComponent.setShowMoreClickHandler(this._handleShowMoreButtonClick);
   }
 }

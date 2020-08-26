@@ -22,7 +22,7 @@ export default class ShowMoreButton extends AbstractView {
     this._handlers.click();
   }
 
-  showMoreClickHandler(callback) {
+  setShowMoreClickHandler(callback) {
     this._handlers.click = callback;
     this.element.addEventListener(`click`, this._clickHandler);
   }
