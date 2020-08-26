@@ -63,4 +63,12 @@ export default class FilmCard extends AbstractView {
       element.addEventListener(`click`, this._clickHandler);
     });
   }
+
+  removeElement() {
+    this.element.querySelectorAll(`.film-card__title, .film-card__poster, .film-card__comments`).forEach((element) => {
+      element.removeElement(`click`, this._clickHandler);
+    });
+
+    super.removeElement();
+  }
 }
