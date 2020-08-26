@@ -1,4 +1,4 @@
-import Abstract from "../view/abstract.js";
+import AbstractView from "../view/abstract.js";
 
 export const RenderPosition = {
   BEFOREEND: `beforeend`,
@@ -13,11 +13,11 @@ export const createElement = (template) => {
 };
 
 export const renderElement = (container, child, position = RenderPosition.BEFOREEND) => {
-  if (container instanceof Abstract) {
+  if (container instanceof AbstractView) {
     container = container.element;
   }
 
-  if (child instanceof Abstract) {
+  if (child instanceof AbstractView) {
     child = child.element;
   }
 
@@ -32,11 +32,11 @@ export const renderElement = (container, child, position = RenderPosition.BEFORE
 };
 
 export const addChild = (parent, child) => {
-  if (parent instanceof Abstract) {
+  if (parent instanceof AbstractView) {
     parent = parent.element;
   }
 
-  if (child instanceof Abstract) {
+  if (child instanceof AbstractView) {
     child = child.element;
   }
 
@@ -48,7 +48,7 @@ export const addChild = (parent, child) => {
 };
 
 export const deleteChild = (child) => {
-  if (child instanceof Abstract) {
+  if (child instanceof AbstractView) {
     child = child.element;
   }
 
@@ -62,7 +62,7 @@ export const deleteChild = (child) => {
 };
 
 export const remove = (component) => {
-  if (!(component instanceof Abstract)) {
+  if (!(component instanceof AbstractView)) {
     throw new Error(`Can remove only components`);
   }
 
