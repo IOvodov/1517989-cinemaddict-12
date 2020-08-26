@@ -166,11 +166,11 @@ export default class FilmDetails extends AbstractView {
 
   _clickHandler(event) {
     event.preventDefault();
-    this._callback.click();
+    this._handlers.click();
   }
 
   closePopupClickHandler(callback) {
-    this._callback.click = callback;
+    this._handlers.click = callback;
     this.element.querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
   }
 }
