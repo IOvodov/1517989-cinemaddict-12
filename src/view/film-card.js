@@ -59,14 +59,14 @@ export default class FilmCard extends AbstractView {
 
   setOpenPopupClickHandler(callback) {
     this._handlers.click = callback;
-    this.element.querySelectorAll(`.film-card__title, .film-card__poster, .film-card__comments`).forEach((element) => {
-      element.addEventListener(`click`, this._clickHandler);
+    this.element.querySelectorAll(`.film-card__title, .film-card__poster, .film-card__comments`).forEach((elem) => {
+      elem.addEventListener(`click`, this._clickHandler);
     });
   }
 
   removeElement() {
-    this.element.querySelectorAll(`.film-card__title, .film-card__poster, .film-card__comments`).forEach((element) => {
-      element.removeElement(`click`, this._clickHandler);
+    this.element.querySelectorAll(`.film-card__title, .film-card__poster, .film-card__comments`).forEach((elem) => {
+      elem.removeEventListener(`click`, this._clickHandler);
     });
 
     super.removeElement();
