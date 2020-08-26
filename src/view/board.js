@@ -1,4 +1,4 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
 const createBoardTemplate = () => {
   return (
@@ -6,7 +6,7 @@ const createBoardTemplate = () => {
   );
 };
 
-export default class Board extends Abstract {
+export default class Board extends AbstractView {
   get template() {
     return createBoardTemplate();
   }

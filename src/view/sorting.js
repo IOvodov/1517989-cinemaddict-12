@@ -1,4 +1,4 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
 const createSortingTemplate = () => {
   return (
@@ -10,7 +10,7 @@ const createSortingTemplate = () => {
   );
 };
 
-export default class Sort extends Abstract {
+export default class Sort extends AbstractView {
   get template() {
     return createSortingTemplate();
   }

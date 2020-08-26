@@ -1,4 +1,4 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
 const createFooterStatisticsTemplate = (filmsCount) => {
   return (
@@ -8,7 +8,7 @@ const createFooterStatisticsTemplate = (filmsCount) => {
   );
 };
 
-export default class FooterStatistics extends Abstract {
+export default class FooterStatistics extends AbstractView {
   constructor(filmsCount) {
     super();
 

@@ -1,4 +1,4 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
 const createFilmsMainSectionTemplate = () => {
   return (
@@ -10,7 +10,7 @@ const createFilmsMainSectionTemplate = () => {
   );
 };
 
-export default class FilmsMainSection extends Abstract {
+export default class FilmsMainSection extends AbstractView {
   get template() {
     return createFilmsMainSectionTemplate();
   }

@@ -1,5 +1,5 @@
 import {RANKS} from '../const.js';
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
 const generateRank = (filmsCount) => {
   if (filmsCount >= 1 && filmsCount <= 10) {
@@ -24,7 +24,7 @@ const createUserProfileTemplate = (userProfile) => {
   );
 };
 
-export default class UserProfile extends Abstract {
+export default class UserProfile extends AbstractView {
   constructor(userProfile) {
     super();
 

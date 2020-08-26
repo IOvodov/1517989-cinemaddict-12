@@ -1,4 +1,4 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
 const formatReleaseDate = (releaseDate) => {
   let date = releaseDate.getDate();
@@ -152,7 +152,7 @@ const createFilmDetailsTemplate = (film) => {
   );
 };
 
-export default class FilmDetails extends Abstract {
+export default class FilmDetails extends AbstractView {
   constructor(film) {
     super();
 

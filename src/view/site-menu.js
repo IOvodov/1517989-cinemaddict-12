@@ -1,4 +1,4 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
 const createFilterItemTemplate = (filter) => {
   const {title, count} = filter;
@@ -20,7 +20,7 @@ const createMenuTemplate = (filterData) => {
   );
 };
 
-export default class Menu extends Abstract {
+export default class Menu extends AbstractView {
   constructor(filterData) {
     super();
 
