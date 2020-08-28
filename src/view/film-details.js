@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractView from "./abstract.js";
 
 const formatReleaseDate = (releaseDate) => {
   let date = releaseDate.getDate();
@@ -152,25 +152,33 @@ const createFilmDetailsTemplate = (film) => {
   );
 };
 
-export default class FilmDetails {
+export default class FilmDetails extends AbstractView {
   constructor(film) {
-    this._element = null;
+    super();
+
     this._film = film;
+    this._filmDetailsCloseBtn = this.element.querySelector(`.film-details__close-btn`);
+
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   get template() {
     return createFilmDetailsTemplate(this._film);
   }
 
-  get element() {
-    if (!this._element) {
-      this._element = createElement(this.template);
-    }
+  _clickHandler(event) {
+    event.preventDefault();
+    this._handlers.click();
+  }
 
-    return this._element;
+  setClosePopupClickHandler(callback) {
+    this._handlers.click = callback;
+    this._filmDetailsCloseBtn.addEventListener(`click`, this._clickHandler);
   }
 
   removeElement() {
-    this._element = null;
+    this._filmDetailsCloseBtn.removeEventListener(`click`, this._clickHandler);
+
+    super.removeElement();
   }
 }

@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractView from "./abstract.js";
 
 const getReleaseYear = (releaseDate) => releaseDate.getFullYear();
 
@@ -40,25 +40,37 @@ const createFilmCardTemplate = (filmCard) => {
   );
 };
 
-export default class FilmCard {
+export default class FilmCard extends AbstractView {
   constructor(filmCard) {
-    this._element = null;
+    super();
+
     this._filmCard = filmCard;
+    this._filmCardClickableElements = this.element.querySelectorAll(`.film-card__title, .film-card__poster, .film-card__comments`);
+
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   get template() {
     return createFilmCardTemplate(this._filmCard);
   }
 
-  get element() {
-    if (!this._element) {
-      this._element = createElement(this.template);
-    }
+  _clickHandler(event) {
+    event.preventDefault();
+    this._handlers.click();
+  }
 
-    return this._element;
+  setOpenPopupClickHandler(callback) {
+    this._handlers.click = callback;
+    this._filmCardClickableElements.forEach((elem) => {
+      elem.addEventListener(`click`, this._clickHandler);
+    });
   }
 
   removeElement() {
-    this._element = null;
+    this._filmCardClickableElements.forEach((elem) => {
+      elem.removeEventListener(`click`, this._clickHandler);
+    });
+
+    super.removeElement();
   }
 }
