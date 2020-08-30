@@ -1,6 +1,6 @@
 import FilmCard from "../view/film-card.js";
 import FilmDetails from "../view/film-details.js";
-import {renderElement, addChild, deleteChild} from "../utils/render.js";
+import { renderElement, addChild, deleteChild } from "../utils/render.js";
 
 export default class MoviePresenter {
   constructor(boardContainer, movieListContainer) {
@@ -17,13 +17,32 @@ export default class MoviePresenter {
   init(filmCard) {
     this._filmCard = filmCard;
 
+    const prevFilmCardComponent = this._filmCardComponent;
+    const prevFilmDetailsComponent = this._filmDetailsComponent;
+
     this._filmCardComponent = new FilmCard(this._filmCard);
     this._filmDetailsComponent = new FilmDetails(this._filmCard);
 
     this._filmCardComponent.setOpenPopupClickHandler(this._handleOpenPopupClick);
     this._filmDetailsComponent.setClosePopupClickHandler(this._handleClosePopupClick);
 
-    renderElement(this._movieListContainer, this._filmCardComponent);
+    if (!prevFilmCardComponent && !prevFilmDetailsComponent) {
+      renderElement(this._movieListContainer, this._filmCardComponent);
+      return;
+    }
+
+    if (this._taskListContainer.element.contains(prevFilmCardComponent.element)) {
+      deleteChild(prevFilmCardComponent);
+      addChild(this._movieListContainer, this._filmCardComponent);
+    }
+
+    if (this._taskListContainer.element.contains(prevFilmDetailsComponent.element)) {
+      deleteChild(prevFilmDetailsComponent);
+      addChild(this._movieListContainer, this._filmDetailsComponent);
+    }
+
+    remove(prevFilmCardComponent);
+    remove(prevFilmDetailsComponent);
   }
 
   _handleOpenPopupClick() {
