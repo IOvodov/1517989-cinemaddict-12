@@ -2,9 +2,8 @@ import Board from "../view/board.js";
 import ShowMoreButton from "../view/show-more-button.js";
 import FilmsMainSection from "../view/flims-main-section.js";
 import FilmsExtraSection from "../view/films-extra-section.js";
-import FilmCard from "../view/film-card.js";
-import FilmDefails from "../view/film-details.js";
 import {renderElement, remove, addChild, deleteChild} from "../utils/render.js";
+import MoviePresenter from "./movie.js";
 
 const FILMS_COUNT_PER_STEP = 5;
 const EXTRA_SECTION_FILMS_COUNT = 2;
@@ -20,7 +19,9 @@ export default class MovieList {
     this._topRatedFilmsComponent = new FilmsExtraSection(`Top rated`);
     this._mostRecommendedFilmsComponent = new FilmsExtraSection(`Most commented`);
     this._showMoreButtonComponent = new ShowMoreButton();
-    this._filmsListContainer = this._mainSectionComponent.element.querySelector(`.films-list__container`);
+    this._filmListContainer = this._mainSectionComponent.element.querySelector(`.films-list__container`);
+
+    this._moviePresenter = {};
 
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
   }
@@ -36,47 +37,22 @@ export default class MovieList {
   }
 
   _renderMainSection() {
-    this._renderFilmCards(this._filmsListContainer, 0, Math.min(this._filmCards.length, FILMS_COUNT_PER_STEP));
+    this._renderFilmCards(this._filmListContainer, 0, Math.min(this._filmCards.length, FILMS_COUNT_PER_STEP));
 
     if (this._filmCards.length > FILMS_COUNT_PER_STEP) {
       this._renderShowMoreButton();
     }
   }
 
-  _renderFilmCards(container, from, to) {
+  _renderFilmCards(filmListContainer, from, to) {
     this._filmCards
       .slice(from, to)
-      .forEach((film) => this._renderFilmCard(container, film));
+      .forEach((film) => this._renderFilmCard(filmListContainer, film));
   }
 
-  _renderFilmCard(container, film) {
-    const filmCardComponent = new FilmCard(film);
-
-    filmCardComponent.setOpenPopupClickHandler(() => {
-      this._renderFilmDetails(this._boardComponent, film);
-      document.body.classList.add(`hide-overflow`);
-    });
-
-    renderElement(container, filmCardComponent);
-  }
-
-  _renderFilmDetails(boardComponent, film) {
-    const filmDetailsComponent = new FilmDefails(film);
-
-    const showFilmDetails = () => {
-      addChild(boardComponent, filmDetailsComponent);
-    };
-
-    const hideFilmDetails = () => {
-      deleteChild(filmDetailsComponent);
-    };
-
-    filmDetailsComponent.setClosePopupClickHandler(() => {
-      hideFilmDetails();
-      document.body.classList.remove(`hide-overflow`);
-    });
-
-    showFilmDetails();
+  _renderFilmCard(filmListContainer, film) {
+    const moviePresenter = new MoviePresenter(this._boardContainer, filmListContainer);
+    moviePresenter.init(film);
   }
 
   _renderExtraSections() {
@@ -86,16 +62,16 @@ export default class MovieList {
     const filmsExtraSections = this._boardComponent.element.querySelectorAll(`.films-list--extra`);
 
     filmsExtraSections.forEach((section) => {
-      const filmsListContainer = section.querySelector(`.films-list__container`);
+      const filmListContainer = section.querySelector(`.films-list__container`);
 
       for (let i = 0; i < EXTRA_SECTION_FILMS_COUNT; i++) {
-        this._renderFilmCard(filmsListContainer, this._filmCards[i]);
+        this._renderFilmCard(filmListContainer, this._filmCards[i]);
       }
     });
   }
 
   _handleShowMoreButtonClick() {
-    this._renderFilmCards(this._filmsListContainer, this._filmsCount, this._filmsCount + FILMS_COUNT_PER_STEP);
+    this._renderFilmCards(this._filmListContainer, this._filmsCount, this._filmsCount + FILMS_COUNT_PER_STEP);
 
     this._filmsCount += FILMS_COUNT_PER_STEP;
 
