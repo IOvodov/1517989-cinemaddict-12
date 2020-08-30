@@ -53,6 +53,7 @@ export default class MovieList {
   _renderFilmCard(filmListContainer, film) {
     const moviePresenter = new MoviePresenter(this._boardContainer, filmListContainer);
     moviePresenter.init(film);
+    this._moviePresenter[task.id] = moviePresenter;
   }
 
   _renderExtraSections() {

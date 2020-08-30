@@ -1,6 +1,8 @@
 import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, AUTHORS, DIRECTORS, WRITERS, ACTORS} from '../const.js';
 import {getRandomInteger, getRandomElement, generateArrayFromSet} from '../utils/common.js';
 
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 const generateDate = () => {
   const maxDaysGap = getRandomInteger(1, 365);
   const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
@@ -102,6 +104,7 @@ const generateComment = () => {
 
 export const generateFilmCard = () => {
   return {
+    id: generateId(),
     poster: getRandomElement(POSTERS),
     filmTitle: getRandomElement(FILMS_TITLES),
     originalFilmTitle: getRandomElement(FILMS_TITLES),
