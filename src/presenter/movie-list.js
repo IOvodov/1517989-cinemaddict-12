@@ -20,7 +20,7 @@ export default class MovieList {
     this._topRatedFilmsComponent = new FilmsExtraSection(`Top rated`);
     this._mostRecommendedFilmsComponent = new FilmsExtraSection(`Most commented`);
     this._showMoreButtonComponent = new ShowMoreButton();
-    //this._filmListContainer = this._mainSectionComponent.element.querySelector(`.films-list__container`);
+    this._filmListContainer = this._mainSectionComponent.element.querySelector(`.films-list__container`);
 
     this._moviePresenter = {};
 
@@ -39,8 +39,7 @@ export default class MovieList {
   }
 
   _renderMainSection() {
-    const filmListContainer = this._mainSectionComponent.element.querySelector(`.films-list__container`);
-    this._renderFilmCards(filmListContainer, 0, Math.min(this._films.length, FILMS_COUNT_PER_STEP));
+    this._renderFilmCards(this._filmListContainer, 0, Math.min(this._films.length, FILMS_COUNT_PER_STEP));
 
     if (this._films.length > FILMS_COUNT_PER_STEP) {
       this._renderShowMoreButton();
@@ -86,8 +85,7 @@ export default class MovieList {
   }
 
   _handleCardChange(updatedFilmCard) {
-    this._filmCards = updateItem(this._filmCards, updatedFilmCard);
-    console.log('after', this._filmCards);
+    this._films = updateItem(this._films, updatedFilmCard);
     this._moviePresenter[updatedFilmCard.id].init(updatedFilmCard);
   }
 
