@@ -14,8 +14,6 @@ export default class MovieList {
     this._boardContainer = boardContainer;
     this._filmsCount = FILMS_COUNT_PER_STEP;
     this._extraSectionFilmsCount = EXTRA_SECTION_FILMS_COUNT;
-    this._filmCards = {};
-    this._filmCardsExtra = {};
 
     this._boardComponent = new Board();
     this._mainSectionComponent = new FilmsMainSection();
@@ -42,15 +40,15 @@ export default class MovieList {
 
   _renderMainSection() {
     const filmListContainer = this._mainSectionComponent.element.querySelector(`.films-list__container`);
-    this._renderFilmCards(filmListContainer, 0, Math.min(this._filmCards.length, FILMS_COUNT_PER_STEP));
+    this._renderFilmCards(filmListContainer, 0, Math.min(this._films.length, FILMS_COUNT_PER_STEP));
 
-    if (this._filmCards.length > FILMS_COUNT_PER_STEP) {
+    if (this._films.length > FILMS_COUNT_PER_STEP) {
       this._renderShowMoreButton();
     }
   }
 
   _renderFilmCards(filmListContainer, from, to) {
-    this._filmCards
+    this._films
       .slice(from, to)
       .forEach((film) => this._renderFilmCard(filmListContainer, film));
   }
@@ -71,7 +69,7 @@ export default class MovieList {
       const filmListContainer = section.querySelector(`.films-list__container`);
 
       for (let i = 0; i < EXTRA_SECTION_FILMS_COUNT; i++) {
-        this._renderFilmCard(filmListContainer, this._filmCards[i]);
+        this._renderFilmCard(filmListContainer, this._films[i]);
       }
     });
   }
@@ -82,7 +80,7 @@ export default class MovieList {
 
     this._filmsCount += FILMS_COUNT_PER_STEP;
 
-    if (this._filmsCount >= this._filmCards.length) {
+    if (this._filmsCount >= this._films.length) {
       remove(this._showMoreButtonComponent);
     }
   }
