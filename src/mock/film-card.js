@@ -1,7 +1,7 @@
 import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, AUTHORS, DIRECTORS, WRITERS, ACTORS} from '../const.js';
 import {getRandomInteger, getRandomElement, generateArrayFromSet} from '../utils/common.js';
 
-const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+const generateId = () => '_' + Math.random().toString(36).substr(2, 9);
 
 const generateDate = () => {
   const maxDaysGap = getRandomInteger(1, 365);
