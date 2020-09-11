@@ -5,6 +5,7 @@ import FilmsExtraSection from "../view/films-extra-section.js";
 import {renderElement, remove} from "../utils/render.js";
 import {updateItem} from "../utils/common.js";
 import MoviePresenter from "./movie.js";
+import FilmsContainer from "../view/films-container.js";
 
 const FILMS_COUNT_PER_STEP = 5;
 const EXTRA_SECTION_FILMS_COUNT = 2;
@@ -17,12 +18,14 @@ export default class MovieList {
 
     this._boardComponent = new Board();
     this._mainSectionComponent = new FilmsMainSection();
-    this._topRatedFilmsComponent = new FilmsExtraSection(`Top rated`);
-    this._mostRecommendedFilmsComponent = new FilmsExtraSection(`Most commented`);
     this._showMoreButtonComponent = new ShowMoreButton();
-    this._filmListContainer = this._mainSectionComponent.element.querySelector(`.films-list__container`);
+    this._filmsContainerComponent = new FilmsContainer();
 
-    this._moviePresenter = {};
+    this._filmMainPresenter = {};
+    this._filmExtraPresenter = {};
+
+    this._extraSectionComponent = null;
+    this._extraSectionComponents = [];
 
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
     this._handleCardChange = this._handleCardChange.bind(this);
@@ -33,49 +36,71 @@ export default class MovieList {
 
     renderElement(this._boardContainer, this._boardComponent);
     renderElement(this._boardComponent, this._mainSectionComponent);
+    renderElement(this._mainSectionComponent, this._filmsContainerComponent);
 
     this._renderMainSection();
     this._renderExtraSections();
   }
 
   _renderMainSection() {
-    this._renderFilmCards(this._filmListContainer, 0, Math.min(this._films.length, FILMS_COUNT_PER_STEP));
+    this._renderFilmCards(0, Math.min(this._films.length, FILMS_COUNT_PER_STEP));
 
     if (this._films.length > FILMS_COUNT_PER_STEP) {
       this._renderShowMoreButton();
     }
   }
 
-  _renderFilmCards(filmListContainer, from, to) {
+  _renderFilmCards(from, to) {
     this._films
       .slice(from, to)
-      .forEach((film) => this._renderFilmCard(filmListContainer, film));
+      .forEach((film) => this._renderFilmCard(film));
   }
 
-  _renderFilmCard(filmListContainer, film) {
-    const moviePresenter = new MoviePresenter(this._boardContainer, filmListContainer, this._handleCardChange);
+  _renderFilmCard(film, filmListContainer = this._filmsContainerComponent, presenter = this._filmMainPresenter) {
+    const moviePresenter = new MoviePresenter(this._boardComponent, filmListContainer, this._handleCardChange);
     moviePresenter.init(film);
-    this._moviePresenter[film.id] = moviePresenter;
+    presenter[film.id] = moviePresenter;
   }
 
   _renderExtraSections() {
-    renderElement(this._boardComponent, this._topRatedFilmsComponent);
-    renderElement(this._boardComponent, this._mostRecommendedFilmsComponent);
+    const createFilmCategoryByAttribute = (attribute) => {
+      return this._films.slice().sort((prev, next) => next[attribute] - prev[attribute]).slice(0, EXTRA_SECTION_FILMS_COUNT);
+    };
 
-    const filmsExtraSections = this._boardComponent.element.querySelectorAll(`.films-list--extra`);
+    const topRatedFilms = createFilmCategoryByAttribute(`rating`);
+    const mostCommentedFilms = createFilmCategoryByAttribute(`commentsCount`);
 
-    filmsExtraSections.forEach((section) => {
-      const filmListContainer = section.querySelector(`.films-list__container`);
+    const renderExtraSection = (title, categoriesFilms) => {
+      this._extraSectionComponent = new FilmsExtraSection(title);
+      const extraSectionContainerComponent = new FilmsContainer();
 
-      for (let i = 0; i < EXTRA_SECTION_FILMS_COUNT; i++) {
-        this._renderFilmCard(filmListContainer, this._films[i]);
+      this._extraSectionComponents.push(this._extraSectionComponent);
+
+      renderElement(this._boardComponent, this._extraSectionComponent);
+      renderElement(this._extraSectionComponent, extraSectionContainerComponent);
+
+      for (let i = 0; i < categoriesFilms.length; i++) {
+        this._renderFilmCard(categoriesFilms[i], extraSectionContainerComponent, this._filmExtraPresenter);
       }
-    });
+    }
+
+    renderExtraSection(`Top rated`, topRatedFilms);
+    renderExtraSection(`Most commented`, mostCommentedFilms);
+  }
+
+  _clearExtraSection() {
+    this._extraSectionComponents.forEach(component => {
+      component.element.remove();
+      component.removeElement();
+    })
+
+    this._filmsExtraComponents = [];
+
+    this._filmExtraPresenter = {};
   }
 
   _handleShowMoreButtonClick() {
-    const filmListContainer = this._mainSectionComponent.element.querySelector(`.films-list__container`);
-    this._renderFilmCards(filmListContainer, this._filmsCount, this._filmsCount + FILMS_COUNT_PER_STEP);
+    this._renderFilmCards(this._filmsCount, this._filmsCount + FILMS_COUNT_PER_STEP);
 
     this._filmsCount += FILMS_COUNT_PER_STEP;
 
@@ -86,11 +111,19 @@ export default class MovieList {
 
   _handleCardChange(updatedFilmCard) {
     this._films = updateItem(this._films, updatedFilmCard);
-    this._moviePresenter[updatedFilmCard.id].init(updatedFilmCard);
+
+    if (this._filmMainPresenter[updatedFilmCard.id] === undefined) {
+      this._filmExtraPresenter[updatedFilmCard.id].init(updatedFilmCard);
+    } else {
+      this._filmMainPresenter[updatedFilmCard.id].init(updatedFilmCard);
+    }
+
+    this._clearExtraSection();
+    this._renderExtraSections();
   }
 
   _renderShowMoreButton() {
-    renderElement(this._boardComponent, this._showMoreButtonComponent);
+    renderElement(this._mainSectionComponent, this._showMoreButtonComponent);
 
     this._showMoreButtonComponent.setShowMoreClickHandler(this._handleShowMoreButtonClick);
   }

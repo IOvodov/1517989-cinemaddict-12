@@ -103,6 +103,7 @@ const generateComment = () => {
 };
 
 export const generateFilmCard = () => {
+  const comments = generateComment();
   return {
     id: generateId(),
     poster: getRandomElement(POSTERS),
@@ -113,7 +114,8 @@ export const generateFilmCard = () => {
     duration: generateFilmDuration(),
     description: generateDescription(),
     genres: getRandomGenres(),
-    comments: generateComment(),
+    comments,
+    commentsCount: comments.length,
     isWatched: Boolean(getRandomInteger(0, 1)),
     isFavorite: Boolean(getRandomInteger(0, 1)),
     isWatchList: Boolean(getRandomInteger(0, 1)),

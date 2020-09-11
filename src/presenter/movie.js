@@ -1,6 +1,6 @@
 import FilmCard from "../view/film-card.js";
 import FilmDetails from "../view/film-details.js";
-import {renderElement, addChild, deleteChild, remove} from "../utils/render.js";
+import {renderElement, replace, remove, addChild, de} from "../utils/render.js";
 
 export default class MoviePresenter {
   constructor(boardContainer, movieListContainer, changeData) {
@@ -19,14 +19,10 @@ export default class MoviePresenter {
   }
 
   init(filmCard) {
-    console.log('container', this._movieListContainer);
     this._filmCard = filmCard;
 
     const prevFilmCardComponent = this._filmCardComponent;
     const prevFilmDetailsComponent = this._filmDetailsComponent;
-    // console.log(this._filmCard);
-    // console.log(prevFilmCardComponent);
-    // console.log(prevFilmDetailsComponent);
 
     this._filmCardComponent = new FilmCard(filmCard);
     this._filmDetailsComponent = new FilmDetails(filmCard);
@@ -37,21 +33,17 @@ export default class MoviePresenter {
     this._filmCardComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._filmCardComponent.setFavoriteClickHandler(this._handleFavoriteClick);
 
-    if (!prevFilmCardComponent && !prevFilmDetailsComponent) {
+    if (!prevFilmCardComponent || !prevFilmDetailsComponent) {
       renderElement(this._movieListContainer, this._filmCardComponent);
       return;
     }
 
-    console.log(this._movieListContainer);
-
-    if (this._movieListContainer.contains(prevFilmCardComponent.element)) {
-      deleteChild(prevFilmCardComponent);
-      addChild(this._movieListContainer, this._filmCardComponent);
+    if (this._movieListContainer.element.contains(prevFilmCardComponent.element)) {
+      replace(this._filmCardComponent, prevFilmCardComponent);
     }
 
-    if (this._boardContainer.contains(prevFilmDetailsComponent.element)) {
-      deleteChild(prevFilmDetailsComponent);
-      addChild(this._boardContainer, this._filmDetailsComponent);
+    if (this._movieListContainer.element.contains(prevFilmDetailsComponent.element)) {
+      replace(this._filmDetailsComponent, prevFilmDetailsComponent);
     }
 
     remove(prevFilmCardComponent);
@@ -63,13 +55,12 @@ export default class MoviePresenter {
     document.body.classList.add(`hide-overflow`);
   }
 
-  _handleClosePopupClick(filmCard) {
+  _handleClosePopupClick() {
     this._hideFilmDetails();
     document.body.classList.remove(`hide-overflow`);
   }
 
   _handleWatchlistClick() {
-    console.log('fard', this._filmCard);
     this._filmChangeData(
       Object.assign(
         {},
@@ -106,10 +97,10 @@ export default class MoviePresenter {
   }
 
   _showFilmDetails() {
-    addChild(this._boardContainer, this._filmDetailsComponent);
+    replace(this._filmDetailsComponent, this._boardContainer);
   };
 
   _hideFilmDetails() {
-    deleteChild(this._filmDetailsComponent);
+    replace(this._boardContainer, this._filmDetailsComponent);
   };
 }
