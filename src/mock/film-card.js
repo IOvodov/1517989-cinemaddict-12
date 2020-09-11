@@ -1,7 +1,6 @@
 import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, AUTHORS, DIRECTORS, WRITERS, ACTORS} from '../const.js';
 import {getRandomInteger, getRandomElement, generateArrayFromSet} from '../utils/common.js';
-
-const generateId = () => '_' + Math.random().toString(36).substr(2, 9);
+import {nanoid} from 'nanoid';
 
 const generateDate = () => {
   const maxDaysGap = getRandomInteger(1, 365);
@@ -105,7 +104,7 @@ const generateComment = () => {
 export const generateFilmCard = () => {
   const comments = generateComment();
   return {
-    id: generateId(),
+    id: nanoid(),
     poster: getRandomElement(POSTERS),
     filmTitle: getRandomElement(FILMS_TITLES),
     originalFilmTitle: getRandomElement(FILMS_TITLES),
