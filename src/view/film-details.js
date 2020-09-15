@@ -1,5 +1,5 @@
 import {nanoid} from "nanoid";
-import {EmojiType, Keys} from "../const.js";
+import {EmojiType} from "../const.js";
 import {getFormattedDate} from "../utils/common.js";
 import SmartView from "./smart.js";
 

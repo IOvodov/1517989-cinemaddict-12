@@ -102,9 +102,3 @@ export const EmojiType = {
   PUKE: `puke`,
   ANGRY: `angry`,
 };
-
-export const Keys = {
-  ENTER: 'Enter',
-  CONTROL: 'Control',
-  CMD: 'Cmd'
-};
