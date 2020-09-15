@@ -49,8 +49,8 @@ const createNewCommentTemplate = (emoji) => {
         </label>
       </div>
     </div>`
-  )
-}
+  );
+};
 
 const createCommentsTemplate = (comments) => {
   return comments.map((comment) => `<li class="film-details__comment">
@@ -269,7 +269,7 @@ export default class FilmDetails extends SmartView {
     const emojies = this.element.querySelectorAll(`.film-details__emoji-item`);
     const message = this.element.querySelector(`.film-details__comment-input`);
 
-    emojies.forEach(emoji => {
+    emojies.forEach((emoji) => {
       emoji.addEventListener(`click`, this._emojiesToggleHandler);
     });
 

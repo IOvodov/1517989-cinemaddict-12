@@ -80,7 +80,7 @@ export default class MovieList {
       for (let i = 0; i < categoriesFilms.length; i++) {
         this._renderFilmCard(categoriesFilms[i], extraSectionContainerComponent, this._filmExtraPresenter);
       }
-    }
+    };
 
     renderExtraSection(`Top rated`, topRatedFilms);
     renderExtraSection(`Most commented`, mostCommentedFilms);

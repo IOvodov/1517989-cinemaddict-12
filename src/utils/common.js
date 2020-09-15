@@ -7,7 +7,7 @@ export const getRandomInteger = (from = 0, to = 1) => {
 
 export const getFormattedDate = (currentDate) => {
   return `${currentDate.getFullYear()}/${currentDate.getMonth()}/${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
-}
+};
 
 export const getRandomElement = (elements) => {
   const randomIndex = getRandomInteger(0, elements.length - 1);

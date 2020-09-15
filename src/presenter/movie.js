@@ -81,37 +81,37 @@ export default class MoviePresenter {
 
   _handleWatchlistClick() {
     this._filmChangeData(
-      Object.assign(
-        {},
-        this._filmCard,
-        {
-          isWatchList: !this._filmCard.isWatchList
-        }
-      )
+        Object.assign(
+            {},
+            this._filmCard,
+            {
+              isWatchList: !this._filmCard.isWatchList
+            }
+        )
     );
   }
 
   _handleWatchedClick() {
     this._filmChangeData(
-      Object.assign(
-        {},
-        this._filmCard,
-        {
-          isWatched: !this._filmCard.isWatched
-        }
-      )
+        Object.assign(
+            {},
+            this._filmCard,
+            {
+              isWatched: !this._filmCard.isWatched
+            }
+        )
     );
   }
 
   _handleFavoriteClick() {
     this._filmChangeData(
-      Object.assign(
-        {},
-        this._filmCard,
-        {
-          isFavorite: !this._filmCard.isFavorite
-        }
-      )
+        Object.assign(
+            {},
+            this._filmCard,
+            {
+              isFavorite: !this._filmCard.isFavorite
+            }
+        )
     );
   }
 
@@ -119,25 +119,25 @@ export default class MoviePresenter {
     replace(this._filmDetailsComponent, this._filmCardComponent);
     this._filmChangeMode();
     this._mode = Mode.POPUP;
-  };
+  }
 
   _hideFilmDetails() {
     replace(this._filmCardComponent, this._filmDetailsComponent);
     this._mode = Mode.DEFAULT;
-  };
+  }
 
   _handleFormSubmit(comment) {
     this._filmChangeData(
-      Object.assign(
-        {},
-        this._filmCard,
-        {
-          comments: [
-            ...this._filmCard.comments,
-            comment
-          ]
-        }
-      )
+        Object.assign(
+            {},
+            this._filmCard,
+            {
+              comments: [
+                ...this._filmCard.comments,
+                comment
+              ]
+            }
+        )
     );
   }
 }
