@@ -1,10 +1,9 @@
 import FilmCard from "../view/film-card.js";
 import FilmDetails from "../view/film-details.js";
-import {renderElement, replace, remove, addChild, de} from "../utils/render.js";
+import {renderElement, replace, remove} from "../utils/render.js";
 
 export default class MoviePresenter {
-  constructor(boardContainer, movieListContainer, changeData) {
-    this._boardContainer = boardContainer;
+  constructor(movieListContainer, changeData) {
     this._movieListContainer = movieListContainer;
     this._filmChangeData = changeData;
 
@@ -16,22 +15,28 @@ export default class MoviePresenter {
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
+    this._handleFormSubmit = this._handleFormSubmit.bind(this);
   }
 
   init(filmCard) {
     this._filmCard = filmCard;
+    let {comments} = filmCard;
 
     const prevFilmCardComponent = this._filmCardComponent;
     const prevFilmDetailsComponent = this._filmDetailsComponent;
 
     this._filmCardComponent = new FilmCard(filmCard);
-    this._filmDetailsComponent = new FilmDetails(filmCard);
+    this._filmDetailsComponent = new FilmDetails(filmCard, comments);
 
     this._filmCardComponent.setOpenPopupClickHandler(this._handleOpenPopupClick);
-    this._filmDetailsComponent.setClosePopupClickHandler(this._handleClosePopupClick);
     this._filmCardComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._filmCardComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._filmCardComponent.setFavoriteClickHandler(this._handleFavoriteClick);
+    this._filmDetailsComponent.setClosePopupClickHandler(this._handleClosePopupClick);
+    this._filmDetailsComponent.setWatchlistClickHandler(this._handleWatchlistClick);
+    this._filmDetailsComponent.setWatchedClickHandler(this._handleWatchedClick);
+    this._filmDetailsComponent.setFavoriteClickHandler(this._handleFavoriteClick);
+    this._filmDetailsComponent.setHandleCommentSubmit(this._handleFormSubmit);
 
     if (!prevFilmCardComponent || !prevFilmDetailsComponent) {
       renderElement(this._movieListContainer, this._filmCardComponent);
@@ -97,10 +102,25 @@ export default class MoviePresenter {
   }
 
   _showFilmDetails() {
-    replace(this._filmDetailsComponent, this._boardContainer);
+    replace(this._filmDetailsComponent, this._filmCardComponent);
   };
 
   _hideFilmDetails() {
-    replace(this._boardContainer, this._filmDetailsComponent);
+    replace(this._filmCardComponent, this._filmDetailsComponent);
   };
+
+  _handleFormSubmit(comment) {
+    this._filmChangeData(
+      Object.assign(
+        {},
+        this._filmCard,
+        {
+          comments: [
+            ...this._filmCard.comments,
+            comment
+          ]
+        }
+      )
+    );
+  }
 }

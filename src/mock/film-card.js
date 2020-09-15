@@ -1,5 +1,5 @@
 import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, AUTHORS, DIRECTORS, WRITERS, ACTORS} from '../const.js';
-import {getRandomInteger, getRandomElement, generateArrayFromSet} from '../utils/common.js';
+import {getRandomInteger, getRandomElement, generateArrayFromSet, getFormattedDate} from '../utils/common.js';
 import {nanoid} from 'nanoid';
 
 const generateDate = () => {
@@ -13,7 +13,7 @@ const generateDate = () => {
 
   currentDate = new Date(currentDate);
 
-  return `${currentDate.getFullYear()}/${currentDate.getMonth()}/${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+  return getFormattedDate(currentDate);
 };
 
 const generateReleaseDate = () => new Date(getRandomInteger(1895, 2019), getRandomInteger(1, 12), getRandomInteger(1, 30));
@@ -88,12 +88,13 @@ const generateComment = () => {
   const randomComments = [];
 
   for (let i = 0; i < getRandomInteger(MIN_COMMENTS_COUNT, MAX_COMMENTS_COUNT); i++) {
+    const id = nanoid();
     const emoji = getRandomElement(EMOJI);
     const date = generateDate();
     const author = getRandomElement(AUTHORS);
     const message = getRandomElement(SENTENCES);
 
-    const comment = {emoji, date, author, message};
+    const comment = {id, emoji, date, author, message};
 
     randomComments.push(comment);
   }

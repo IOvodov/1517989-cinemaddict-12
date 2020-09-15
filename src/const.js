@@ -55,10 +55,10 @@ export const SENTENCES = [
 ];
 
 export const EMOJI = [
-  `angry.png`,
-  `puke.png`,
-  `sleeping.png`,
-  `smile.png`
+  `angry`,
+  `puke`,
+  `sleeping`,
+  `smile`
 ];
 
 export const AUTHORS = [
@@ -95,3 +95,16 @@ export const ACTORS = [
 ];
 
 export const RANKS = [`novice`, `fan`, `movie buff`];
+
+export const EmojiType = {
+  SMILE: `smile`,
+  SLEEPING: `sleeping`,
+  PUKE: `puke`,
+  ANGRY: `angry`,
+};
+
+export const Keys = {
+  ENTER: 'Enter',
+  CONTROL: 'Control',
+  CMD: 'Cmd'
+};

@@ -25,7 +25,6 @@ export default class MovieList {
     this._filmExtraPresenter = {};
 
     this._extraSectionComponent = null;
-    this._extraSectionComponents = [];
 
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
     this._handleCardChange = this._handleCardChange.bind(this);
@@ -57,7 +56,7 @@ export default class MovieList {
   }
 
   _renderFilmCard(film, filmListContainer = this._filmsContainerComponent, presenter = this._filmMainPresenter) {
-    const moviePresenter = new MoviePresenter(this._boardComponent, filmListContainer, this._handleCardChange);
+    const moviePresenter = new MoviePresenter(filmListContainer, this._handleCardChange);
     moviePresenter.init(film);
     presenter[film.id] = moviePresenter;
   }
@@ -74,8 +73,6 @@ export default class MovieList {
       this._extraSectionComponent = new FilmsExtraSection(title);
       const extraSectionContainerComponent = new FilmsContainer();
 
-      this._extraSectionComponents.push(this._extraSectionComponent);
-
       renderElement(this._boardComponent, this._extraSectionComponent);
       renderElement(this._extraSectionComponent, extraSectionContainerComponent);
 
@@ -86,17 +83,6 @@ export default class MovieList {
 
     renderExtraSection(`Top rated`, topRatedFilms);
     renderExtraSection(`Most commented`, mostCommentedFilms);
-  }
-
-  _clearExtraSection() {
-    this._extraSectionComponents.forEach(component => {
-      component.element.remove();
-      component.removeElement();
-    })
-
-    this._filmsExtraComponents = [];
-
-    this._filmExtraPresenter = {};
   }
 
   _handleShowMoreButtonClick() {
@@ -112,14 +98,12 @@ export default class MovieList {
   _handleCardChange(updatedFilmCard) {
     this._films = updateItem(this._films, updatedFilmCard);
 
-    if (this._filmMainPresenter[updatedFilmCard.id] === undefined) {
-      this._filmExtraPresenter[updatedFilmCard.id].init(updatedFilmCard);
-    } else {
+    if (Object.keys(this._filmMainPresenter).includes(updatedFilmCard.id)) {
       this._filmMainPresenter[updatedFilmCard.id].init(updatedFilmCard);
     }
-
-    this._clearExtraSection();
-    this._renderExtraSections();
+    if (Object.keys(this._filmExtraPresenter).includes(updatedFilmCard.id)) {
+      this._filmExtraPresenter[updatedFilmCard.id].init(updatedFilmCard);
+    }
   }
 
   _renderShowMoreButton() {
