@@ -2,6 +2,7 @@ import Board from "../view/board.js";
 import ShowMoreButton from "../view/show-more-button.js";
 import FilmsMainSection from "../view/flims-main-section.js";
 import FilmsExtraSection from "../view/films-extra-section.js";
+import NoFilmsView from "../view/no-films.js";
 import {renderElement, remove} from "../utils/render.js";
 import {updateItem} from "../utils/common.js";
 import MoviePresenter from "./movie.js";
@@ -20,6 +21,7 @@ export default class MovieList {
     this._mainSectionComponent = new FilmsMainSection();
     this._showMoreButtonComponent = new ShowMoreButton();
     this._filmsContainerComponent = new FilmsContainer();
+    this._noFilmsComponent = new NoFilmsView();
 
     this._filmMainPresenter = {};
     this._filmExtraPresenter = {};
@@ -35,6 +37,12 @@ export default class MovieList {
     this._films = films.slice();
 
     renderElement(this._boardContainer, this._boardComponent);
+
+    if (!this._films.length) {
+      this._renderNoFilms();
+      return;
+    }
+
     renderElement(this._boardComponent, this._mainSectionComponent);
     renderElement(this._mainSectionComponent, this._filmsContainerComponent);
 
@@ -121,5 +129,9 @@ export default class MovieList {
     renderElement(this._mainSectionComponent, this._showMoreButtonComponent);
 
     this._showMoreButtonComponent.setShowMoreClickHandler(this._handleShowMoreButtonClick);
+  }
+
+  _renderNoFilms() {
+    renderElement(this._boardComponent, this._noFilmsComponent);
   }
 }
