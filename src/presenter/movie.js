@@ -2,13 +2,21 @@ import FilmCard from "../view/film-card.js";
 import FilmDetails from "../view/film-details.js";
 import {renderElement, replace, remove} from "../utils/render.js";
 
+const Mode = {
+  DEFAULT: `DEFAULT`,
+  POPUP: `POPUP`
+};
+
 export default class MoviePresenter {
-  constructor(movieListContainer, changeData) {
+  constructor(movieListContainer, changeData, changeMode) {
     this._movieListContainer = movieListContainer;
     this._filmChangeData = changeData;
+    this._filmChangeMode = changeMode;
 
     this._filmCardComponent = null;
     this._filmDetailsComponent = null;
+
+    this._mode = Mode.DEFAULT;
 
     this._handleOpenPopupClick = this._handleOpenPopupClick.bind(this);
     this._handleClosePopupClick = this._handleClosePopupClick.bind(this);
@@ -43,16 +51,22 @@ export default class MoviePresenter {
       return;
     }
 
-    if (this._movieListContainer.element.contains(prevFilmCardComponent.element)) {
+    if (this._mode === Mode.DEFAULT) {
       replace(this._filmCardComponent, prevFilmCardComponent);
     }
 
-    if (this._movieListContainer.element.contains(prevFilmDetailsComponent.element)) {
+    if (this._mode === Mode.POPUP) {
       replace(this._filmDetailsComponent, prevFilmDetailsComponent);
     }
 
     remove(prevFilmCardComponent);
     remove(prevFilmDetailsComponent);
+  }
+
+  resetView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._hideFilmDetails();
+    }
   }
 
   _handleOpenPopupClick() {
@@ -103,10 +117,13 @@ export default class MoviePresenter {
 
   _showFilmDetails() {
     replace(this._filmDetailsComponent, this._filmCardComponent);
+    this._filmChangeMode();
+    this._mode = Mode.POPUP;
   };
 
   _hideFilmDetails() {
     replace(this._filmCardComponent, this._filmDetailsComponent);
+    this._mode = Mode.DEFAULT;
   };
 
   _handleFormSubmit(comment) {

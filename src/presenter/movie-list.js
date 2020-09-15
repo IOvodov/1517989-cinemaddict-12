@@ -28,6 +28,7 @@ export default class MovieList {
 
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
     this._handleCardChange = this._handleCardChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
   }
 
   init(films) {
@@ -56,7 +57,7 @@ export default class MovieList {
   }
 
   _renderFilmCard(film, filmListContainer = this._filmsContainerComponent, presenter = this._filmMainPresenter) {
-    const moviePresenter = new MoviePresenter(filmListContainer, this._handleCardChange);
+    const moviePresenter = new MoviePresenter(filmListContainer, this._handleCardChange, this._handleModeChange);
     moviePresenter.init(film);
     presenter[film.id] = moviePresenter;
   }
@@ -104,6 +105,16 @@ export default class MovieList {
     if (Object.keys(this._filmExtraPresenter).includes(updatedFilmCard.id)) {
       this._filmExtraPresenter[updatedFilmCard.id].init(updatedFilmCard);
     }
+  }
+
+  _handleModeChange() {
+    Object
+       .values(this._filmMainPresenter)
+       .forEach((presenter) => presenter.resetView());
+
+    Object
+      .values(this._filmExtraPresenter)
+      .forEach((presenter) => presenter.resetView());
   }
 
   _renderShowMoreButton() {
