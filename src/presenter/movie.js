@@ -63,6 +63,11 @@ export default class MoviePresenter {
     remove(prevFilmDetailsComponent);
   }
 
+  destroy() {
+    remove(this._filmCardComponent);
+    remove(this._filmDetailsComponent);
+  }
+
   resetView() {
     if (this._mode !== Mode.DEFAULT) {
       this._hideFilmDetails();

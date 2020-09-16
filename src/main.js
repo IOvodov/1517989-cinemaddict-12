@@ -20,7 +20,6 @@ const footer = document.querySelector(`.footer`);
 
 renderElement(header, new UserProfile(profile));
 renderElement(main, new Menu(filter));
-renderElement(main, new Sort());
 
 const movieListPresenter = new MovieList(main);
 movieListPresenter.init(filmCards);
