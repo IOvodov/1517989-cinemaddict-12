@@ -102,3 +102,9 @@ export const EmojiType = {
   PUKE: `puke`,
   ANGRY: `angry`,
 };
+
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `date-down`,
+  RATING: `rating-down`,
+};
