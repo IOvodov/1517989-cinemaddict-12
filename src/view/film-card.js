@@ -1,6 +1,5 @@
 import AbstractView from "./abstract.js";
-
-const getReleaseYear = (releaseDate) => releaseDate.getFullYear();
+import {formatDuration, formatReleaseYear} from "../utils/film-card.js";
 
 const isControlsItemActive = (flag) => flag ? `film-card__controls-item--active` : ``;
 
@@ -24,8 +23,8 @@ const createFilmCardTemplate = (filmCard) => {
       <h3 class="film-card__title">${filmTitle}</h3>
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
-        <span class="film-card__year">${getReleaseYear(releaseDate)}</span>
-        <span class="film-card__duration">${duration}</span>
+        <span class="film-card__year">${formatReleaseYear(releaseDate)}</span>
+        <span class="film-card__duration">${formatDuration(duration)}</span>
         <span class="film-card__genre">${genres[0]}</span>
       </p>
       <img src="${poster}" alt="" class="film-card__poster">
