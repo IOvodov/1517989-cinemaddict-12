@@ -1,5 +1,5 @@
 import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, AUTHORS, DIRECTORS, WRITERS, ACTORS} from '../const.js';
-import {getRandomInteger, getRandomElement, generateArrayFromSet, getFormattedDate} from '../utils/common.js';
+import {getRandomInteger, getRandomElement, generateArrayFromSet} from '../utils/common.js';
 import {nanoid} from 'nanoid';
 
 const generateDate = () => {

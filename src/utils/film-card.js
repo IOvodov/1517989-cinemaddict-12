@@ -17,7 +17,7 @@ export const formatDuration = (commonMinutesCount) => {
   const formatMinutes = minutes > 0 ? `${minutes}m` : ``;
 
   return formatHours + ` ` + formatMinutes;
-}
+};
 
 export const formatReleaseYear = (date) => {
   if (!(date instanceof Date)) {
@@ -25,7 +25,7 @@ export const formatReleaseYear = (date) => {
   }
 
   return moment(date).format(`YYYY`);
-}
+};
 
 export const formatReleaseDate = (date) => {
   if (!(date instanceof Date)) {
