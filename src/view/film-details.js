@@ -189,6 +189,7 @@ export default class FilmDetails extends SmartView {
     this._emojiesToggleHandler = this._emojiesToggleHandler.bind(this);
     this._messageInputHandler = this._messageInputHandler.bind(this);
     this._commentSubmitHandler = this._commentSubmitHandler.bind(this);
+    this._runOnKeys = this._runOnKeys.bind(this);
     this._commentSend = this._commentSend.bind(this);
 
     this._setInnerHandlers();
@@ -277,15 +278,15 @@ export default class FilmDetails extends SmartView {
   }
 
   _commentSubmitHandler() {
-    function runOnKeys(func) {
-      document.addEventListener(`keydown`, function (event) {
-        if (event.key === `Enter` && (event.ctrlKey || event.metaKey)) {
-          func();
-        }
-      });
-    }
+    this._runOnKeys(this._commentSend);
+  }
 
-    runOnKeys(this._commentSend);
+  _runOnKeys(func) {
+    document.addEventListener(`keydown`, function (event) {
+      if (event.key === `Enter` && (event.ctrlKey || event.metaKey)) {
+        func();
+      }
+    });
   }
 
   _commentSend() {
