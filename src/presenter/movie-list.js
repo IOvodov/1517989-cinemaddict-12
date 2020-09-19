@@ -2,9 +2,10 @@ import Board from "../view/board.js";
 import ShowMoreButton from "../view/show-more-button.js";
 import FilmsMainSection from "../view/flims-main-section.js";
 import FilmsExtraSection from "../view/films-extra-section.js";
-import FilmCard from "../view/film-card.js";
-import FilmDefails from "../view/film-details.js";
-import {renderElement, remove, addChild, deleteChild} from "../utils/render.js";
+import {renderElement, remove} from "../utils/render.js";
+import {updateItem} from "../utils/common.js";
+import MoviePresenter from "./movie.js";
+import FilmsContainer from "../view/films-container.js";
 
 const FILMS_COUNT_PER_STEP = 5;
 const EXTRA_SECTION_FILMS_COUNT = 2;
@@ -17,95 +18,107 @@ export default class MovieList {
 
     this._boardComponent = new Board();
     this._mainSectionComponent = new FilmsMainSection();
-    this._topRatedFilmsComponent = new FilmsExtraSection(`Top rated`);
-    this._mostRecommendedFilmsComponent = new FilmsExtraSection(`Most commented`);
     this._showMoreButtonComponent = new ShowMoreButton();
-    this._filmsListContainer = this._mainSectionComponent.element.querySelector(`.films-list__container`);
+    this._filmsContainerComponent = new FilmsContainer();
+
+    this._filmMainPresenter = {};
+    this._filmExtraPresenter = {};
+
+    this._extraSectionComponent = null;
 
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
+    this._handleCardChange = this._handleCardChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
   }
 
   init(films) {
-    this._filmCards = films.slice();
+    this._films = films.slice();
 
     renderElement(this._boardContainer, this._boardComponent);
     renderElement(this._boardComponent, this._mainSectionComponent);
+    renderElement(this._mainSectionComponent, this._filmsContainerComponent);
 
     this._renderMainSection();
     this._renderExtraSections();
   }
 
   _renderMainSection() {
-    this._renderFilmCards(this._filmsListContainer, 0, Math.min(this._filmCards.length, FILMS_COUNT_PER_STEP));
+    this._renderFilmCards(0, Math.min(this._films.length, FILMS_COUNT_PER_STEP));
 
-    if (this._filmCards.length > FILMS_COUNT_PER_STEP) {
+    if (this._films.length > FILMS_COUNT_PER_STEP) {
       this._renderShowMoreButton();
     }
   }
 
-  _renderFilmCards(container, from, to) {
-    this._filmCards
+  _renderFilmCards(from, to) {
+    this._films
       .slice(from, to)
-      .forEach((film) => this._renderFilmCard(container, film));
+      .forEach((film) => this._renderFilmCard(film));
   }
 
-  _renderFilmCard(container, film) {
-    const filmCardComponent = new FilmCard(film);
-
-    filmCardComponent.setOpenPopupClickHandler(() => {
-      this._renderFilmDetails(this._boardComponent, film);
-      document.body.classList.add(`hide-overflow`);
-    });
-
-    renderElement(container, filmCardComponent);
-  }
-
-  _renderFilmDetails(boardComponent, film) {
-    const filmDetailsComponent = new FilmDefails(film);
-
-    const showFilmDetails = () => {
-      addChild(boardComponent, filmDetailsComponent);
-    };
-
-    const hideFilmDetails = () => {
-      deleteChild(filmDetailsComponent);
-    };
-
-    filmDetailsComponent.setClosePopupClickHandler(() => {
-      hideFilmDetails();
-      document.body.classList.remove(`hide-overflow`);
-    });
-
-    showFilmDetails();
+  _renderFilmCard(film, filmListContainer = this._filmsContainerComponent, presenter = this._filmMainPresenter) {
+    const moviePresenter = new MoviePresenter(filmListContainer, this._handleCardChange, this._handleModeChange);
+    moviePresenter.init(film);
+    presenter[film.id] = moviePresenter;
   }
 
   _renderExtraSections() {
-    renderElement(this._boardComponent, this._topRatedFilmsComponent);
-    renderElement(this._boardComponent, this._mostRecommendedFilmsComponent);
+    const createFilmCategoryByAttribute = (attribute) => {
+      return this._films.slice().sort((prev, next) => next[attribute] - prev[attribute]).slice(0, EXTRA_SECTION_FILMS_COUNT);
+    };
 
-    const filmsExtraSections = this._boardComponent.element.querySelectorAll(`.films-list--extra`);
+    const topRatedFilms = createFilmCategoryByAttribute(`rating`);
+    const mostCommentedFilms = createFilmCategoryByAttribute(`commentsCount`);
 
-    filmsExtraSections.forEach((section) => {
-      const filmsListContainer = section.querySelector(`.films-list__container`);
+    const renderExtraSection = (title, categoriesFilms) => {
+      this._extraSectionComponent = new FilmsExtraSection(title);
+      const extraSectionContainerComponent = new FilmsContainer();
 
-      for (let i = 0; i < EXTRA_SECTION_FILMS_COUNT; i++) {
-        this._renderFilmCard(filmsListContainer, this._filmCards[i]);
+      renderElement(this._boardComponent, this._extraSectionComponent);
+      renderElement(this._extraSectionComponent, extraSectionContainerComponent);
+
+      for (let i = 0; i < categoriesFilms.length; i++) {
+        this._renderFilmCard(categoriesFilms[i], extraSectionContainerComponent, this._filmExtraPresenter);
       }
-    });
+    };
+
+    renderExtraSection(`Top rated`, topRatedFilms);
+    renderExtraSection(`Most commented`, mostCommentedFilms);
   }
 
   _handleShowMoreButtonClick() {
-    this._renderFilmCards(this._filmsListContainer, this._filmsCount, this._filmsCount + FILMS_COUNT_PER_STEP);
+    this._renderFilmCards(this._filmsCount, this._filmsCount + FILMS_COUNT_PER_STEP);
 
     this._filmsCount += FILMS_COUNT_PER_STEP;
 
-    if (this._filmsCount >= this._filmCards.length) {
+    if (this._filmsCount >= this._films.length) {
       remove(this._showMoreButtonComponent);
     }
   }
 
+  _handleCardChange(updatedFilmCard) {
+    this._films = updateItem(this._films, updatedFilmCard);
+
+    if (Object.keys(this._filmMainPresenter).includes(updatedFilmCard.id)) {
+      this._filmMainPresenter[updatedFilmCard.id].init(updatedFilmCard);
+    }
+    if (Object.keys(this._filmExtraPresenter).includes(updatedFilmCard.id)) {
+      this._filmExtraPresenter[updatedFilmCard.id].init(updatedFilmCard);
+    }
+  }
+
+  _handleModeChange() {
+    Object
+       .values(this._filmMainPresenter)
+       .forEach((presenter) => presenter.resetView());
+
+    Object
+      .values(this._filmExtraPresenter)
+      .forEach((presenter) => presenter.resetView());
+  }
+
   _renderShowMoreButton() {
-    renderElement(this._boardComponent, this._showMoreButtonComponent);
+    renderElement(this._mainSectionComponent, this._showMoreButtonComponent);
 
     this._showMoreButtonComponent.setShowMoreClickHandler(this._handleShowMoreButtonClick);
   }

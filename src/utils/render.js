@@ -31,34 +31,22 @@ export const renderElement = (container, child, position = RenderPosition.BEFORE
   }
 };
 
-export const addChild = (parent, child) => {
-  if (parent instanceof AbstractView) {
-    parent = parent.element;
+export const replace = (newChild, oldChild) => {
+  if (oldChild instanceof AbstractView) {
+    oldChild = oldChild.element;
   }
 
-  if (child instanceof AbstractView) {
-    child = child.element;
+  if (newChild instanceof AbstractView) {
+    newChild = newChild.element;
   }
 
-  if (!parent || !child) {
-    throw new Error(`Can't add child`);
+  const parent = oldChild.parentElement;
+
+  if (!parent || !oldChild || !newChild) {
+    throw new Error(`Can't replace unexisting elements`);
   }
 
-  parent.appendChild(child);
-};
-
-export const deleteChild = (child) => {
-  if (child instanceof AbstractView) {
-    child = child.element;
-  }
-
-  const parent = child.parentElement;
-
-  if (!parent || !child) {
-    throw new Error(`Can't remove child`);
-  }
-
-  parent.removeChild(child);
+  parent.replaceChild(newChild, oldChild);
 };
 
 export const remove = (component) => {

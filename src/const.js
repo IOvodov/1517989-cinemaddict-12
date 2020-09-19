@@ -54,11 +54,18 @@ export const SENTENCES = [
   `Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`
 ];
 
+export const EmojiType = {
+  SMILE: `smile`,
+  SLEEPING: `sleeping`,
+  PUKE: `puke`,
+  ANGRY: `angry`,
+};
+
 export const EMOJI = [
-  `angry.png`,
-  `puke.png`,
-  `sleeping.png`,
-  `smile.png`
+  EmojiType.ANGRY,
+  EmojiType.PUKE,
+  EmojiType.SLEEPING,
+  EmojiType.SMILE
 ];
 
 export const AUTHORS = [

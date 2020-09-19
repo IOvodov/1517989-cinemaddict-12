@@ -5,6 +5,10 @@ export const getRandomInteger = (from = 0, to = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
+export const getFormattedDate = (currentDate) => {
+  return `${currentDate.getFullYear()}/${currentDate.getMonth()}/${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+};
+
 export const getRandomElement = (elements) => {
   const randomIndex = getRandomInteger(0, elements.length - 1);
 
@@ -21,4 +25,18 @@ export const generateArrayFromSet = (array, minElementsCount, maxElementsCount) 
   }
 
   return Array.from(newSet);
+};
+
+export const updateItem = (items, update) => {
+  const index = items.findIndex((item) => item.id === update.id);
+
+  if (index === -1) {
+    return items;
+  }
+
+  return [
+    ...items.slice(0, index),
+    update,
+    ...items.slice(index + 1)
+  ];
 };
