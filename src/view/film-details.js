@@ -19,7 +19,7 @@ const generateFileName = (name, extension = FileFormat.PNG) => {
   const generatedName = name;
 
   return generatedName.concat(`.`, extension);
-}
+};
 
 const isControlsItemActive = (flag) => flag ? `checked` : ``;
 

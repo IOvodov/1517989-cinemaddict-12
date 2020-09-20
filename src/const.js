@@ -110,5 +110,5 @@ export const SortType = {
 };
 
 export const FileFormat = {
-  PNG: 'png',
-}
+  PNG: `png`,
+};
