@@ -1,5 +1,5 @@
 import {nanoid} from "nanoid";
-import {EmojiType} from "../const.js";
+import {EmojiType, FileFormat} from "../const.js";
 import {getFormattedDate} from "../utils/common.js";
 import SmartView from "./smart.js";
 
@@ -15,37 +15,43 @@ const formatReleaseDate = (releaseDate) => {
   return `${date} ${month} ${year}`;
 };
 
+const generateFileName = (name, extension = FileFormat.PNG) => {
+  const generatedName = name;
+
+  return generatedName.concat(`.`, extension);
+}
+
 const isControlsItemActive = (flag) => flag ? `checked` : ``;
 
 const createNewCommentTemplate = (emoji) => {
   const message = ``;
-  let currentEmoji = emoji ? emoji : EmojiType.SMILE;
+  let currentEmoji = emoji || EmojiType.SMILE;
   let currentCommentEmoji = emoji;
 
   return (
     `<div class="film-details__new-comment">
       <div for="add-emoji" class="film-details__add-emoji-label" data-emoji="${currentCommentEmoji}">
-        ${currentCommentEmoji ? `<img src="images/emoji/${currentCommentEmoji}.png" width="55" height="55" alt="emoji-${currentCommentEmoji}"></img>` : ``}
+        ${currentCommentEmoji ? `<img src="images/emoji/${generateFileName(currentCommentEmoji)}" width="55" height="55" alt="emoji-${currentCommentEmoji}"></img>` : ``}
       </div>
       <label class="film-details__comment-label">
         <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${message}</textarea>
       </label>
       <div class="film-details__emoji-list">
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile" ${currentEmoji === EmojiType.SMILE ? `checked` : ``}>
-        <label class="film-details__emoji-label" for="emoji-smile">
-          <img src="../images/emoji/smile.png" alt="emoji" width="30" height="30">
+        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${EmojiType.SMILE}" value="${EmojiType.SMILE}" ${currentEmoji === EmojiType.SMILE ? `checked` : ``}>
+        <label class="film-details__emoji-label" for="emoji-${EmojiType.SMILE}">
+          <img src="../images/emoji/${generateFileName(EmojiType.SMILE)}" alt="emoji" width="30" height="30">
         </label>
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping" ${currentEmoji === EmojiType.SLEEPING ? `checked` : ``}>
-        <label class="film-details__emoji-label" for="emoji-sleeping">
-          <img src="../images/emoji/sleeping.png" alt="emoji" width="30" height="30">
+        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${EmojiType.SLEEPING}" value="${EmojiType.SLEEPING}" ${currentEmoji === EmojiType.SLEEPING ? `checked` : ``}>
+        <label class="film-details__emoji-label" for="emoji-${EmojiType.SLEEPING}">
+          <img src="../images/emoji/${generateFileName(EmojiType.SLEEPING)}" alt="emoji" width="30" height="30">
         </label>
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke" ${currentEmoji === EmojiType.PUKE ? `checked` : ``}>
-        <label class="film-details__emoji-label" for="emoji-puke">
-          <img src="../images/emoji/puke.png" alt="emoji" width="30" height="30">
+        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${EmojiType.PUKE}" value="${EmojiType.PUKE}" ${currentEmoji === EmojiType.PUKE ? `checked` : ``}>
+        <label class="film-details__emoji-label" for="emoji-${EmojiType.PUKE}">
+          <img src="../images/emoji/${generateFileName(EmojiType.PUKE)}" alt="emoji" width="30" height="30">
         </label>
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry" ${currentEmoji === EmojiType.ANGRY ? `checked` : ``}>
-        <label class="film-details__emoji-label" for="emoji-angry">
-          <img src="../images/emoji/angry.png" alt="emoji" width="30" height="30">
+        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${EmojiType.ANGRY}" value="${EmojiType.ANGRY}" ${currentEmoji === EmojiType.ANGRY ? `checked` : ``}>
+        <label class="film-details__emoji-label" for="emoji-${EmojiType.ANGRY}">
+          <img src="../images/emoji/${generateFileName(EmojiType.ANGRY)}" alt="emoji" width="30" height="30">
         </label>
       </div>
     </div>`
@@ -55,7 +61,7 @@ const createNewCommentTemplate = (emoji) => {
 const createCommentsTemplate = (comments) => {
   return comments.map((comment) => `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
-      <img src="../images/emoji/${comment.emoji}.png" alt="emoji-${comment.emoji}" width="55" height="55">
+      <img src="../images/emoji/${generateFileName(comment.emoji)}" alt="emoji-${comment.emoji}" width="55" height="55">
     </span>
     <div>
       <p class="film-details__comment-text">${comment.message}</p>

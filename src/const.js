@@ -108,3 +108,7 @@ export const SortType = {
   DATE: `date-down`,
   RATING: `rating-down`,
 };
+
+export const FileFormat = {
+  PNG: 'png',
+}
