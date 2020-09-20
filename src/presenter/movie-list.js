@@ -11,7 +11,7 @@ const FILMS_COUNT_PER_STEP = 5;
 const EXTRA_SECTION_FILMS_COUNT = 2;
 
 export default class MovieList {
-  constructor(boardContainer) {
+  constructor(boardContainer, filmsModel) {
     this._boardContainer = boardContainer;
     this._filmsCount = FILMS_COUNT_PER_STEP;
     this._extraSectionFilmsCount = EXTRA_SECTION_FILMS_COUNT;
@@ -25,6 +25,8 @@ export default class MovieList {
     this._filmExtraPresenter = {};
 
     this._extraSectionComponent = null;
+
+    this._filmsModel = filmsModel;
 
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
     this._handleCardChange = this._handleCardChange.bind(this);
@@ -48,6 +50,10 @@ export default class MovieList {
     if (this._films.length > FILMS_COUNT_PER_STEP) {
       this._renderShowMoreButton();
     }
+  }
+
+  _getFilms() {
+    return this._filmsModel.films;
   }
 
   _renderFilmCards(from, to) {

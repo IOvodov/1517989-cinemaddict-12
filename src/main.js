@@ -7,12 +7,16 @@ import {renderElement} from "./utils/render.js";
 import {generateUserProfile} from "./mock/user-profile.js";
 import {generateFilmsFilter} from "./mock/filter.js";
 import MovieList from "./presenter/movie-list.js";
+import FilmsModel from "./model/films.js";
 
 const FILM_CARDS_COUNT = 20;
 
 const filmCards = new Array(FILM_CARDS_COUNT).fill().map(generateFilmCard);
 const profile = generateUserProfile();
 const filter = generateFilmsFilter(filmCards);
+
+const filmsModel = new FilmsModel();
+filmsModel.films = filmCards;
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
@@ -22,7 +26,7 @@ renderElement(header, new UserProfile(profile));
 renderElement(main, new Menu(filter));
 renderElement(main, new Sort());
 
-const movieListPresenter = new MovieList(main);
+const movieListPresenter = new MovieList(main, filmsModel);
 movieListPresenter.init(filmCards);
 
 renderElement(footer, new FooterStatistics(filmCards.length));
