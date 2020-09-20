@@ -24,6 +24,7 @@ export default class MoviePresenter {
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
   init(filmCard) {
@@ -117,12 +118,14 @@ export default class MoviePresenter {
 
   _showFilmDetails() {
     replace(this._filmDetailsComponent, this._filmCardComponent);
+    document.addEventListener(`keydown`, this._escKeyDownHandler);
     this._filmChangeMode();
     this._mode = Mode.POPUP;
   }
 
   _hideFilmDetails() {
     replace(this._filmCardComponent, this._filmDetailsComponent);
+    document.removeEventListener(`keydown`, this._escKeyDownHandler);
     this._mode = Mode.DEFAULT;
   }
 
@@ -139,5 +142,13 @@ export default class MoviePresenter {
             }
         )
     );
+  }
+
+  _escKeyDownHandler(event) {
+    if (event.key === `Escape` || event.key === `Esc`) {
+      event.preventDefault();
+      this._hideFilmDetails();
+      document.body.classList.remove(`hide-overflow`);
+    }
   }
 }
