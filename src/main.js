@@ -1,6 +1,5 @@
 import UserProfile from "./view/user-profile.js";
 import Menu from "./view/site-menu.js";
-import Sort from "./view/sorting.js";
 import FooterStatistics from "./view/footer-statistics.js";
 import {generateFilmCard} from "./mock/film-card.js";
 import {renderElement} from "./utils/render.js";
@@ -24,7 +23,6 @@ const footer = document.querySelector(`.footer`);
 
 renderElement(header, new UserProfile(profile));
 renderElement(main, new Menu(filter));
-renderElement(main, new Sort());
 
 const movieListPresenter = new MovieList(main, filmsModel);
 movieListPresenter.init(filmCards);
