@@ -102,3 +102,13 @@ export const ACTORS = [
 ];
 
 export const RANKS = [`novice`, `fan`, `movie buff`];
+
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `date-down`,
+  RATING: `rating-down`,
+};
+
+export const FileFormat = {
+  PNG: `png`,
+};
