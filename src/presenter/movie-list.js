@@ -46,7 +46,6 @@ export default class MovieList {
   init() {
     this._filmsModel.addObserver(this._handleModelEvent);
 
-    this._renderSorting();
     this._renderBoard();
   }
 
@@ -56,19 +55,18 @@ export default class MovieList {
     }
 
     this._sortingComponent = new SortView(this._currentSortType);
-    renderElement(this._boardContainer, this._sortingComponent);
 
     this._sortingComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
+
+    renderElement(this._boardContainer, this._sortingComponent);
   }
 
   _getFilms() {
     switch (this._currentSortType) {
       case SortType.RATING:
-        this._filmsModel.getFilms().sort(sortFilmRating).reverse();
-        break;
+        return this._filmsModel.getFilms().slice().sort(sortFilmRating).reverse();
       case SortType.DATE:
-        this._filmsModel.getFilms().sort(sortFilmDate).reverse();
-        break;
+        return this._filmsModel.getFilms().slice().sort(sortFilmDate).reverse();
     }
 
     return this._filmsModel.getFilms();
@@ -172,19 +170,8 @@ export default class MovieList {
         this._renderBoard();
         break;
       case UpdateType.MAJOR:
-        this._clearBoard({resetRenderedTaskCount: true, resetSortType: true});
+        this._clearBoard({resetRenderedFilmsCount: true, resetSortType: true});
         this._renderBoard();
-        break;
-      case UpdateType.DELETE_COMMENT:
-      case UpdateType.ADD_COMMENT:
-        if (Object.keys(this._filmMainPresenter).includes(updateData.id)) {
-          this._filmMainPresenter[updateData.id].init(updateData);
-        }
-
-        if (Object.keys(this._filmExtraPresenter).includes(updateData.id)) {
-          this._filmExtraPresenter[updateData.id].init(updateData);
-        }
-
         break;
     }
   }
@@ -205,11 +192,11 @@ export default class MovieList {
     }
 
     this._currentSortType = sortType;
-    this._clearBoard({resetRenderedTaskCount: true});
+    this._clearBoard({resetRenderedFilmsCount: true});
     this._renderBoard();
   }
 
-  _clearBoard({resetRenderedTaskCount = false, resetSortType = false} = {}) {
+  _clearBoard({resetRenderedFilmsCount = false, resetSortType = false} = {}) {
     const filmCardsCount = this._getFilms().length;
 
     Object
@@ -224,13 +211,13 @@ export default class MovieList {
     remove(this._showMoreButtonComponent);
     remove(this._boardComponent);
 
-    if (resetRenderedTaskCount) {
-      this._renderedTaskCount = TASK_COUNT_PER_STEP;
+    if (resetRenderedFilmsCount) {
+      this.resetRenderedFilmsCount = FILMS_COUNT_PER_STEP;
     } else {
       // На случай, если перерисовка доски вызвана
       // уменьшением количества задач (например, удаление или перенос в архив)
       // нужно скорректировать число показанных задач
-      this._renderedTaskCount = Math.min(filmCardsCount, this._renderedTaskCount);
+      this.resetRenderedFilmsCount = Math.min(filmCardsCount, this.resetRenderedFilmsCount);
     }
 
     if (resetSortType) {
@@ -239,6 +226,8 @@ export default class MovieList {
   }
 
   _renderBoard() {
+    this._renderSorting();
+
     if (this._boardComponent) {
       remove(this._boardComponent);
     }
