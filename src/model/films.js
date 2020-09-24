@@ -7,17 +7,15 @@ export default class FilmsModel extends Observer {
     this._films = [];
   }
 
-  set films(updateType, filmsList) {
+  setFilms(filmsList) {
     this._films = filmsList.slice();
-
-    this._notifyListeners(updateType);
   }
 
-  get films() {
+  getFilms() {
     return this._films;
   }
 
-  updateFilmCard = (updateType, update) => {
+  updateFilmCard(updateType, update) {
     const index = this._films.findIndex((film) => film.id === update.id);
 
     if (index === -1) {

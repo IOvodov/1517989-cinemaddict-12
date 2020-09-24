@@ -1,6 +1,7 @@
 import FilmCard from "../view/film-card.js";
 import FilmDetails from "../view/film-details.js";
 import {renderElement, replace, remove} from "../utils/render.js";
+import { UpdateType, UserAction } from "../const.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
@@ -87,6 +88,8 @@ export default class MoviePresenter {
 
   _handleWatchlistClick() {
     this._filmChangeData(
+        UserAction.UPDATE_FILM,
+        UpdateType.PATCH,
         Object.assign(
             {},
             this._filmCard,
@@ -99,6 +102,8 @@ export default class MoviePresenter {
 
   _handleWatchedClick() {
     this._filmChangeData(
+        UserAction.UPDATE_FILM,
+        UpdateType.PATCH,
         Object.assign(
             {},
             this._filmCard,
@@ -111,6 +116,8 @@ export default class MoviePresenter {
 
   _handleFavoriteClick() {
     this._filmChangeData(
+        UserAction.UPDATE_FILM,
+        UpdateType.PATCH,
         Object.assign(
             {},
             this._filmCard,
@@ -136,6 +143,8 @@ export default class MoviePresenter {
 
   _handleFormSubmit(comment) {
     this._filmChangeData(
+        UserAction.ADD_COMMENT,
+        UpdateType.PATCH,
         Object.assign(
             {},
             this._filmCard,

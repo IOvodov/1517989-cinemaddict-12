@@ -15,7 +15,7 @@ const profile = generateUserProfile();
 const filter = generateFilmsFilter(filmCards);
 
 const filmsModel = new FilmsModel();
-filmsModel.films = filmCards;
+filmsModel.setFilms(filmCards);
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
@@ -25,6 +25,6 @@ renderElement(header, new UserProfile(profile));
 renderElement(main, new Menu(filter));
 
 const movieListPresenter = new MovieList(main, filmsModel);
-movieListPresenter.init(filmCards);
+movieListPresenter.init();
 
 renderElement(footer, new FooterStatistics(filmCards.length));
