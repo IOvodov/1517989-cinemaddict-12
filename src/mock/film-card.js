@@ -1,5 +1,5 @@
 import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, AUTHORS, DIRECTORS, WRITERS, ACTORS} from '../const.js';
-import {getRandomInteger, getRandomElement, generateArrayFromSet, getFormattedDate} from '../utils/common.js';
+import {getRandomInteger, getRandomElement, generateArrayFromSet} from '../utils/common.js';
 import {nanoid} from 'nanoid';
 
 const generateDate = () => {
@@ -13,7 +13,7 @@ const generateDate = () => {
 
   currentDate = new Date(currentDate);
 
-  return getFormattedDate(currentDate);
+  return currentDate;
 };
 
 const generateReleaseDate = () => new Date(getRandomInteger(1895, 2019), getRandomInteger(1, 12), getRandomInteger(1, 30));
@@ -46,16 +46,10 @@ const getRandomWriters = () => {
 };
 
 const generateFilmDuration = () => {
-  const MAX_FILM_HOUR = 10;
-  const MINUTES_IN_HOUR = 60;
+  const MIN_FILM_MINUTES = 0;
+  const MAX_FILM_MINUTES = 600;
 
-  const randomHour = getRandomInteger(0, MAX_FILM_HOUR);
-  const randomMinutes = getRandomInteger(0, MINUTES_IN_HOUR);
-
-  const hourToString = randomHour > 0 ? `${randomHour}h` : ``;
-  const minutesToString = randomMinutes > 0 ? `${randomMinutes}m` : ``;
-
-  return hourToString + ` ` + minutesToString;
+  return getRandomInteger(MIN_FILM_MINUTES, MAX_FILM_MINUTES);
 };
 
 const generateRating = () => getRandomInteger(10, 100) / 10;
