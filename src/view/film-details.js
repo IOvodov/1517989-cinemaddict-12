@@ -184,10 +184,6 @@ export default class FilmDetails extends SmartView {
     this._data = data;
     this._comments = comments;
 
-    this._watchListBtn = this.element.querySelector(`.film-details__control-label--watchlist`);
-    this._watchedBtn = this.element.querySelector(`.film-details__control-label--watched`);
-    this._favoriteBtn = this.element.querySelector(`.film-details__control-label--favorite`);
-
     this._crossClickHandler = this._crossClickHandler.bind(this);
     this._watchListBtnClickHandler = this._watchListBtnClickHandler.bind(this);
     this._watchedBtnClickHandler = this._watchedBtnClickHandler.bind(this);
@@ -231,8 +227,9 @@ export default class FilmDetails extends SmartView {
   }
 
   setWatchlistClickHandler(callback) {
+    const watchListBtn = this.element.querySelector(`.film-details__control-label--watchlist`);
     this._handlers.watchListBtnClick = callback;
-    this._watchListBtn.addEventListener(`click`, this._watchListBtnClickHandler);
+    watchListBtn.addEventListener(`click`, this._watchListBtnClickHandler);
   }
 
   _watchedBtnClickHandler() {
@@ -241,8 +238,9 @@ export default class FilmDetails extends SmartView {
   }
 
   setWatchedClickHandler(callback) {
+    const watchedBtn = this.element.querySelector(`.film-details__control-label--watched`);
     this._handlers.watchedBtnClick = callback;
-    this._watchedBtn.addEventListener(`click`, this._watchedBtnClickHandler);
+    watchedBtn.addEventListener(`click`, this._watchedBtnClickHandler);
   }
 
   _favoriteBtnClickHandler() {
@@ -251,8 +249,9 @@ export default class FilmDetails extends SmartView {
   }
 
   setFavoriteClickHandler(callback) {
+    const favoriteBtn = this.element.querySelector(`.film-details__control-label--favorite`);
     this._handlers.favoriteBtnClick = callback;
-    this._favoriteBtn.addEventListener(`click`, this._favoriteBtnClickHandler);
+    favoriteBtn.addEventListener(`click`, this._favoriteBtnClickHandler);
   }
 
   removeElement() {

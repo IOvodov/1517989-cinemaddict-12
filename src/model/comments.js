@@ -1,37 +1,21 @@
 import Observer from "../utils/observer";
 
-export default class Comments extends Observer {
+export default class CommentsModel extends Observer {
   constructor() {
     super();
 
     this._comments = [];
   }
 
-  set comments(commentsList) {
+  setComments(commentsList) {
     this._comments = commentsList.slice();
   }
 
-  get comments() {
+  getComments() {
     return this._comments;
   }
 
-  updateComment = (updateType, update) => {
-    const index = this._comments.findIndex((comment) => comment.id === update.id);
-
-    if (index === -1) {
-      throw new Error(`Can't update unexisting film card`);
-    }
-
-    this._comments = [
-      ...this._comments.slice(0, index),
-      update,
-      ...this._comments.slice(index + 1)
-    ];
-
-    this._notifyListeners(updateType, update);
-  };
-
-  addComment = (updateType, update) => {
+  addComment(updateType, update) {
     this._comments = [
       ...this._comments,
       update
@@ -40,7 +24,7 @@ export default class Comments extends Observer {
     this._notifyListeners(updateType, update);
   }
 
-  deleteComment = (updateType, update) => {
+  deleteComment(updateType, update) {
     const index = this._comments.findIndex((comment) => comment.id === update.id);
 
     if (index === -1) {
