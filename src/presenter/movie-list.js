@@ -7,15 +7,15 @@ import {renderElement, remove} from "../utils/render.js";
 import MoviePresenter from "./movie.js";
 import FilmsContainer from "../view/films-container.js";
 import SortView from "../view/sorting.js";
-import {SortType} from "../const.js";
+import {SortType, UpdateType, UserAction} from "../const.js";
 import {sortFilmDate, sortFilmRating} from "../utils/film.js";
-import {UpdateType, UserAction} from "../const.js";
+import {filter} from "../utils/filter.js";
 
 const FILMS_COUNT_PER_STEP = 5;
 const EXTRA_SECTION_FILMS_COUNT = 2;
 
 export default class MovieList {
-  constructor(boardContainer, filmsModel) {
+  constructor(boardContainer, filmsModel, filterModel) {
     this._boardContainer = boardContainer;
     this._filmsCount = FILMS_COUNT_PER_STEP;
     this._extraSectionFilmsCount = EXTRA_SECTION_FILMS_COUNT;
@@ -37,6 +37,7 @@ export default class MovieList {
     this._extraSectionComponents = [];
 
     this._filmsModel = filmsModel;
+    this._filterModel = filterModel;
 
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
@@ -47,6 +48,7 @@ export default class MovieList {
 
   init() {
     this._filmsModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
 
     this._renderBoard();
   }
@@ -64,14 +66,18 @@ export default class MovieList {
   }
 
   _getFilms() {
+    const filterType = this._filterModel.getFilter();
+    const films = this._filmsModel.getFilms();
+    const filteredFilms = filter[filterType](films);
+
     switch (this._currentSortType) {
       case SortType.RATING:
-        return this._filmsModel.getFilms().slice().sort(sortFilmRating).reverse();
+        return filteredFilms.slice().sort(sortFilmRating).reverse();
       case SortType.DATE:
-        return this._filmsModel.getFilms().slice().sort(sortFilmDate).reverse();
+        return filteredFilms.slice().sort(sortFilmDate).reverse();
     }
 
-    return this._filmsModel.getFilms();
+    return filteredFilms;
   }
 
   _renderMainSection() {
