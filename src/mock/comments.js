@@ -1,5 +1,5 @@
 import {EMOJI, AUTHORS, SENTENCES} from '../const.js';
-import {getRandomInteger, getRandomElement, getFormattedDate} from '../utils/common.js';
+import {getRandomInteger, getRandomElement} from '../utils/common.js';
 import {nanoid} from 'nanoid';
 
 const generateDate = () => {
@@ -13,7 +13,7 @@ const generateDate = () => {
 
   currentDate = new Date(currentDate);
 
-  return getFormattedDate(currentDate);
+  return currentDate;
 };
 
 export const generateComments = () => {

@@ -8,7 +8,7 @@ import MoviePresenter from "./movie.js";
 import FilmsContainer from "../view/films-container.js";
 import SortView from "../view/sorting.js";
 import {SortType, UpdateType, UserAction} from "../const.js";
-import {sortFilmDate, sortFilmRating} from "../utils/film.js";
+import {sortFilmDate, sortFilmRating} from "../utils/film-card.js";
 import {filter} from "../utils/filter.js";
 
 const FILMS_COUNT_PER_STEP = 5;
