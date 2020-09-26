@@ -74,11 +74,11 @@ export default class MovieList {
 
   _renderMainSection() {
     const filmCardsCount = this._getFilms().length;
-    const films = this._getFilms().slice(0, Math.min(filmCardsCount, FILMS_COUNT_PER_STEP))
+    const films = this._getFilms().slice(0, Math.min(filmCardsCount, this._filmsCount))
 
     this._renderFilmCards(films);
 
-    if (filmCardsCount > FILMS_COUNT_PER_STEP) {
+    if (filmCardsCount > this._filmsCount) {
       this._renderShowMoreButton();
     }
   }
