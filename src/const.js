@@ -111,7 +111,7 @@ export const SortType = {
 
 export const FileFormat = {
   PNG: `png`,
-}
+};
 
 export const UserAction = {
   UPDATE_FILM: `UPDATE_FILM`

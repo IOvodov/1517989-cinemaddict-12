@@ -135,7 +135,7 @@ export default class MoviePresenter {
         updatedComments = [
           ...this._filmCard.comments,
           comment
-        ]
+        ];
         break;
       case `DELETE_COMMENT`:
         updatedComments = this._filmCard.comments.filter((existedComment) => existedComment !== comment);

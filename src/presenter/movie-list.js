@@ -82,7 +82,7 @@ export default class MovieList {
 
   _renderMainSection() {
     const filmCardsCount = this._getFilms().length;
-    const films = this._getFilms().slice(0, Math.min(filmCardsCount, this._filmsCount))
+    const films = this._getFilms().slice(0, Math.min(filmCardsCount, this._filmsCount));
 
     this._renderFilmCards(films);
 
@@ -151,7 +151,7 @@ export default class MovieList {
   }
 
   _handleViewAction(actionType, updateType, update) {
-    switch(actionType) {
+    switch (actionType) {
       case UserAction.UPDATE_FILM:
         this._filmsModel.updateFilmCard(updateType, update);
         break;

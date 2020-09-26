@@ -29,5 +29,5 @@ export default class FilmsModel extends Observer {
     ];
 
     this._notifyListeners(updateType, update);
-  };
+  }
 }
