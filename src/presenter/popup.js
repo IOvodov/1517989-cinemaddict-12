@@ -16,6 +16,7 @@ export default class PopupPresenter {
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleCommentSubmit = this._handleCommentSubmit.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
   }
 
   init(filmCard, model) {
@@ -25,12 +26,12 @@ export default class PopupPresenter {
     const prevFilmDetailsComponent = this._filmDetailsComponent;
 
     this._filmDetailsComponent = new FilmDetails(filmCard, this._commentsModel.getComments());
-
     this._filmDetailsComponent.setClosePopupClickHandler(this._handleClosePopupClick);
     this._filmDetailsComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._filmDetailsComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._filmDetailsComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._filmDetailsComponent.setHandleCommentSubmit(this._handleCommentSubmit);
+    this._filmDetailsComponent.setDeleteCommentClickHandler(this._handleDeleteClick);
 
     if (!prevFilmDetailsComponent) {
       document.addEventListener(`keydown`, this._escKeyDownHandler);
@@ -94,11 +95,15 @@ export default class PopupPresenter {
   }
 
   _handleCommentSubmit(comment) {
-    this._commentsModel.addComment(UpdateType.MINOR, comment);
+    this._commentsModel.addComment(UpdateType.ADD_COMMENT, comment);
+  }
+
+  _handleDeleteClick(comment) {
+    this._commentsModel.deleteComment(UpdateType.DELETE_COMMENT, comment);
   }
 
   _handleClosePopupClick() {
-      this._hideFilmDetails();
+    this._hideFilmDetails();
   }
 
   _escKeyDownHandler(event) {

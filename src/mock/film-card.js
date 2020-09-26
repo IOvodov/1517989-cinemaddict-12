@@ -81,7 +81,6 @@ export const generateFilmCard = () => {
     description: generateDescription(),
     genres: getRandomGenres(),
     comments,
-    commentsCount: comments.length,
     isWatched: Boolean(getRandomInteger(0, 1)),
     isFavorite: Boolean(getRandomInteger(0, 1)),
     isWatchList: Boolean(getRandomInteger(0, 1)),

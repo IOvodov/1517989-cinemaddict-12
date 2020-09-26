@@ -34,6 +34,8 @@ export default class MovieList {
     this._filmMainPresenter = {};
     this._filmExtraPresenter = {};
 
+    this._extraSectionComponents = [];
+
     this._filmsModel = filmsModel;
 
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
@@ -94,17 +96,16 @@ export default class MovieList {
   }
 
   _renderExtraSections() {
-    const createFilmCategoryByAttribute = (attribute) => {
-      const films = this._getFilms().slice();
-      return films.sort((prev, next) => next[attribute] - prev[attribute]).slice(0, EXTRA_SECTION_FILMS_COUNT);
-    };
+    const films = this._getFilms().slice();
 
-    const topRatedFilms = createFilmCategoryByAttribute(`rating`);
-    const mostCommentedFilms = createFilmCategoryByAttribute(`commentsCount`);
+    const topRatedFilms = films.sort((prev, next) => next.rating - prev.rating).slice(0, EXTRA_SECTION_FILMS_COUNT);
+    const mostCommentedFilms = films.sort((prev, next) => next.comments.length - prev.comments.length).slice(0, EXTRA_SECTION_FILMS_COUNT);
 
     const renderExtraSection = (title, categoriesFilms) => {
       this._extraSectionComponent = new FilmsExtraSection(title);
       const extraSectionContainerComponent = new FilmsContainer();
+
+      this._extraSectionComponents.push(this._extraSectionComponent);
 
       renderElement(this._boardComponent, this._extraSectionComponent);
       renderElement(this._extraSectionComponent, extraSectionContainerComponent);
@@ -146,8 +147,6 @@ export default class MovieList {
   _handleViewAction(actionType, updateType, update) {
     switch(actionType) {
       case UserAction.UPDATE_FILM:
-      case UserAction.ADD_COMMENT:
-      case UserAction.DELETE_COMMENT:
         this._filmsModel.updateFilmCard(updateType, update);
         break;
     }
@@ -166,6 +165,8 @@ export default class MovieList {
 
         break;
       case UpdateType.MINOR:
+      case UpdateType.ADD_COMMENT:
+      case UpdateType.DELETE_COMMENT:
         this._clearBoard();
         this._renderBoard();
         break;
@@ -210,6 +211,9 @@ export default class MovieList {
     remove(this._noFilmsComponent);
     remove(this._showMoreButtonComponent);
     remove(this._boardComponent);
+
+    this._extraSectionComponents.forEach((extraComponent) => remove(extraComponent));
+    this._extraSectionComponents = [];
 
     if (resetRenderedFilmsCount) {
       this.resetRenderedFilmsCount = FILMS_COUNT_PER_STEP;

@@ -114,13 +114,13 @@ export const FileFormat = {
 }
 
 export const UserAction = {
-  UPDATE_FILM: `UPDATE_FILM`,
-  ADD_COMMENT: `ADD_COMMENT`,
-  DELETE_COMMENT: `DELETE_COMMENT`
+  UPDATE_FILM: `UPDATE_FILM`
 };
 
 export const UpdateType = {
   PATCH: `PATCH`,
   MINOR: `MINOR`,
-  MAJOR: `MAJOR`
+  MAJOR: `MAJOR`,
+  ADD_COMMENT: `ADD_COMMENT`,
+  DELETE_COMMENT: `DELETE_COMMENT`
 };

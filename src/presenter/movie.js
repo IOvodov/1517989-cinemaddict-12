@@ -62,15 +62,16 @@ export default class MoviePresenter {
   }
 
   destroy() {
+    document.body.classList.remove(`hide-overflow`);
     remove(this._filmCardComponent);
   }
 
   resetView() {
     if (this._mode !== Mode.DEFAULT) {
       this._popupPresenter.destroy();
-    }
 
-    this._mode = Mode.DEFAULT;
+      this._mode = Mode.DEFAULT;
+    }
   }
 
   _showFilmDetails() {
@@ -127,30 +128,32 @@ export default class MoviePresenter {
     );
   }
 
-  _handleFormSubmit(comment) {
+  _handleFormSubmit(updateType, comment) {
+    let updatedComments = [];
+    switch (updateType) {
+      case `ADD_COMMENT`:
+        updatedComments = [
+          ...this._filmCard.comments,
+          comment
+        ]
+        break;
+      case `DELETE_COMMENT`:
+        updatedComments = this._filmCard.comments.filter((existedComment) => existedComment !== comment);
+        break;
+    }
+
     this._filmChangeData(
-        UserAction.ADD_COMMENT,
-        UpdateType.PATCH,
+        UserAction.UPDATE_FILM,
+        updateType,
         Object.assign(
             {},
             this._filmCard,
             {
-              comments: [
-                ...this._filmCard.comments,
-                comment
-              ]
+              comments: updatedComments
             }
         )
     );
 
     this._popupPresenter.init(this._filmCard, this._commentsModel);
-  }
-
-  _escKeyDownHandler(event) {
-    if (event.key === `Escape` || event.key === `Esc`) {
-      event.preventDefault();
-      this._hideFilmDetails();
-      document.body.classList.remove(`hide-overflow`);
-    }
   }
 }
