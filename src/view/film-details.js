@@ -1,3 +1,4 @@
+import he from "he";
 import {nanoid} from "nanoid";
 import {EmojiType, FileFormat} from "../const.js";
 import {getFormattedDate} from "../utils/common.js";
@@ -64,7 +65,7 @@ const createCommentsTemplate = (comments) => {
       <img src="../images/emoji/${generateFileName(comment.emoji)}" alt="emoji-${comment.emoji}" width="55" height="55">
     </span>
     <div>
-      <p class="film-details__comment-text">${comment.message}</p>
+      <p class="film-details__comment-text">${he.encode(comment.message)}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${comment.author}</span>
         <span class="film-details__comment-day">${comment.date}</span>
