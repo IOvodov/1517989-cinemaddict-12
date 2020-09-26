@@ -222,12 +222,12 @@ export default class MovieList {
     this._extraSectionComponents = [];
 
     if (resetRenderedFilmsCount) {
-      this.resetRenderedFilmsCount = FILMS_COUNT_PER_STEP;
+      this._filmsCount = FILMS_COUNT_PER_STEP;
     } else {
       // На случай, если перерисовка доски вызвана
       // уменьшением количества задач (например, удаление или перенос в архив)
       // нужно скорректировать число показанных задач
-      this.resetRenderedFilmsCount = Math.min(filmCardsCount, this.resetRenderedFilmsCount);
+      this._filmsCount = Math.min(filmCardsCount, this._filmsCount);
     }
 
     if (resetSortType) {
