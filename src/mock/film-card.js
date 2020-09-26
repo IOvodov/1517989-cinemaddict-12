@@ -33,16 +33,10 @@ const getRandomWriters = () => {
 };
 
 const generateFilmDuration = () => {
-  const MAX_FILM_HOUR = 10;
-  const MINUTES_IN_HOUR = 60;
+  const MIN_FILM_MINUTES = 0;
+  const MAX_FILM_MINUTES = 600;
 
-  const randomHour = getRandomInteger(0, MAX_FILM_HOUR);
-  const randomMinutes = getRandomInteger(0, MINUTES_IN_HOUR);
-
-  const hourToString = randomHour > 0 ? `${randomHour}h` : ``;
-  const minutesToString = randomMinutes > 0 ? `${randomMinutes}m` : ``;
-
-  return hourToString + ` ` + minutesToString;
+  return getRandomInteger(MIN_FILM_MINUTES, MAX_FILM_MINUTES);
 };
 
 const generateRating = () => getRandomInteger(10, 100) / 10;

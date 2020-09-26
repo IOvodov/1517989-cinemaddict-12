@@ -1,20 +1,8 @@
 import he from "he";
 import {nanoid} from "nanoid";
 import {EmojiType, FileFormat} from "../const.js";
-import {getFormattedDate} from "../utils/common.js";
+import {formatCommentDate, formatDuration, formatReleaseDate} from "../utils/film-card.js";
 import SmartView from "./smart.js";
-
-const formatReleaseDate = (releaseDate) => {
-  let date = releaseDate.getDate();
-  if (date < 10) {
-    date = `0` + date;
-  }
-
-  const month = releaseDate.toLocaleString(`default`, {month: `long`});
-  const year = releaseDate.getFullYear();
-
-  return `${date} ${month} ${year}`;
-};
 
 const generateFileName = (name, extension = FileFormat.PNG) => {
   const generatedName = name;
@@ -68,7 +56,7 @@ const createCommentsTemplate = (comments) => {
       <p class="film-details__comment-text">${he.encode(comment.message)}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${comment.author}</span>
-        <span class="film-details__comment-day">${comment.date}</span>
+        <span class="film-details__comment-day">${formatCommentDate(comment.date)}</span>
         <button class="film-details__comment-delete">Delete</button>
       </p>
     </div>
@@ -137,7 +125,7 @@ const createFilmDetailsTemplate = (data = {}, comments) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${duration}</td>
+                  <td class="film-details__cell">${formatDuration(duration)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
@@ -307,7 +295,7 @@ export default class FilmDetails extends SmartView {
         author: `Author`,
         emoji: commentEmoji,
         message,
-        date: getFormattedDate(new Date())
+        date: new Date()
       };
 
       document.querySelector(`.film-details__comment-input`).value = ``;
