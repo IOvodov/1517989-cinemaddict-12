@@ -7,6 +7,7 @@ import {generateUserProfile} from "./mock/user-profile.js";
 import {generateFilmsFilter} from "./mock/filter.js";
 import MovieList from "./presenter/movie-list.js";
 import FilmsModel from "./model/films.js";
+import FilterModel from "./model/filter.js";
 
 const FILM_CARDS_COUNT = 20;
 
@@ -16,6 +17,8 @@ const filter = generateFilmsFilter(filmCards);
 
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(filmCards);
+
+const filterModel = new FilterModel();
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
