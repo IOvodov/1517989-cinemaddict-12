@@ -1,11 +1,12 @@
 import StatisticView from '../view/statistics.js';
-import {UpdateType} from '../const.js';
+import {UpdateType, StatisticFilterType} from '../const.js';
 import {renderElement, remove} from '../utils/render.js';
 import StatisticsModel from '../model/statistics.js';
+import {statisticFilter} from '../utils/statistics.js';
 
 export default class StatisticsPresenter {
-  constructor(statisticsContainer, filmsData) {
-    this._filmsData = filmsData;
+  constructor(statisticsContainer, filmsModel) {
+    this._filmsModel = filmsModel;
     this._currentFilter = null;
     this._statisticsContainer = statisticsContainer;
 
@@ -18,8 +19,10 @@ export default class StatisticsPresenter {
   }
 
   init() {
+    const filteredStatisticData = this._getFilters();
+
     this._currentFilter = this._statisticsModel.getFilter();
-    this._staticticsComponent = new StatisticView(this._filmsData, this._currentFilter);
+    this._staticticsComponent = new StatisticView(filteredStatisticData, this._currentFilter);
     this._staticticsComponent.setFilterTypeChangeHandler(this._handleFilterTypeChange);
 
     renderElement(this._statisticsContainer, this._staticticsComponent);
@@ -44,5 +47,37 @@ export default class StatisticsPresenter {
         this.init();
         break;
     }
+  }
+
+  _getFilters() {
+    const films = this._filmsModel.getFilms().filter((item) => item.isWatched);
+
+    return [
+      {
+        type: StatisticFilterType.ALL,
+        name: `All-time`,
+        movie: statisticFilter[StatisticFilterType.ALL](films)
+      },
+      {
+        type: StatisticFilterType.TODAY,
+        name: `Today`,
+        movie: statisticFilter[StatisticFilterType.TODAY](films)
+      },
+      {
+        type: StatisticFilterType.WEEK,
+        name: `Week`,
+        movie: statisticFilter[StatisticFilterType.WEEK](films)
+      },
+      {
+        type: StatisticFilterType.MONTH,
+        name: `Month`,
+        movie: statisticFilter[StatisticFilterType.MONTH](films)
+      },
+      {
+        type: StatisticFilterType.YEAR,
+        name: `Year`,
+        movie: statisticFilter[StatisticFilterType.YEAR](films)
+      }
+    ];
   }
 }

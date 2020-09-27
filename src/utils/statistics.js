@@ -1,4 +1,38 @@
 import moment from 'moment';
+import {StatisticFilterType} from '../const.js';
+
+export const statisticFilter = {
+  [StatisticFilterType.ALL]: (films) => films,
+  [StatisticFilterType.TODAY]: (films) => films.filter((film) => compareToday(film)),
+  [StatisticFilterType.WEEK]: (films) => films.filter((film) => compareWeek(film)),
+  [StatisticFilterType.MONTH]: (films) => films.filter((film) => compareMonth(film)),
+  [StatisticFilterType.YEAR]: (films) => films.filter((film) => compareYear(film)),
+};
+
+const compareToday = (film) => {
+  const currentDate = new Date();
+
+  return new Date(film.watchingDate).getDate() === currentDate.getDate();
+};
+
+const compareWeek = (film) => {
+  const currentDate = new Date();
+
+  return new Date(film.watchingDate) >= new Date(currentDate.setDate(currentDate.getDate() - 7));
+};
+
+
+const compareMonth = (film) => {
+  const currentDate = new Date();
+
+  return new Date(film.watchingDate) >= new Date(currentDate.setMonth(currentDate.getMonth() - 1));
+};
+
+const compareYear = (film) => {
+  const currentDate = new Date();
+
+  return new Date(film.watchingDate).getFullYear() >= currentDate.getFullYear();
+};
 
 export const sortedGenres = (data) => {
   if (data.length === 0) {
@@ -48,7 +82,6 @@ export const totalDuration = (data) => {
     totalHours = 0;
     totalMinutes = 0;
   } else {
-
     data.forEach((item) => {
       totalHours += +moment(item.duration).format(`HH`);
       totalMinutes += +moment(item.duration).format(`MM`);

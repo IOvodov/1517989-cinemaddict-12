@@ -1,20 +1,6 @@
 import {EMOJI, AUTHORS, SENTENCES} from '../const.js';
-import {getRandomInteger, getRandomElement} from '../utils/common.js';
+import {getRandomInteger, getRandomElement, generateDate} from '../utils/common.js';
 import {nanoid} from 'nanoid';
-
-const generateDate = () => {
-  const maxDaysGap = getRandomInteger(1, 365);
-  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
-  let currentDate = new Date();
-
-  currentDate.setHours(23, 59, 59, 999);
-
-  currentDate.setDate(currentDate.getDate() + daysGap);
-
-  currentDate = new Date(currentDate);
-
-  return currentDate;
-};
 
 export const generateComments = () => {
   const MIN_COMMENTS_COUNT = 0;

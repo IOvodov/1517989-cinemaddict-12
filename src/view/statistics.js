@@ -8,8 +8,7 @@ import {getRank} from '../utils/user-profile.js';
 const BAR_HEIGHT = 50;
 
 const renderChart = (statisticCtx, data) => {
-  const watched = data.filter((item) => item.isWatched);
-  const amountWatchedGenres = sortedGenres(watched);
+  const amountWatchedGenres = sortedGenres(data);
 
   return new Chart(statisticCtx, {
     plugins: [ChartDataLabels],
@@ -69,44 +68,41 @@ const renderChart = (statisticCtx, data) => {
   });
 };
 
-const createDurationTemplate = (watched) => {
-  const toTime = totalDuration(watched);
+const createDurationTemplate = (movies) => {
+  const toTime = totalDuration(movies);
   return (
     `<p class="statistic__item-text">${toTime[0]} <span class="statistic__item-description">h</span> ${toTime[1]} <span class="statistic__item-description">m</span></p>`
   );
 };
 
-const createStatisticFiltersTemplate = (currentFilter) => {
+const createStatisticFiltersTemplate = (filters, currentFilter) => {
   return (
     `<form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
       <p class="statistic__filters-description">Show stats:</p>
 
-      <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${StatisticFilterType.ALL}" value="${StatisticFilterType.ALL}" ${currentFilter === StatisticFilterType.ALL ? `checked` : ``}>
-      <label for="statistic-${StatisticFilterType.ALL}" class="statistic__filters-label">All time</label>
+      ${filters.map(filter => {
+        const {type, name} = filter;
 
-      <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${StatisticFilterType.TODAY}" value="${StatisticFilterType.TODAY}" ${currentFilter === StatisticFilterType.TODAY ? `checked` : ``}>
-      <label for="statistic-${StatisticFilterType.TODAY}" class="statistic__filters-label">Today</label>
+        return (
+          `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${type}" value="${type}" ${currentFilter === type ? `checked` : ``}>
+          <label for="statistic-${type}" class="statistic__filters-label">${name}</label>`
+        )
+      }).join(``)}
 
-      <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${StatisticFilterType.WEEK}" value="${StatisticFilterType.WEEK}" ${currentFilter === StatisticFilterType.WEEK ? `checked` : ``}>
-      <label for="statistic-${StatisticFilterType.WEEK}" class="statistic__filters-label">Week</label>
-
-      <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${StatisticFilterType.MONTH}" value="${StatisticFilterType.MONTH}" ${currentFilter === StatisticFilterType.MONTH ? `checked` : ``}>
-      <label for="statistic-${StatisticFilterType.MONTH}" class="statistic__filters-label">Month</label>
-
-      <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${StatisticFilterType.YEAR}" value="${StatisticFilterType.YEAR}" ${currentFilter === StatisticFilterType.YEAR ? `checked` : ``}>
-      <label for="statistic-${StatisticFilterType.YEAR}" class="statistic__filters-label">Year</label>
     </form>`
   );
 };
 
 const createStatisticTemplate = (statisticData = {}, currentFilter) => {
-  const watched = statisticData.filter((item) => item.isWatched);
-  const watchedAmount = watched.length;
+  const currentFilterItem = statisticData.find((item) => item.type === currentFilter);
+  const allFilterItem = statisticData.find((item) => item.type === StatisticFilterType.ALL);
 
-  const filtersTemplate = createStatisticFiltersTemplate(currentFilter);
-  const topGenreTemplate = topGenre(watched);
-  const durationTemplate = createDurationTemplate(watched);
-  const userRank = getRank(watched);
+  const watchedAmount = currentFilterItem.movie.length;
+
+  const filtersTemplate = createStatisticFiltersTemplate(statisticData, currentFilter);
+  const durationTemplate = createDurationTemplate(currentFilterItem.movie);
+  const topGenreTemplate = topGenre(currentFilterItem.movie);
+  const userRank = getRank(allFilterItem.movie);
 
   return (
     `<section class="statistic">
@@ -155,9 +151,10 @@ export default class StatisticView extends SmartView {
   }
 
   _setChart() {
+    const currentFilterItem = this._statisticData.find((item) => item.type === this._currentFilter);
     const statisticCtx = this.element.querySelector(`.statistic__chart`);
     statisticCtx.height = BAR_HEIGHT * 5;
-    this._cart = renderChart(statisticCtx, this._statisticData);
+    this._cart = renderChart(statisticCtx, currentFilterItem.movie);
   }
 
   _filterTypeChangeHandler(event) {

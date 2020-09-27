@@ -1,5 +1,5 @@
 import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, DIRECTORS, WRITERS, ACTORS} from '../const.js';
-import {getRandomInteger, getRandomElement, generateArrayFromSet} from '../utils/common.js';
+import {getRandomInteger, getRandomElement, generateArrayFromSet, generateDate} from '../utils/common.js';
 import {generateComments} from './comments.js';
 import {nanoid} from 'nanoid';
 
@@ -78,6 +78,7 @@ export const generateFilmCard = () => {
     isWatched: Boolean(getRandomInteger(0, 1)),
     isFavorite: Boolean(getRandomInteger(0, 1)),
     isWatchList: Boolean(getRandomInteger(0, 1)),
+    watchingDate: generateDate(),
     country: getRandomElement(COUNTRIES),
     director: getRandomElement(DIRECTORS),
     writers: getRandomWriters(),
