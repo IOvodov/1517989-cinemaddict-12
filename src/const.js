@@ -123,7 +123,8 @@ export const UpdateType = {
   MAJOR: `MAJOR`,
   ADD_COMMENT: `ADD_COMMENT`,
   DELETE_COMMENT: `DELETE_COMMENT`,
-  STATISTICS: `STATISTICS`
+  STATISTICS: `STATISTICS`,
+  INIT: `INIT`
 };
 
 export const FilterType = {

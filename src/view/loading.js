@@ -6,8 +6,8 @@ const createLodingTemplate = () => {
     </section>`;
 };
 
-export default class Loading extends AbstractView {
-  getTemplate() {
+export default class LoadingView extends AbstractView {
+  get template() {
     return createLodingTemplate();
   }
 }

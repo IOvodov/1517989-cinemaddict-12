@@ -7,8 +7,10 @@ export default class FilmsModel extends Observer {
     this._films = [];
   }
 
-  setFilms(filmsList) {
+  setFilms(updateType, filmsList) {
     this._films = filmsList.slice();
+
+    this._notifyListeners(updateType)
   }
 
   getFilms() {
@@ -40,7 +42,7 @@ export default class FilmsModel extends Observer {
           filmTitle: film.film_info.title,
           originalFilmTitle: film.film_info.alternative_title,
           rating: film.film_info.total_rating,
-          releaseDate: film.film_info.release.date,
+          releaseDate: new Date(film.film_info.release.date),
           duration: film.film_info.runtime,
           description: film.film_info.description,
           genres: film.film_info.genre,

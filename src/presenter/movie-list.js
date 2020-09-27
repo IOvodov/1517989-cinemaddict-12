@@ -3,6 +3,7 @@ import ShowMoreButton from "../view/show-more-button.js";
 import FilmsMainSection from "../view/flims-main-section.js";
 import FilmsExtraSection from "../view/films-extra-section.js";
 import NoFilmsView from "../view/no-films.js";
+import LoadingView from "../view/loading.js";
 import {renderElement, remove} from "../utils/render.js";
 import MoviePresenter from "./movie.js";
 import StatisticPresenter from "./statistics.js";
@@ -23,6 +24,8 @@ export default class MovieList {
 
     this._currentSortType = SortType.DEFAULT;
 
+    this._isLoading = true;
+
     this._boardComponent = null;
     this._mainSectionComponent = null;
     this._filmsContainerComponent = null;
@@ -31,12 +34,14 @@ export default class MovieList {
     this._extraSectionComponent = null;
 
     this._noFilmsComponent = new NoFilmsView();
+    this._loadingComponent = new LoadingView();
 
     this._filmMainPresenter = {};
     this._filmTopRatedPresenter = {};
     this._filmMostCommentedPresenter = {};
 
     this._extraSectionComponents = [];
+
 
     this._filmsModel = filmsModel;
     this._filterModel = filterModel;
@@ -190,6 +195,12 @@ export default class MovieList {
         this._clearBoard({resetRenderedFilmsCount: true, resetSortType: true});
         this._renderStatistics();
         break;
+      case UpdateType.INIT:
+        this._isLoading = false;
+        remove(this._loadingComponent);
+        remove(this._sortingComponent);
+        this._renderBoard();
+        break;
     }
   }
 
@@ -227,10 +238,10 @@ export default class MovieList {
       });
     this._filmMainPresenter = {};
 
-    remove(this._sortingComponent);
     remove(this._noFilmsComponent);
+    remove(this._loadingComponent);
+    remove(this._sortingComponent);
     remove(this._showMoreButtonComponent);
-    remove(this._boardComponent);
 
     this._extraSectionComponents.forEach((extraComponent) => remove(extraComponent));
     this._extraSectionComponents = [];
@@ -263,6 +274,11 @@ export default class MovieList {
     this._boardComponent = new BoardView();
     renderElement(this._boardContainer, this._boardComponent);
 
+    if (this._isLoading) {
+      this._renderLoading();
+      return;
+    }
+
     const filmCardsCount = this._getFilms().length;
 
     if (!filmCardsCount) {
@@ -286,6 +302,10 @@ export default class MovieList {
 
   _renderNoFilms() {
     renderElement(this._boardComponent, this._noFilmsComponent);
+  }
+
+  _renderLoading() {
+    renderElement(this._boardComponent, this._loadingComponent);
   }
 
   _renderStatistics() {
