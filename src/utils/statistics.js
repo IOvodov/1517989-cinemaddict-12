@@ -45,7 +45,7 @@ export const sortedGenres = (data) => {
     if (genres) {
       genres.forEach((genre) => {
         allGenres.push(genre);
-      })
+      });
     }
   });
 

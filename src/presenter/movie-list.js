@@ -202,7 +202,7 @@ export default class MovieList {
       .values(this._filmTopRatedPresenter)
       .forEach((presenter) => presenter.resetView());
 
-      Object
+    Object
       .values(this._filmMostCommentedPresenter)
       .forEach((presenter) => presenter.resetView());
   }

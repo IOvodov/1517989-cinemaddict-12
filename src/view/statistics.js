@@ -76,21 +76,14 @@ const createDurationTemplate = (movies) => {
 };
 
 const createStatisticFiltersTemplate = (filters, currentFilter) => {
-  return (
-    `<form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
-      <p class="statistic__filters-description">Show stats:</p>
+  return filters.map((filter) => {
+    const {type, name} = filter;
 
-      ${filters.map(filter => {
-        const {type, name} = filter;
-
-        return (
-          `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${type}" value="${type}" ${currentFilter === type ? `checked` : ``}>
-          <label for="statistic-${type}" class="statistic__filters-label">${name}</label>`
-        )
-      }).join(``)}
-
-    </form>`
-  );
+    return (
+      `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${type}" value="${type}" ${currentFilter === type ? `checked` : ``}>
+        <label for="statistic-${type}" class="statistic__filters-label">${name}</label>`
+    );
+  }).join(``);
 };
 
 const createStatisticTemplate = (statisticData = {}, currentFilter) => {
@@ -111,7 +104,10 @@ const createStatisticTemplate = (statisticData = {}, currentFilter) => {
         <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
         <span class="statistic__rank-label">${userRank}</span>
       </p>
-      ${filtersTemplate}
+      <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
+        <p class="statistic__filters-description">Show stats:</p>
+        ${filtersTemplate}
+      </form>
       <ul class="statistic__text-list">
         <li class="statistic__text-item">
           <h4 class="statistic__item-title">You watched</h4>
