@@ -133,3 +133,11 @@ export const FilterType = {
   FAVORITES: `favorites`,
   STATISTICS: `stats`
 };
+
+export const StatisticFilterType = {
+  ALL: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
+};

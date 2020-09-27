@@ -67,9 +67,7 @@ export default class MovieList {
   }
 
   _getFilms() {
-    console.log(filter);
     const filterType = this._filterModel.getFilter();
-    console.log(filterType);
     const films = this._filmsModel.getFilms();
     const filteredFilms = filter[filterType](films);
 
@@ -282,7 +280,7 @@ export default class MovieList {
   }
 
   _renderStatistics() {
-    this._statisticPresenter = new StatisticPresenter(this._boardContainer, this._filmsModel);
+    this._statisticPresenter = new StatisticPresenter(this._boardContainer, this._filmsModel.getFilms());
     this._statisticPresenter.init();
   }
 }

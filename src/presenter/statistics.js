@@ -1,25 +1,25 @@
-import FilterModel from '../model/filter.js';
-import StatisticView from '../view/statistic.js';
+import StatisticView from '../view/statistics.js';
 import {UpdateType} from '../const.js';
 import {renderElement, remove} from '../utils/render.js';
+import StatisticsModel from '../model/statistics.js';
 
-export default class StatisticPresenter {
-  constructor(statisticsContainer, data) {
-    this._data = data;
+export default class StatisticsPresenter {
+  constructor(statisticsContainer, filmsData) {
+    this._filmsData = filmsData;
     this._currentFilter = null;
     this._statisticsContainer = statisticsContainer;
 
-    this._filterModel = new FilterModel();
+    this._statisticsModel = new StatisticsModel();
 
     this._handleFilterTypeChange = this._handleFilterTypeChange.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
 
-    this._filterModel.addObserver(this._handleModelEvent);
+    this._statisticsModel.addObserver(this._handleModelEvent);
   }
 
   init() {
-    this._currentFilter = this._filterModel.getFilter();
-    this._staticticsComponent = new StatisticView(this._data, this._currentFilter);
+    this._currentFilter = this._statisticsModel.getFilter();
+    this._staticticsComponent = new StatisticView(this._filmsData, this._currentFilter);
     this._staticticsComponent.setFilterTypeChangeHandler(this._handleFilterTypeChange);
 
     renderElement(this._statisticsContainer, this._staticticsComponent);
@@ -34,7 +34,7 @@ export default class StatisticPresenter {
       return;
     }
 
-    this._filterModel.setFilter(UpdateType.MAJOR, filterType);
+    this._statisticsModel.setFilter(UpdateType.MAJOR, filterType);
   }
 
   _handleModelEvent(updateType) {
