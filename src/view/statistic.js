@@ -51,7 +51,30 @@ const createStatisticTemplate = () => {
 };
 
 export default class StatisticView extends AbstractView {
+  constructor(statisticData, currentFilter) {
+    super();
+
+    this._statisticData = statisticData;
+    this._currentFilter = currentFilter;
+
+    this._filterTypeChangeHandler = this._filterTypeChangeHandler.bind(this);
+  }
+
   get template() {
     return createStatisticTemplate();
+  }
+
+  _filterTypeChangeHandler(event) {
+    if (event.target.tagName !== `INPUT`) {
+      return;
+    }
+
+    event.preventDefault();
+    this._handlers.filterTypeChange(event.target.value);
+  }
+
+  setFilterTypeChangeHandler(callback) {
+    this._handlers.filterTypeChange = callback;
+    this.element.addEventListener(`click`, this._filterTypeChangeHandler);
   }
 }

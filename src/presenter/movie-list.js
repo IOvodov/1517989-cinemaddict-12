@@ -5,6 +5,7 @@ import FilmsExtraSection from "../view/films-extra-section.js";
 import NoFilmsView from "../view/no-films.js";
 import {renderElement, remove} from "../utils/render.js";
 import MoviePresenter from "./movie.js";
+import StatisticPresenter from "./statistics.js";
 import FilmsContainer from "../view/films-container.js";
 import SortView from "../view/sorting.js";
 import {SortType, UpdateType, UserAction} from "../const.js";
@@ -66,7 +67,9 @@ export default class MovieList {
   }
 
   _getFilms() {
+    console.log(filter);
     const filterType = this._filterModel.getFilter();
+    console.log(filterType);
     const films = this._filmsModel.getFilms();
     const filteredFilms = filter[filterType](films);
 
@@ -180,6 +183,10 @@ export default class MovieList {
         this._clearBoard({resetRenderedFilmsCount: true, resetSortType: true});
         this._renderBoard();
         break;
+      case UpdateType.STATS:
+        this._clearBoard({resetRenderedFilmsCount: true, resetSortType: true});
+        this._renderStatistics();
+        break;
     }
   }
 
@@ -220,6 +227,10 @@ export default class MovieList {
 
     this._extraSectionComponents.forEach((extraComponent) => remove(extraComponent));
     this._extraSectionComponents = [];
+
+    if (this._statisticPresenter) {
+      this._statisticPresenter.destroy();
+    }
 
     if (resetRenderedFilmsCount) {
       this._filmsCount = FILMS_COUNT_PER_STEP;
@@ -268,5 +279,10 @@ export default class MovieList {
 
   _renderNoFilms() {
     renderElement(this._boardComponent, this._noFilmsComponent);
+  }
+
+  _renderStatistics() {
+    this._statisticPresenter = new StatisticPresenter(this._boardContainer, this._filmsModel);
+    this._statisticPresenter.init();
   }
 }
