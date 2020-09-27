@@ -8,7 +8,7 @@ import FilterPresenter from "./presenter/filter.js";
 import FilmsModel from "./model/films.js";
 import FilterModel from "./model/filter.js";
 
-const FILM_CARDS_COUNT = 20;
+const FILM_CARDS_COUNT = 27;
 
 const filmCards = new Array(FILM_CARDS_COUNT).fill().map(generateFilmCard);
 const profile = generateUserProfile();

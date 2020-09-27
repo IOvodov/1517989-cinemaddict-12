@@ -3,6 +3,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from './smart.js';
 import {totalDuration, sortedGenres, topGenre} from '../utils/statistics.js';
 import {StatisticFilterType} from '../const.js';
+import {getRank} from '../utils/user-profile.js';
 
 const BAR_HEIGHT = 50;
 
@@ -105,13 +106,14 @@ const createStatisticTemplate = (statisticData = {}, currentFilter) => {
   const filtersTemplate = createStatisticFiltersTemplate(currentFilter);
   const topGenreTemplate = topGenre(watched);
   const durationTemplate = createDurationTemplate(watched);
+  const userRank = getRank(watched);
 
   return (
     `<section class="statistic">
       <p class="statistic__rank">
         Your rank
         <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-        <span class="statistic__rank-label">Sci-Fighter</span>
+        <span class="statistic__rank-label">${userRank}</span>
       </p>
       ${filtersTemplate}
       <ul class="statistic__text-list">
