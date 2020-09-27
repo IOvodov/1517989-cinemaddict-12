@@ -33,7 +33,8 @@ export default class MovieList {
     this._noFilmsComponent = new NoFilmsView();
 
     this._filmMainPresenter = {};
-    this._filmExtraPresenter = {};
+    this._filmTopRatedPresenter = {};
+    this._filmMostCommentedPresenter = {};
 
     this._extraSectionComponents = [];
 
@@ -108,7 +109,7 @@ export default class MovieList {
     const topRatedFilms = films.sort((prev, next) => next.rating - prev.rating).slice(0, EXTRA_SECTION_FILMS_COUNT);
     const mostCommentedFilms = films.sort((prev, next) => next.comments.length - prev.comments.length).slice(0, EXTRA_SECTION_FILMS_COUNT);
 
-    const renderExtraSection = (title, categoriesFilms) => {
+    const renderExtraSection = (title, categoriesFilms, presenter) => {
       this._extraSectionComponent = new FilmsExtraSection(title);
       const extraSectionContainerComponent = new FilmsContainer();
 
@@ -118,12 +119,12 @@ export default class MovieList {
       renderElement(this._extraSectionComponent, extraSectionContainerComponent);
 
       for (let i = 0; i < categoriesFilms.length; i++) {
-        this._renderFilmCard(categoriesFilms[i], extraSectionContainerComponent, this._filmExtraPresenter);
+        this._renderFilmCard(categoriesFilms[i], extraSectionContainerComponent, presenter);
       }
     };
 
-    renderExtraSection(`Top rated`, topRatedFilms);
-    renderExtraSection(`Most commented`, mostCommentedFilms);
+    renderExtraSection(`Top rated`, topRatedFilms, this._filmTopRatedPresenter);
+    renderExtraSection(`Most commented`, mostCommentedFilms, this._filmMostCommentedPresenter);
   }
 
   _renderShowMoreButton() {
@@ -166,8 +167,12 @@ export default class MovieList {
           this._filmMainPresenter[updateData.id].init(updateData);
         }
 
-        if (Object.keys(this._filmExtraPresenter).includes(updateData.id)) {
-          this._filmExtraPresenter[updateData.id].init(updateData);
+        if (Object.keys(this._filmTopRatedPresenter).includes(updateData.id)) {
+          this._filmTopRatedPresenter[updateData.id].init(updateData);
+        }
+
+        if (Object.keys(this._filmMostCommentedPresenter).includes(updateData.id)) {
+          this._filmMostCommentedPresenter[updateData.id].init(updateData);
         }
 
         break;
@@ -194,7 +199,11 @@ export default class MovieList {
        .forEach((presenter) => presenter.resetView());
 
     Object
-      .values(this._filmExtraPresenter)
+      .values(this._filmTopRatedPresenter)
+      .forEach((presenter) => presenter.resetView());
+
+      Object
+      .values(this._filmMostCommentedPresenter)
       .forEach((presenter) => presenter.resetView());
   }
 
