@@ -47,6 +47,11 @@ export default class Filter {
       return;
     }
 
+    if (filterType === `stats`) {
+      this._filterModel.setFilter(UpdateType.STATS, filterType);
+      return;
+    }
+
     this._filterModel.setFilter(UpdateType.MAJOR, filterType);
   }
 

@@ -1,6 +1,7 @@
 import FilterModel from '../model/filter.js';
 import StatisticView from '../view/statistic.js';
 import {UpdateType} from '../const.js';
+import {renderElement, remove} from '../utils/render.js';
 
 export default class StatisticPresenter {
   constructor(statisticsContainer, data) {

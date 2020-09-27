@@ -122,12 +122,14 @@ export const UpdateType = {
   MINOR: `MINOR`,
   MAJOR: `MAJOR`,
   ADD_COMMENT: `ADD_COMMENT`,
-  DELETE_COMMENT: `DELETE_COMMENT`
+  DELETE_COMMENT: `DELETE_COMMENT`,
+  STATISTICS: `STATISTICS`
 };
 
 export const FilterType = {
   ALL: `all`,
   WATCHLIST: `watchlist`,
   HISTORY: `history`,
-  FAVORITES: `favorites`
+  FAVORITES: `favorites`,
+  STATISTICS: `stats`
 };
