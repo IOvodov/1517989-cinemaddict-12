@@ -13,7 +13,7 @@ const createSiteMenuTemplate = (filterData, currentFilterType) => {
       <div class="main-navigation__items">
         ${filterItemsTemplate}
       </div>
-      <a href="#stats" class="main-navigation__additional">Stats</a>
+      <a href="#stats" class="main-navigation__additional ${currentFilterType === `stats` ? `main-navigation__item--active` : ``}" data-filter-type="stats">Stats</a>
     </nav>`
   );
 };
@@ -29,7 +29,6 @@ export default class SiteMenu extends AbstractView {
   }
 
   get template() {
-
     return createSiteMenuTemplate(this._filterData, this._currentFilterType);
   }
 
