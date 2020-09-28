@@ -1,37 +1,22 @@
-import {RANKS} from '../const.js';
 import AbstractView from "./abstract.js";
 
-const generateRank = (filmsCount) => {
-  if (filmsCount >= 1 && filmsCount <= 10) {
-    return RANKS[0];
-  } else if (filmsCount >= 11 && filmsCount <= 20) {
-    return RANKS[1];
-  } else if (filmsCount > 20) {
-    return RANKS[2];
-  }
-
-  return ``;
-};
-
-const createUserProfileTemplate = (userProfile) => {
-  const {viewedFilmsCount, avatar} = userProfile;
-
+const createUserProfileTemplate = (userRank) => {
   return (
     `<section class="header__profile profile">
-      <p class="profile__rating">${generateRank(viewedFilmsCount)}</p>
-      <img class="profile__avatar" src="${avatar}" alt="Avatar" width="35" height="35">
+      <p class="profile__rating">${userRank}</p>
+      <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
     </section>`
   );
 };
 
-export default class UserProfile extends AbstractView {
-  constructor(userProfile) {
+export default class UserProfileView extends AbstractView {
+  constructor(userRank) {
     super();
 
-    this._userProfile = userProfile;
+    this._userRank = userRank;
   }
 
   get template() {
-    return createUserProfileTemplate(this._userProfile);
+    return createUserProfileTemplate(this._userRank);
   }
 }
