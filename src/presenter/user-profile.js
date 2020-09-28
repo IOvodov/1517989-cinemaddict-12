@@ -3,7 +3,6 @@ import {renderElement, replace, remove} from "../utils/render.js";
 import {getRank} from "../utils/user-profile.js";
 import UserProfileView from "../view/user-profile.js";
 
-
 export default class UserProfilePresenter extends Observer {
   constructor(userProfileContainer, filmsModel) {
     super();
