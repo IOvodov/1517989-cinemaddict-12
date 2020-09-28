@@ -129,8 +129,13 @@ export default class MovieList {
       }
     };
 
-    renderExtraSection(`Top rated`, topRatedFilms, this._filmTopRatedPresenter);
-    renderExtraSection(`Most commented`, mostCommentedFilms, this._filmMostCommentedPresenter);
+    if (topRatedFilms.length > 0) {
+      renderExtraSection(`Top rated`, topRatedFilms, this._filmTopRatedPresenter);
+    }
+
+    if (mostCommentedFilms.length > 0) {
+      renderExtraSection(`Most commented`, mostCommentedFilms, this._filmMostCommentedPresenter);
+    }
   }
 
   _renderShowMoreButton() {
