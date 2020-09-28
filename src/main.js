@@ -1,5 +1,3 @@
-import FooterStatistics from "./view/footer-statistics.js";
-import {renderElement} from "./utils/render.js";
 import MovieList from "./presenter/movie-list.js";
 import FilterPresenter from "./presenter/filter.js";
 import UserProfilePresenter from "./presenter/user-profile.js";
@@ -7,6 +5,7 @@ import FilmsModel from "./model/films.js";
 import FilterModel from "./model/filter.js";
 import Api from "./api.js";
 import {UpdateType} from "./const.js";
+import FooterPresenter from "./presenter/footer.js";
 
 const AUTHORIZATION = `Basic er883jdzbdw`;
 const END_POINT = `https://12.ecmascript.pages.academy/cinemaddict`;
@@ -29,7 +28,8 @@ filterPresenter.init();
 const movieListPresenter = new MovieList(main, filmsModel, filterModel, api);
 movieListPresenter.init();
 
-renderElement(footer, new FooterStatistics(20));
+const footerPresenter = new FooterPresenter(footer, filmsModel);
+footerPresenter.init();
 
 api.getFilms()
   .then((films) => {
