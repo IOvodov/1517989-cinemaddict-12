@@ -34,8 +34,8 @@ api.getFilms()
 const filterPresenter = new FilterPresenter(main, filterModel, filmsModel);
 filterPresenter.init();
 
-const movieListPresenter = new MovieList(main, filmsModel, filterModel);
+const movieListPresenter = new MovieList(main, filmsModel, filterModel, api);
 movieListPresenter.init();
 
 renderElement(header, new UserProfile(profile));
-renderElement(footer, new FooterStatistics(filmsModel.getFilms().length));
+renderElement(footer, new FooterStatistics(20));

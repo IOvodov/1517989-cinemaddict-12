@@ -17,7 +17,7 @@ const FILMS_COUNT_PER_STEP = 5;
 const EXTRA_SECTION_FILMS_COUNT = 2;
 
 export default class MovieList {
-  constructor(boardContainer, filmsModel, filterModel) {
+  constructor(boardContainer, filmsModel, filterModel, api) {
     this._boardContainer = boardContainer;
     this._filmsCount = FILMS_COUNT_PER_STEP;
     this._extraSectionFilmsCount = EXTRA_SECTION_FILMS_COUNT;
@@ -42,9 +42,10 @@ export default class MovieList {
 
     this._extraSectionComponents = [];
 
-
     this._filmsModel = filmsModel;
     this._filterModel = filterModel;
+
+    this._api = api;
 
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
@@ -160,7 +161,9 @@ export default class MovieList {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_FILM:
-        this._filmsModel.updateFilmCard(updateType, update);
+        this._api.updateFilm(update).then((response) => {
+          this._filmsModel.updateFilmCard(updateType, response);
+        });
         break;
     }
   }
