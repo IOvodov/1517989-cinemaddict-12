@@ -58,12 +58,12 @@ export default class CommentsModel extends Observer {
 
   static adaptToServer(comment) {
     const adaptedComment = Object.assign(
-      {},
-      comment,
-      {
-        emotion: comment.emoji,
-        comment: comment.message
-      }
+        {},
+        comment,
+        {
+          emotion: comment.emoji,
+          comment: comment.message
+        }
     );
 
     delete adaptedComment.emoji;

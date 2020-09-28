@@ -10,7 +10,7 @@ export default class FilmsModel extends Observer {
   setFilms(updateType, filmsList) {
     this._films = filmsList.slice();
 
-    this._notifyListeners(updateType)
+    this._notifyListeners(updateType);
   }
 
   getFilms() {
@@ -68,30 +68,30 @@ export default class FilmsModel extends Observer {
     const adaptedFilm = Object.assign(
         {},
         {
-          id: film.id,
-          comments: film.comments,
-          film_info: {
-            actors: film.actors,
-            age_rating: film.rating,
-            alternative_title: film.originalFilmTitle,
-            description: film.description,
-            director: film.director,
-            genre: film.genres,
-            poster: film.poster,
-            release: {
-              date: film.releaseDate,
-              release_country: film.country,
+          "id": film.id,
+          "comments": film.comments,
+          "film_info": {
+            "actors": film.actors,
+            "age_rating": film.rating,
+            "alternative_title": film.originalFilmTitle,
+            "description": film.description,
+            "director": film.director,
+            "genre": film.genres,
+            "poster": film.poster,
+            "release": {
+              "date": film.releaseDate,
+              "release_country": film.country,
             },
-            runtime: film.duration,
-            title: film.filmTitle,
-            total_rating: film.rating,
-            writers: film.writers,
+            "runtime": film.duration,
+            "title": film.filmTitle,
+            "total_rating": film.rating,
+            "writers": film.writers,
           },
-          user_details: {
-            watchlist: film.isWatchList,
-            already_watched: film.isWatched,
-            favorite: film.isFavorite,
-            watching_date: film.watchingDate,
+          "user_details": {
+            "watchlist": film.isWatchList,
+            "already_watched": film.isWatched,
+            "favorite": film.isFavorite,
+            "watching_date": film.watchingDate,
           }
         }
     );
