@@ -58,8 +58,6 @@ export default class FilmsModel extends Observer {
         }
     );
 
-    console.log(adaptedFilm);
-
     delete adaptedFilm.user_details;
     delete adaptedFilm.film_info;
 

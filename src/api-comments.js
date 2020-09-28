@@ -19,7 +19,7 @@ export default class ApiComments {
 
   getComments() {
     return this._load({url: `comments`})
-      .then(ApiComment.toJSON)
+      .then(ApiComments.toJSON)
       .then((comments) => comments.map(CommentsModel.adaptToClient));
   }
 
@@ -30,7 +30,7 @@ export default class ApiComments {
       body: JSON.stringify(CommentsModel.adaptToServer(comment)),
       headers: new Headers({"Content-Type": `application/json`})
     })
-      .then(ApiComment.toJSON)
+      .then(ApiComments.toJSON)
       .then(CommentsModel.adaptToClient);
   }
 
@@ -43,8 +43,8 @@ export default class ApiComments {
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`${this._endPoint}/${url}/${this._filmId}`, {method, body, headers})
-      .then(ApiComment.checkStatus)
-      .catch(ApiComment.catchError);
+      .then(ApiComments.checkStatus)
+      .catch(ApiComments.catchError);
   }
 
   static checkStatus(response) {

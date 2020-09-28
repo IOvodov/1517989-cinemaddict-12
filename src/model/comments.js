@@ -38,4 +38,37 @@ export default class CommentsModel extends Observer {
 
     this._notifyListeners(updateType, update);
   }
+
+  static adaptToClient(comment) {
+    const adaptedComment = Object.assign(
+        {},
+        comment,
+        {
+          emoji: comment.emotion,
+          message: comment.comment,
+          date: new Date(comment.date)
+        }
+    );
+
+    delete adaptedComment.emotion;
+    delete adaptedComment.comment;
+
+    return adaptedComment;
+  }
+
+  static adaptToServer(comment) {
+    const adaptedComment = Object.assign(
+      {},
+      comment,
+      {
+        emotion: comment.emoji,
+        comment: comment.message
+      }
+    );
+
+    delete adaptedComment.emoji;
+    delete adaptedComment.message;
+
+    return adaptedComment;
+  }
 }
