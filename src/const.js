@@ -112,3 +112,22 @@ export const SortType = {
 export const FileFormat = {
   PNG: `png`,
 };
+
+export const UserAction = {
+  UPDATE_FILM: `UPDATE_FILM`
+};
+
+export const UpdateType = {
+  PATCH: `PATCH`,
+  MINOR: `MINOR`,
+  MAJOR: `MAJOR`,
+  ADD_COMMENT: `ADD_COMMENT`,
+  DELETE_COMMENT: `DELETE_COMMENT`
+};
+
+export const FilterType = {
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITES: `favorites`
+};

@@ -1,20 +1,7 @@
-import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, EMOJI, AUTHORS, DIRECTORS, WRITERS, ACTORS} from '../const.js';
+import {FILMS_TITLES, POSTERS, GENRES, COUNTRIES, AGES, SENTENCES, DIRECTORS, WRITERS, ACTORS} from '../const.js';
 import {getRandomInteger, getRandomElement, generateArrayFromSet} from '../utils/common.js';
+import {generateComments} from './comments.js';
 import {nanoid} from 'nanoid';
-
-const generateDate = () => {
-  const maxDaysGap = getRandomInteger(1, 365);
-  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
-  let currentDate = new Date();
-
-  currentDate.setHours(23, 59, 59, 999);
-
-  currentDate.setDate(currentDate.getDate() + daysGap);
-
-  currentDate = new Date(currentDate);
-
-  return currentDate;
-};
 
 const generateReleaseDate = () => new Date(getRandomInteger(1895, 2019), getRandomInteger(1, 12), getRandomInteger(1, 30));
 
@@ -75,29 +62,8 @@ const generateDescription = () => {
   return description;
 };
 
-const generateComment = () => {
-  const MIN_COMMENTS_COUNT = 0;
-  const MAX_COMMENTS_COUNT = 5;
-
-  const randomComments = [];
-
-  for (let i = 0; i < getRandomInteger(MIN_COMMENTS_COUNT, MAX_COMMENTS_COUNT); i++) {
-    const id = nanoid();
-    const emoji = getRandomElement(EMOJI);
-    const date = generateDate();
-    const author = getRandomElement(AUTHORS);
-    const message = getRandomElement(SENTENCES);
-
-    const comment = {id, emoji, date, author, message};
-
-    randomComments.push(comment);
-  }
-
-  return randomComments;
-};
-
 export const generateFilmCard = () => {
-  const comments = generateComment();
+  const comments = generateComments();
   return {
     id: nanoid(),
     poster: getRandomElement(POSTERS),
@@ -109,7 +75,6 @@ export const generateFilmCard = () => {
     description: generateDescription(),
     genres: getRandomGenres(),
     comments,
-    commentsCount: comments.length,
     isWatched: Boolean(getRandomInteger(0, 1)),
     isFavorite: Boolean(getRandomInteger(0, 1)),
     isWatchList: Boolean(getRandomInteger(0, 1)),

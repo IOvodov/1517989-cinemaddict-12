@@ -1,3 +1,4 @@
+import he from "he";
 import {nanoid} from "nanoid";
 import {EmojiType, FileFormat} from "../const.js";
 import {formatCommentDate, formatDuration, formatReleaseDate} from "../utils/film-card.js";
@@ -47,12 +48,12 @@ const createNewCommentTemplate = (emoji) => {
 };
 
 const createCommentsTemplate = (comments) => {
-  return comments.map((comment) => `<li class="film-details__comment">
+  return comments.map((comment) => `<li class="film-details__comment" data-id=${comment.id}>
     <span class="film-details__comment-emoji">
       <img src="../images/emoji/${generateFileName(comment.emoji)}" alt="emoji-${comment.emoji}" width="55" height="55">
     </span>
     <div>
-      <p class="film-details__comment-text">${comment.message}</p>
+      <p class="film-details__comment-text">${he.encode(comment.message)}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${comment.author}</span>
         <span class="film-details__comment-day">${formatCommentDate(comment.date)}</span>
@@ -80,7 +81,7 @@ const createFilmDetailsTemplate = (data = {}, comments) => {
     isWatchList,
     isWatched,
     isFavorite,
-    emoji
+    emoji = ``
   } = data;
 
   return (
@@ -172,10 +173,6 @@ export default class FilmDetails extends SmartView {
     this._data = data;
     this._comments = comments;
 
-    this._watchListBtn = this.element.querySelector(`.film-details__control-label--watchlist`);
-    this._watchedBtn = this.element.querySelector(`.film-details__control-label--watched`);
-    this._favoriteBtn = this.element.querySelector(`.film-details__control-label--favorite`);
-
     this._crossClickHandler = this._crossClickHandler.bind(this);
     this._watchListBtnClickHandler = this._watchListBtnClickHandler.bind(this);
     this._watchedBtnClickHandler = this._watchedBtnClickHandler.bind(this);
@@ -185,6 +182,7 @@ export default class FilmDetails extends SmartView {
     this._commentSubmitHandler = this._commentSubmitHandler.bind(this);
     this._runOnKeys = this._runOnKeys.bind(this);
     this._commentSend = this._commentSend.bind(this);
+    this._deleteCommentClickHandler = this._deleteCommentClickHandler.bind(this);
 
     this._setInnerHandlers();
   }
@@ -200,6 +198,7 @@ export default class FilmDetails extends SmartView {
     this.setFavoriteClickHandler(this._handlers.favoriteBtnClick);
     this.setClosePopupClickHandler(this._handlers.crossClick);
     this.setHandleCommentSubmit(this._handlers.commentSubmit);
+    this.setDeleteCommentClickHandler(this._handlers.deleteClick);
   }
 
   _crossClickHandler(event) {
@@ -219,8 +218,9 @@ export default class FilmDetails extends SmartView {
   }
 
   setWatchlistClickHandler(callback) {
+    const watchListBtn = this.element.querySelector(`.film-details__control-label--watchlist`);
     this._handlers.watchListBtnClick = callback;
-    this._watchListBtn.addEventListener(`click`, this._watchListBtnClickHandler);
+    watchListBtn.addEventListener(`click`, this._watchListBtnClickHandler);
   }
 
   _watchedBtnClickHandler() {
@@ -229,8 +229,9 @@ export default class FilmDetails extends SmartView {
   }
 
   setWatchedClickHandler(callback) {
+    const watchedBtn = this.element.querySelector(`.film-details__control-label--watched`);
     this._handlers.watchedBtnClick = callback;
-    this._watchedBtn.addEventListener(`click`, this._watchedBtnClickHandler);
+    watchedBtn.addEventListener(`click`, this._watchedBtnClickHandler);
   }
 
   _favoriteBtnClickHandler() {
@@ -239,8 +240,9 @@ export default class FilmDetails extends SmartView {
   }
 
   setFavoriteClickHandler(callback) {
+    const favoriteBtn = this.element.querySelector(`.film-details__control-label--favorite`);
     this._handlers.favoriteBtnClick = callback;
-    this._favoriteBtn.addEventListener(`click`, this._favoriteBtnClickHandler);
+    favoriteBtn.addEventListener(`click`, this._favoriteBtnClickHandler);
   }
 
   removeElement() {
@@ -287,7 +289,7 @@ export default class FilmDetails extends SmartView {
     let message = this.element.querySelector(`.film-details__comment-input`).value.trim();
     let commentEmoji = this.element.querySelector(`.film-details__add-emoji-label`).dataset.emoji;
 
-    if (message !== `` && commentEmoji !== ``) {
+    if (message && commentEmoji) {
       const comment = {
         id: nanoid(),
         author: `Author`,
@@ -307,5 +309,24 @@ export default class FilmDetails extends SmartView {
   setHandleCommentSubmit(callback) {
     this._handlers.commentSubmit = callback;
     this.element.querySelector(`.film-details__comment-input`).addEventListener(`focus`, this._commentSubmitHandler);
+  }
+
+  _deleteCommentClickHandler(event) {
+    event.preventDefault();
+    const currentCommentId = event.target.closest(`.film-details__comment`).dataset.id;
+    const currentComment = this._comments.find((comment) => comment.id === currentCommentId);
+
+    this._handlers.deleteClick(currentComment);
+  }
+
+  setDeleteCommentClickHandler(callback) {
+    this._handlers.deleteClick = callback;
+    const deleteButtons = this.element.querySelectorAll(`.film-details__comment-delete`);
+
+    if (deleteButtons) {
+      for (let deleteButton of deleteButtons) {
+        deleteButton.addEventListener(`click`, this._deleteCommentClickHandler);
+      }
+    }
   }
 }
