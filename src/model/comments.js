@@ -46,7 +46,7 @@ export default class CommentsModel extends Observer {
         {
           emoji: comment.emotion,
           message: comment.comment,
-          date: new Date(comment.date)
+          date: comment.date
         }
     );
 
@@ -66,6 +66,8 @@ export default class CommentsModel extends Observer {
         }
     );
 
+    delete adaptedComment.id;
+    delete adaptedComment.author;
     delete adaptedComment.emoji;
     delete adaptedComment.message;
 

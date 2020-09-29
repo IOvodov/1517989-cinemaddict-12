@@ -42,7 +42,7 @@ export default class FilmsModel extends Observer {
           filmTitle: film.film_info.title,
           originalFilmTitle: film.film_info.alternative_title,
           rating: film.film_info.total_rating,
-          releaseDate: new Date(film.film_info.release.date),
+          releaseDate: film.film_info.release.date,
           duration: film.film_info.runtime,
           description: film.film_info.description,
           genres: film.film_info.genre,
@@ -60,7 +60,6 @@ export default class FilmsModel extends Observer {
 
     delete adaptedFilm.user_details;
     delete adaptedFilm.film_info;
-
     return adaptedFilm;
   }
 

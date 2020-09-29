@@ -80,7 +80,7 @@ export default class MoviePresenter {
   }
 
   _showFilmDetails() {
-    this._popupPresenter = new PopupPresenter(this._movieListContainer, this._filmChangeData, this._filmChangeMode);
+    this._popupPresenter = new PopupPresenter(this._movieListContainer, this._filmChangeData, this._filmChangeMode, this._api);
     this._popupPresenter.init(this._filmCard, this._commentsModel);
   }
 
@@ -139,7 +139,7 @@ export default class MoviePresenter {
       case `ADD_COMMENT`:
         updatedComments = [
           ...this._filmCard.comments,
-          comment
+          comment.id
         ];
         break;
       case `DELETE_COMMENT`:
