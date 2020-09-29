@@ -1,6 +1,6 @@
 import he from "he";
 import {nanoid} from "nanoid";
-import {EmojiType, FileFormat} from "../const.js";
+import {EmojiType, FileFormat, UpdateType} from "../const.js";
 import {formatCommentDate, formatDuration, formatReleaseDate} from "../utils/film-card.js";
 import SmartView from "./smart.js";
 
@@ -84,6 +84,9 @@ const createFilmDetailsTemplate = (data = {}, comments) => {
     emoji = ``
   } = data;
 
+  const actorsList = actors.map((actor) => `${actor}`).join(`, `);
+  const writersList = writers.map((writer) => `${writer}`).join(`, `);
+
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -113,11 +116,11 @@ const createFilmDetailsTemplate = (data = {}, comments) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">${writers}</td>
+                  <td class="film-details__cell">${writersList}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Actors</td>
-                  <td class="film-details__cell">${actors}</td>
+                  <td class="film-details__cell">${actorsList}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
@@ -298,9 +301,7 @@ export default class FilmDetails extends SmartView {
         date: new Date()
       };
 
-      document.querySelector(`.film-details__comment-input`).value = ``;
-      document.querySelector(`.film-details__add-emoji-label`).dataset.emoji = ``;
-      document.querySelector(`.film-details__add-emoji-label`).innerHTML = ``;
+      document.querySelector(`.film-details__comment-input`).setAttribute(`disabled`, `disabled`);
 
       this._handlers.commentSubmit(comment);
     }
@@ -313,6 +314,10 @@ export default class FilmDetails extends SmartView {
 
   _deleteCommentClickHandler(event) {
     event.preventDefault();
+
+    event.target.setAttribute(`disabled`, `disabled`);
+    event.target.textContent = `Deleting…`;
+
     const currentCommentId = event.target.closest(`.film-details__comment`).dataset.id;
     const currentComment = this._comments.find((comment) => comment.id === currentCommentId);
 

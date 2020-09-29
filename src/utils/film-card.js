@@ -16,17 +16,10 @@ export const formatDuration = (commonMinutesCount) => {
 };
 
 export const formatReleaseYear = (date) => {
-  if (!(date instanceof Date)) {
-    return ``;
-  }
-
   return moment(date).format(`YYYY`);
 };
 
 export const formatReleaseDate = (date) => {
-  if (!(date instanceof Date)) {
-    date = new Date(date);
-  }
   return moment(date).format(`DD MMMM YYYY`);
 };
 

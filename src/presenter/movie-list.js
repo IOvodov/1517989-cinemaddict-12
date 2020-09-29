@@ -176,6 +176,8 @@ export default class MovieList {
   _handleModelEvent(updateType, updateData) {
     switch (updateType) {
       case UpdateType.PATCH:
+      case UpdateType.ADD_COMMENT:
+      case UpdateType.DELETE_COMMENT:
         if (Object.keys(this._filmMainPresenter).includes(updateData.id)) {
           this._filmMainPresenter[updateData.id].init(updateData);
         }
@@ -190,8 +192,6 @@ export default class MovieList {
 
         break;
       case UpdateType.MINOR:
-      case UpdateType.ADD_COMMENT:
-      case UpdateType.DELETE_COMMENT:
         this._clearBoard();
         this._renderBoard();
         break;
