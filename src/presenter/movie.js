@@ -3,6 +3,7 @@ import {renderElement, replace, remove} from "../utils/render.js";
 import {UpdateType, UserAction} from "../const.js";
 import CommentsModel from "../model/comments.js";
 import PopupPresenter from "./popup.js";
+import ApiComments from "../api-comments.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
@@ -29,16 +30,20 @@ export default class MoviePresenter {
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
 
-    this._isFirstInit = true;
   }
 
   init(filmCard) {
     this._filmCard = filmCard;
+    this._filmCardId = filmCard.id;
 
-    if (this._isFirstInit) {
-      this._commentsModel.setComments(this._filmCard.comments);
-      this._isFirstInit = false;
-    }
+    const AUTHORIZATION = `Basic er883jdzbdw`;
+    const END_POINT = `https://12.ecmascript.pages.academy/cinemaddict`;
+
+    this._api = new ApiComments(END_POINT, AUTHORIZATION, this._filmCardId);
+
+    this._api.getComments().then((comments) => {
+      this._commentsModel.setComments(comments);
+    });
 
     this._commentsModel.addObserver(this._handleFormSubmit);
 

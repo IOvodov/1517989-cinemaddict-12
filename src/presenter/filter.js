@@ -29,7 +29,7 @@ export default class Filter {
     this._filterComponent = new SiteMenuView(filters, this._currentFilter);
     this._filterComponent.setFilterTypeChangeHandler(this._handleFilterTypeChange);
 
-    if (prevFilterComponent === null) {
+    if (!prevFilterComponent) {
       renderElement(this._filterContainer, this._filterComponent);
       return;
     }
@@ -44,6 +44,11 @@ export default class Filter {
 
   _handleFilterTypeChange(filterType) {
     if (this._currentFilter === filterType) {
+      return;
+    }
+
+    if (filterType === `stats`) {
+      this._filterModel.setFilter(UpdateType.STATS, filterType);
       return;
     }
 

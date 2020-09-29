@@ -22,3 +22,17 @@ export const generateArrayFromSet = (array, minElementsCount, maxElementsCount) 
 
   return Array.from(newSet);
 };
+
+export const generateDate = () => {
+  const maxDaysGap = getRandomInteger(1, 365);
+  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
+  let currentDate = new Date();
+
+  currentDate.setHours(23, 59, 59, 999);
+
+  currentDate.setDate(currentDate.getDate() + daysGap);
+
+  currentDate = new Date(currentDate);
+
+  return currentDate;
+};
