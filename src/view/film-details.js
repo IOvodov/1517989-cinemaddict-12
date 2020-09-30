@@ -334,4 +334,8 @@ export default class FilmDetails extends SmartView {
       }
     }
   }
+
+  setBlockState() {
+    this.element.querySelector(`.film-details__inner`).setAttribute(`disabled`, `disabled`);
+  }
 }

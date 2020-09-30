@@ -119,13 +119,16 @@ export default class PopupPresenter {
   }
 
   _handleCommentSubmit(comment) {
+    this._filmDetailsComponent.setBlockState();
     this._api.addComment(comment)
       .then((response) => {
         const newComment = this._getLastComment(response);
         this._commentsModel.addComment(UpdateType.ADD_COMMENT, newComment);
       })
       .catch(() => {
-        this._filmDetailsComponent.updateData({}, false);
+        this._filmDetailsComponent.shake(() => {
+          this._filmDetailsComponent.updateData({}, false)
+        })
       })
   }
 
