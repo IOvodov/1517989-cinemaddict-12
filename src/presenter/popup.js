@@ -90,8 +90,6 @@ export default class PopupPresenter {
             changedData
         )
     );
-
-    this._filmDetailsComponent.setWatchlistClickHandler(this._handleWatchlistClick);
   }
 
   _handleWatchedClick(changedData) {
@@ -127,9 +125,9 @@ export default class PopupPresenter {
       })
       .catch(() => {
         this._filmDetailsComponent.shake(() => {
-          this._filmDetailsComponent.updateData({}, false)
-        })
-      })
+          this._filmDetailsComponent.updateData({emoji: false}, false);
+        });
+      });
   }
 
   _handleDeleteClick(comment) {

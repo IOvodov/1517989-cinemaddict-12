@@ -1,7 +1,23 @@
 import moment from "moment";
 
 export const formatCommentDate = (date) => {
-  return moment(date).format(`YYYY/MM/DD HH:mm`);
+  if (!(date instanceof Date)) {
+    date = new Date(date);
+  }
+
+  const difference = new Date() - date;
+
+  if (difference < 1000) {
+    return `now`;
+  }
+
+  const min = Math.floor(difference / 60000);
+
+  if (min < 60) {
+    return `${min} minutes ago`;
+  }
+
+  return moment(date).format(`YYYY/MM/DD HH:MM`);
 };
 
 export const formatDuration = (commonMinutesCount) => {

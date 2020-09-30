@@ -106,6 +106,8 @@ export default class MoviePresenter {
   }
 
   _handleWatchedClick() {
+    const isWatched = !this._filmCard.isWatched;
+    const watchingDate = isWatched ? new Date() : null;
     this._filmChangeData(
         UserAction.UPDATE_FILM,
         UpdateType.PATCH,
@@ -113,8 +115,8 @@ export default class MoviePresenter {
             {},
             this._filmCard,
             {
-              isWatched: !this._filmCard.isWatched,
-              watchingDate: this._filmCard.watchingDate === null ? new Date() : null
+              isWatched,
+              watchingDate
             }
         )
     );

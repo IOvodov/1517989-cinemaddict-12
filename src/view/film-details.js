@@ -1,6 +1,6 @@
 import he from "he";
 import {nanoid} from "nanoid";
-import {EmojiType, FileFormat, UpdateType} from "../const.js";
+import {EmojiType, FileFormat} from "../const.js";
 import {formatCommentDate, formatDuration, formatReleaseDate} from "../utils/film-card.js";
 import SmartView from "./smart.js";
 
@@ -60,7 +60,7 @@ const createCommentsTemplate = (comments) => {
         <button class="film-details__comment-delete">Delete</button>
       </p>
     </div>
-  </li>`);
+  </li>`).join();
 };
 
 const createFilmDetailsTemplate = (data = {}, comments) => {
@@ -86,6 +86,7 @@ const createFilmDetailsTemplate = (data = {}, comments) => {
 
   const actorsList = actors.map((actor) => `${actor}`).join(`, `);
   const writersList = writers.map((writer) => `${writer}`).join(`, `);
+  const genresList = genres.map((genre) => `${genre}`).join(`, `);
 
   return (
     `<section class="film-details">
@@ -137,7 +138,7 @@ const createFilmDetailsTemplate = (data = {}, comments) => {
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
                   <td class="film-details__cell">
-                    <span class="film-details__genre">${genres}</span>
+                    <span class="film-details__genre">${genresList}</span>
                   </td>
                 </tr>
               </table>
@@ -227,7 +228,8 @@ export default class FilmDetails extends SmartView {
   }
 
   _watchedBtnClickHandler() {
-    this.updateData({isWatched: !this._data.isWatched}, false);
+    this._data.watchingDate = this._data.watchingDate ? null : this._data.watchingDate = new Date();
+    this.updateData({isWatched: !this._data.isWatched, watchingDate: this._data.watchingDate}, false);
     this._handlers.watchedBtnClick(this._data);
   }
 
@@ -298,7 +300,7 @@ export default class FilmDetails extends SmartView {
         author: `Author`,
         emoji: commentEmoji,
         message,
-        date: new Date()
+        date: new Date().toISOString()
       };
 
       document.querySelector(`.film-details__comment-input`).setAttribute(`disabled`, `disabled`);
