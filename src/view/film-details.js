@@ -4,6 +4,11 @@ import {EmojiType, FileFormat} from "../const.js";
 import {formatCommentDate, formatDuration, formatReleaseDate} from "../utils/film-card.js";
 import SmartView from "./smart.js";
 
+export const Key = {
+  ENTER: `Enter`,
+  CONTROL: `Control`,
+};
+
 const generateFileName = (name, extension = FileFormat.PNG) => {
   const generatedName = name;
 
@@ -184,9 +189,11 @@ export default class FilmDetails extends SmartView {
     this._emojiesToggleHandler = this._emojiesToggleHandler.bind(this);
     this._messageInputHandler = this._messageInputHandler.bind(this);
     this._commentSubmitHandler = this._commentSubmitHandler.bind(this);
-    this._runOnKeys = this._runOnKeys.bind(this);
     this._commentSend = this._commentSend.bind(this);
     this._deleteCommentClickHandler = this._deleteCommentClickHandler.bind(this);
+    this._resetCommentSubmitHandler = this._resetCommentSubmitHandler.bind(this);
+    this._keyDownHandler = this._keyDownHandler.bind(this);
+    this._keyUpHandler = this._keyUpHandler.bind(this);
 
     this._setInnerHandlers();
   }
@@ -278,16 +285,35 @@ export default class FilmDetails extends SmartView {
     message.addEventListener(`input`, this._messageInputHandler);
   }
 
-  _commentSubmitHandler() {
-    this._runOnKeys(this._commentSend);
+  _keyDownHandler(event) {
+    this._pressed.add(event.key);
+
+    const keys = [Key.CONTROL, Key.ENTER];
+
+    for (const key of keys) {
+      if (!this._pressed.has(key)) {
+        return;
+      }
+    }
+    this._pressed.clear();
+
+    this._commentSend();
   }
 
-  _runOnKeys(func) {
-    document.addEventListener(`keydown`, function (event) {
-      if (event.key === `Enter` && (event.ctrlKey || event.metaKey)) {
-        func();
-      }
-    });
+  _keyUpHandler(event) {
+    this._pressed.delete(event.key);
+  }
+
+  _resetCommentSubmitHandler() {
+    document.removeEventListener(`keydown`, this._keyDownHandler);
+    document.removeEventListener(`keyup`, this._keyUpHandler);
+  }
+
+  _commentSubmitHandler() {
+    this._pressed = new Set();
+
+    document.addEventListener(`keydown`, this._keyDownHandler);
+    document.addEventListener(`keyup`, this._keyUpHandler);
   }
 
   _commentSend() {
@@ -312,6 +338,7 @@ export default class FilmDetails extends SmartView {
   setHandleCommentSubmit(callback) {
     this._handlers.commentSubmit = callback;
     this.element.querySelector(`.film-details__comment-input`).addEventListener(`focus`, this._commentSubmitHandler);
+    this.element.querySelector(`.film-details__comment-input`).addEventListener(`blur`, this._resetCommentSubmitHandler);
   }
 
   _deleteCommentClickHandler(event) {

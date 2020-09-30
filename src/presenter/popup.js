@@ -36,13 +36,13 @@ export default class PopupPresenter {
     this._filmDetailsComponent.setHandleCommentSubmit(this._handleCommentSubmit);
     this._filmDetailsComponent.setDeleteCommentClickHandler(this._handleDeleteClick);
 
+    document.addEventListener(`keydown`, this._escKeyDownHandler);
+
     if (!prevFilmDetailsComponent) {
-      document.addEventListener(`keydown`, this._escKeyDownHandler);
       renderElement(this._movieListContainer, this._filmDetailsComponent);
       return;
     }
 
-    document.addEventListener(`keydown`, this._escKeyDownHandler);
     replace(this._filmDetailsComponent, prevFilmDetailsComponent);
 
     remove(prevFilmDetailsComponent);

@@ -29,14 +29,13 @@ export default class MoviePresenter {
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
-
   }
 
   init(filmCard) {
     this._filmCard = filmCard;
     this._filmCardId = filmCard.id;
 
-    const AUTHORIZATION = `Basic er883jdzbdw`;
+    const AUTHORIZATION = `Basic BqWoq4iifH8uLTYC`;
     const END_POINT = `https://12.ecmascript.pages.academy/cinemaddict`;
 
     this._api = new ApiComments(END_POINT, AUTHORIZATION, this._filmCardId);

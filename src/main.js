@@ -7,7 +7,7 @@ import Api from "./api.js";
 import {UpdateType} from "./const.js";
 import FooterPresenter from "./presenter/footer.js";
 
-const AUTHORIZATION = `Basic er883jdzbdw`;
+const AUTHORIZATION = `Basic BqWoq4iifH8uLTYC`;
 const END_POINT = `https://12.ecmascript.pages.academy/cinemaddict`;
 
 const filmsModel = new FilmsModel();
